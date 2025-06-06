@@ -1,0 +1,43 @@
+@model IEnumerable<UserManagement.ViewModels.User>
+
+@{
+    ViewBag.Title = "User List";
+}
+
+<h2>User List</h2>
+
+<p>
+    <a href="@Url.Action("Create", "User")" class="btn btn-primary">Create New User</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Phone Number</th>
+            <th>Active</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.Firstname</td>
+            <td>@user.Lastname</td>
+            <td>@user.Email</td>
+            <td>@user.RoleId</td>
+            <td>@user.PhoneNumber</td>
+            <td>@(user.IsActive ? "Yes" : "No")</td>
+            <td>
+                <a href="@Url.Action("Edit", "User", new { id = user.Id })" class="btn btn-sm btn-warning">Edit</a>
+                |
+                <a href="@Url.Action("Delete", "User", new { id = user.Id })" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
