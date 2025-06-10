@@ -23,21 +23,32 @@ public class UserApiService : IUserApiService
         return await _httpClient.GetFromJsonAsync<User>($"api/User/{id}");
     }
 
-    public async Task<bool> CreateUserAsync(User user)
+    public async Task<(bool Success, string Message)> CreateUserAsync(User user)
     {
         var response = await _httpClient.PostAsJsonAsync("api/User/create", user);
-        return response.IsSuccessStatusCode;
+        var message = await response.Content.ReadAsStringAsync();
+
+        return (response.IsSuccessStatusCode, message);
     }
 
-    public async Task<bool> UpdateUserAsync(User user)
+
+    public async Task<(bool Success, string Message)> UpdateUserAsync(User user)
     {
         var response = await _httpClient.PutAsJsonAsync("api/User/update", user);
-        return response.IsSuccessStatusCode;
+        var message = await response.Content.ReadAsStringAsync();
+
+        return (response.IsSuccessStatusCode, message);
     }
+
 
     public async Task<bool> DeleteUserAsync(int id)
     {
         var response = await _httpClient.DeleteAsync($"api/User/delete/{id}");
         return response.IsSuccessStatusCode;
+    }
+
+    public Task<HttpResponseMessage> LoginAsync(LoginViewModel loginModel)
+    {
+        return _httpClient.PostAsJsonAsync("api/Account/login", loginModel);
     }
 }

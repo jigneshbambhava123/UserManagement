@@ -1,15 +1,56 @@
 @model IEnumerable<UserManagement.ViewModels.User>
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
 
 @{
     ViewBag.Title = "User List";
 }
 
-<h2>User List</h2>
+<!-- delete model -->
+<div class="modal fade" id="deleteUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Conformation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body"
+                style="display: flex;flex-direction: column;justify-content: center;align-items: center;">
+                <img style="height: 36px; width: 51px;" src="~/images/toppng.com-warning-icon-2400x2400.png"
+                    alt="">
+                <div class="form">
+                    Are you sure You Want to delete this user?
+                </div>
+            </div>
+            <div class="modal-footer">
 
-<p>
-    <a href="@Url.Action("Create", "User")" class="btn btn-primary">Create New User</a>
-</p>
+                <form method="post" id="deleteUserForm" action="" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+                
+                <button type="button" class="btn  btn-light  " data-bs-dismiss="modal">NO</button>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div class="d-flex justify-content-between mb-3 mt-3">
+    <h3 class="dashboard" style="color: #0066a7;">
+        User List
+    </h3>
+    
+    @if (User.IsInRole("Admin"))
+    {
+    <p>
+        <a href="@Url.Action("Create", "User")" class="btn btn-primary btn-sm" style="height: 50px;">+ Add User</a>
+    </p>
+    }
+</div>
+
+
+<div class="table-responsive">
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -19,7 +60,10 @@
             <th>Role</th>
             <th>Phone Number</th>
             <th>Active</th>
-            <th></th>
+             @if (User.IsInRole("Admin"))
+            {
+            <th>Action</th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -29,15 +73,55 @@
             <td>@user.Firstname</td>
             <td>@user.Lastname</td>
             <td>@user.Email</td>
-            <td>@user.RoleId</td>
+            @if(user.RoleId==1){
+                <td>Admin</td>
+            }else{
+                <td>User</td>
+            }
             <td>@user.PhoneNumber</td>
             <td>@(user.IsActive ? "Yes" : "No")</td>
+            @if (User.IsInRole("Admin"))
+            {
             <td>
-                <a href="@Url.Action("Edit", "User", new { id = user.Id })" class="btn btn-sm btn-warning">Edit</a>
+                <a href="@Url.Action("Edit", "User", new { id = user.Id })" class="btn btn-sm btn-warning mb-2 mt-2">
+                    <i class="bi bi-pencil" style="color: black;"></i>
+
+                </a>
                 |
-                <a href="@Url.Action("Delete", "User", new { id = user.Id })" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                <i class="bi bi-trash btn btn-danger btn-sm mb-2 mt-2" data-bs-toggle="modal" data-bs-target="#deleteUser" data-id="@user.Id"></i>
+
             </td>
+            }
         </tr>
     }
     </tbody>
 </table>
+</div>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+
+<!-- Toastr CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet" />
+<script>
+    $(document).ready(function () {
+        @if(TempData["error"] != null)
+        {
+            <text>toastr.error('@TempData["error"]');</text>
+        }
+        @if(TempData["success"] != null)
+        {
+            <text>toastr.success('@TempData["success"]');</text>
+        }
+
+        $('.bi-trash').on('click', function () {
+            var userId = $(this).data('id');
+
+            var deleteForm = $('#deleteUserForm');
+            deleteForm.attr('action', '/User/Delete/' + userId);
+        });
+    });
+</script>

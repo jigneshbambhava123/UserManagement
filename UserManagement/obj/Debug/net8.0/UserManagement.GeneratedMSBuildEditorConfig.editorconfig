@@ -18,6 +18,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\pctr48\Downloads\New folder (6)\UserManagement\UserManagement
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/UserManagement/Views/Account/AccessDenied.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxBY2Nlc3NEZW5pZWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/pctr48/Downloads/New folder (6)/UserManagement/UserManagement/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -44,10 +48,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/pctr48/Downloads/New folder (6)/UserManagement/UserManagement/Views/User/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxDcmVhdGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/UserManagement/Views/User/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/pctr48/Downloads/New folder (6)/UserManagement/UserManagement/Views/User/Edit.cshtml]

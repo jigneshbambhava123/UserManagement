@@ -20,3 +20,131 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/* Navbar brand style */
+.navbar-brand {
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+}
+
+/* Navbar links */
+.navbar-nav .nav-link {
+    font-weight: 500;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+    color: #0d6efd; /* Bootstrap primary color */
+    text-decoration: underline;
+}
+
+/* Logout button styling */
+.navbar-nav .btn-outline-primary {
+    border-radius: 25px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navbar-nav .btn-outline-primary:hover {
+    background-color: #004974;
+    color: white;
+    border-color: #004974;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .navbar-nav {
+        margin-top: 1rem;
+    }
+}
+
+
+
+/* Page heading */
+.dashboard {
+    font-weight: 700;
+    font-size: 1.8rem;
+    letter-spacing: 0.05em;
+}
+
+/* Create button styling */
+.btn-primary.btn-sm {
+    background-color: #0066a7;
+    border-color: #005488;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-primary.btn-sm:hover {
+    background-color: #004974;
+    border-color: #003755;
+}
+
+/* Table styling */
+table.table {
+    background-color: #ffffff;
+    border-radius: 8px;
+    border-collapse: separate;
+    border-spacing: 0;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+    font-size: 0.95rem;
+}
+
+table.table th,
+table.table td {
+    padding: 12px 15px;
+    vertical-align: middle;
+    border-bottom: 1px solid #dee2e6;
+}
+
+table.table thead th {
+    background-color: #0066a7;
+    color: white;
+    font-weight: 600;
+    text-align: left;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+table.table tbody tr:hover {
+    background-color: #f1f9ff;
+    cursor: pointer;
+}
+
+/* Buttons inside table */
+table.table .btn-warning {
+    background-color: #ffc107;
+    border-color: #e0a800;
+    color: #212529;
+    transition: background-color 0.3s ease;
+}
+
+table.table .btn-warning:hover {
+    background-color: #d39e00;
+    border-color: #c69500;
+    color: white;
+}
+
+table.table .btn-danger {
+    background-color: #dc3545;
+    border-color: #c82333;
+    transition: background-color 0.3s ease;
+}
+
+table.table .btn-danger:hover {
+    background-color: #b02a37;
+    border-color: #a12734;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    table.table th, table.table td {
+        padding: 8px 10px;
+        font-size: 0.85rem;
+    }
+
+    .dashboard {
+        font-size: 1.5rem;
+    }
+}

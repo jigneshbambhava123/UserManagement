@@ -26,8 +26,9 @@ public class User
 
     public int RoleId { get; set; }
 
-    [Display(Name = "Phone Number")]
+    [Required(ErrorMessage = "Phone Number is required")]
     [RegularExpression(@"^\d{10}$", ErrorMessage = "Phone number must be exactly 10 digits.")]
-    public long PhoneNumber { get; set; }
+    public long? PhoneNumber { get; set; }
+
     public bool IsActive { get; set; }
 }

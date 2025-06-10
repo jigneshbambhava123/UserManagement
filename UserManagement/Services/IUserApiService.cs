@@ -6,7 +6,9 @@ public interface IUserApiService
 {
     Task<IEnumerable<User>> GetAllUsersAsync();
     Task<User?> GetUserByIdAsync(int id);
-    Task<bool> CreateUserAsync(User user);
-    Task<bool> UpdateUserAsync(User user);
+    Task<(bool Success, string Message)> CreateUserAsync(User user);
+    Task<(bool Success, string Message)> UpdateUserAsync(User user);
     Task<bool> DeleteUserAsync(int id);
+    Task<HttpResponseMessage> LoginAsync(LoginViewModel loginModel);
+
 }
