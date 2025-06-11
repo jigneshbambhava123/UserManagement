@@ -1,7 +1,9 @@
 @model IEnumerable<UserManagement.ViewModels.User>
 @using Microsoft.AspNetCore.Authorization
 @inject IAuthorizationService AuthorizationService
-
+@{ 
+var currentUserId = User.Claims.FirstOrDefault(c => c.Type == "UserId" || c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;  
+}
 @{
     ViewBag.Title = "User List";
 }
@@ -36,17 +38,25 @@
     </div>
 </div>
 
-<div class="d-flex justify-content-between mb-3 mt-3">
+<div class="d-sm-flex justify-content-between mb-3 mt-3">
     <h3 class="dashboard" style="color: #0066a7;">
         User List
     </h3>
-    
-    @if (User.IsInRole("Admin"))
-    {
-    <p>
-        <a href="@Url.Action("Create", "User")" class="btn btn-primary btn-sm" style="height: 50px;">+ Add User</a>
-    </p>
-    }
+
+    <div class="seachbar d-flex">
+        <div class="d-flex" style="position: relative; margin-right: 10px; height: 50px; width: 199px;">
+            <input id="UserlistSearch" type="text" class="form-control search-input d-flex" placeholder="Search">
+            <img width="18" height="20" src="~/images/search-icon.svg" alt="..."
+                class="search-icon d-flex" style="position: absolute; top: 15px; right: 17px;">
+        </div>
+
+        @if (User.IsInRole("Admin"))
+        {
+        <p>
+            <a href="@Url.Action("Create", "User")" class="btn btn-primary btn-sm" style="height: 50px;">+ Add User</a>
+        </p>
+        }
+    </div>
 </div>
 
 
@@ -59,6 +69,7 @@
             <th>Email</th>
             <th>Role</th>
             <th>Phone Number</th>
+            <th>Age</th>
             <th>Active</th>
              @if (User.IsInRole("Admin"))
             {
@@ -79,17 +90,38 @@
                 <td>User</td>
             }
             <td>@user.PhoneNumber</td>
+            <td>
+                @{
+                    if (user.Dateofbirth != default(DateTime))
+                    {
+                        var today = DateTime.Today;
+                        var birthDate = user.Dateofbirth.Date;
+                        var age = today.Year - birthDate.Year;
+                        if (today < birthDate.AddYears(age))
+                        {
+                            age--; 
+                        }
+                        @age
+                    }
+                    else
+                    {
+                        @:N/A
+                    }
+                }
+            </td>
             <td>@(user.IsActive ? "Yes" : "No")</td>
             @if (User.IsInRole("Admin"))
             {
-            <td>
-                <a href="@Url.Action("Edit", "User", new { id = user.Id })" class="btn btn-sm btn-warning mb-2 mt-2">
+            <td class="d-flex">
+                <a href="@Url.Action("Edit", "User", new { id = user.Id })" class="btn btn-sm btn-warning mb-2 me-2 mt-2">
                     <i class="bi bi-pencil" style="color: black;"></i>
 
                 </a>
-                |
-                <i class="bi bi-trash btn btn-danger btn-sm mb-2 mt-2" data-bs-toggle="modal" data-bs-target="#deleteUser" data-id="@user.Id"></i>
-
+                @if (user.Id.ToString() != currentUserId)
+                {
+                <div class="mt-2">|</div>
+                <i class="bi bi-trash btn btn-danger btn-sm mb-2 mt-2 ms-2" data-bs-toggle="modal" data-bs-target="#deleteUser" data-id="@user.Id"></i>
+                }
             </td>
             }
         </tr>
@@ -100,12 +132,7 @@
 
 
 
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
-
-<!-- Toastr CSS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet" />
+@section Scripts {
 <script>
     $(document).ready(function () {
         @if(TempData["error"] != null)
@@ -125,3 +152,4 @@
         });
     });
 </script>
+}

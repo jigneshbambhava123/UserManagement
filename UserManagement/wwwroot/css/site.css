@@ -45,11 +45,14 @@ body {
     border-radius: 25px;
     font-weight: 600;
     transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: white;
+    color: #004974 !important;
+    width: 70px;
 }
 
 .navbar-nav .btn-outline-primary:hover {
     background-color: #004974;
-    color: white;
+    color: white !important;
     border-color: #004974;
 }
 
@@ -70,15 +73,22 @@ body {
 }
 
 /* Create button styling */
-.btn-primary.btn-sm {
-    background-color: #0066a7;
-    border-color: #005488;
+.btn-primary {
+    background-color: #0066a7 !important;
+    border-color: #005488 !important;
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-.btn-primary.btn-sm:hover {
-    background-color: #004974;
-    border-color: #003755;
+.btn-primary:hover {
+    background-color: #004974 !important;
+    border-color: #003755 !important;
+}
+
+.btn-outline-primary {
+    --bs-btn-color: #004974 !important;
+    --bs-btn-border-color: #004974 !important;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #004974 !important;
 }
 
 /* Table styling */

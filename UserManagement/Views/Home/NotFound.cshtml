@@ -1,10 +1,10 @@
 @{
-    ViewData["Title"] = "Access Denied";
+    ViewBag.Title = "404 - Page Not Found";
     Layout = "~/Views/Shared/_AccountLayout.cshtml";
 }
 
 <style>
-    .access-denied-wrapper {
+    .not-found-wrapper {
         @* display: block; *@
         height: 100vh;
         width: 100vw;
@@ -18,7 +18,7 @@
         border-radius: 8px;
     }
 
-    .access-denied-content {
+    .not-found-content {
         max-width: 600px;
         margin: auto;
         background-color: white;
@@ -27,30 +27,29 @@
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
     }
 
-    .access-denied-content h1 {
-        font-size: 48px;
+    .not-found-content h1 {
+        font-size: 72px;
         font-weight: bold;
         color: #dc3545;
-        margin-bottom: 20px;
     }
 
-    .access-denied-content p {
+    .not-found-content p {
         font-size: 18px;
-        color: #6c757d;
         margin-bottom: 30px;
+        color: #6c757d;
     }
 
-    .access-denied-content a.btn {
+    .not-found-content a.btn {
         padding: 10px 30px;
         font-size: 16px;
         border-radius: 5px;
     }
 </style>
 
-<div class="access-denied-wrapper">
-    <div class="access-denied-content">
-        <h1>Access Denied</h1>
-        <p>You do not have the required permissions to view this page.</p>
+<div class="not-found-wrapper">
+    <div class="not-found-content">
+        <h1>404</h1>
+        <p>Oops! The page you are looking for doesn't exist or has been moved.</p>
         <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Go to Home Page</a>
     </div>
 </div>

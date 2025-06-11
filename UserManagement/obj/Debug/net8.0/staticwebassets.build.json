@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "dnNrEAx7BwLB2GC3Bf+zmGr0Q0k/uVztXgL3KlJBLyY=",
+  "Hash": "aQtCmEh1cgEVIxxQBZOK2TUNpmvB+ZBUWwbBvWGAk1g=",
   "Source": "UserManagement",
   "BasePath": "_content/UserManagement",
   "Mode": "Default",
@@ -74,6 +74,25 @@
       "OriginalItemSpec": "wwwroot\\css\\Login.css"
     },
     {
+      "Identity": "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement\\UserManagement\\wwwroot\\css\\Register.css",
+      "SourceId": "UserManagement",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement\\UserManagement\\wwwroot\\",
+      "BasePath": "_content/UserManagement",
+      "RelativePath": "css/Register.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\Register.css"
+    },
+    {
       "Identity": "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement\\UserManagement\\wwwroot\\css\\site.css",
       "SourceId": "UserManagement",
       "SourceType": "Discovered",
@@ -129,6 +148,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\toppng.com-warning-icon-2400x2400.png"
+    },
+    {
+      "Identity": "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement\\UserManagement\\wwwroot\\images\\user.png",
+      "SourceId": "UserManagement",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement\\UserManagement\\wwwroot\\",
+      "BasePath": "_content/UserManagement",
+      "RelativePath": "images/user.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\user.png"
     },
     {
       "Identity": "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement\\UserManagement\\wwwroot\\js\\site.js",

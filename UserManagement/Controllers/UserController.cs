@@ -70,7 +70,6 @@ public class UserController : Controller
             TempData["error"] = message; 
             return View(user);
         }
-
         return View(user);
     }
 

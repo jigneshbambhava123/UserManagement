@@ -75,7 +75,18 @@
                     </div>
                 </div>
             </div>
-        
+
+            <div class="row">
+                <!-- Dateofbirth -->
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="form-floating d-flex align-items-center mb-2">
+                        <input asp-for="Dateofbirth" type="date" class="form-control" id="fromDate" style="font-size: initial;" placeholder="dd-mm-yyyy">
+                        <label for="fromDate" style="font-size: initial;">Date Of Birth</label>
+                    </div>  
+                    <span asp-validation-for="Dateofbirth" class="text-danger"></span>
+                </div>
+            </div>
+
             <input asp-for="IsActive" type="checkbox" value="true"  hidden/>
 
             <button type="submit" class="btn btn-primary btn-sm">Create</button>
@@ -84,11 +95,7 @@
     </div>
 </form>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
-
-<!-- Toastr CSS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet" />
+@section Scripts {
 <script>
     $(document).ready(function () {
         @if(TempData["error"] != null)
@@ -99,8 +106,6 @@
         {
             <text>toastr.success('@TempData["success"]');</text>
         }
-
-        // Debug message
-        console.log("run");
     });
 </script>
+}

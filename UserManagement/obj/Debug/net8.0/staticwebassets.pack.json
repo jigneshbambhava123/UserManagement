@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets\\css\\Login.css"
     },
     {
+      "Id": "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement\\UserManagement\\wwwroot\\css\\Register.css",
+      "PackagePath": "staticwebassets\\css\\Register.css"
+    },
+    {
       "Id": "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement\\UserManagement\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
@@ -19,6 +23,10 @@
     {
       "Id": "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement\\UserManagement\\wwwroot\\images\\toppng.com-warning-icon-2400x2400.png",
       "PackagePath": "staticwebassets\\images\\toppng.com-warning-icon-2400x2400.png"
+    },
+    {
+      "Id": "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement\\UserManagement\\wwwroot\\images\\user.png",
+      "PackagePath": "staticwebassets\\images\\user.png"
     },
     {
       "Id": "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement\\UserManagement\\wwwroot\\js\\site.js",

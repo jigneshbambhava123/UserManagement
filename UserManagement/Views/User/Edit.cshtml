@@ -1,5 +1,7 @@
 @model UserManagement.ViewModels.User
-
+@{ 
+var currentUserId = User.Claims.FirstOrDefault(c => c.Type == "UserId" || c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;  
+}
 @{
     ViewBag.Title = "Edit User";
 }
@@ -65,7 +67,8 @@
                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>
                 </div>
-
+                @if (Model.Id.ToString() != currentUserId)
+                {
                 <!-- Role-->
                 <div class="col-12 col-md-6 mb-3">
                     <div class="form-floating">
@@ -77,6 +80,9 @@
                         <span asp-validation-for="RoleId" class="text-danger"></span>
                     </div>
                 </div>
+                }else{
+                    <input asp-for="RoleId" hidden/>
+                }
             </div>
 
             <button type="submit" class="btn btn-primary btn-sm">Update</button>
@@ -85,12 +91,7 @@
     </div>
 </form>
 
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
-
-<!-- Toastr CSS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet" />
+@section Scripts {
 <script>
     $(document).ready(function () {
         @if(TempData["error"] != null)
@@ -106,3 +107,4 @@
         console.log("run");
     });
 </script>
+}

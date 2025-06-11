@@ -20,6 +20,33 @@ public class AccountController: Controller
 
     }
 
+    public async Task<IActionResult> Register()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Register(User user)
+    {
+       
+        if (ModelState.IsValid)
+        {
+            var (success, message) = await _userApiService.CreateUserAsync(user);
+
+            if (success)
+            {
+                TempData["success"] = "User Register Successfully!"; 
+                return RedirectToAction("Login");
+            }
+
+            TempData["error"] = "A user with this email is already registered.";
+            return View(user);
+        }
+        return View(user);
+
+    }
+
     // GET : Login Page
     public IActionResult Login()
     {
@@ -37,7 +64,7 @@ public class AccountController: Controller
         var response = await _userApiService.LoginAsync(loginModel);
         if (!response.IsSuccessStatusCode)
         {
-            TempData["ErrorMessage"] = "Invalid email or password";
+            TempData["error"] = "Invalid email or password";
             ModelState.AddModelError("", "Invalid email or password");
             return View(loginModel);
         }
@@ -45,7 +72,7 @@ public class AccountController: Controller
         var content = await response.Content.ReadFromJsonAsync<LoginResponseModel>();
         if (content == null || string.IsNullOrEmpty(content.Token))
         {
-            TempData["ErrorMessage"] = "Invalid response from server";
+            TempData["error"] = "Invalid response from server";
             return View(loginModel);
         }
 

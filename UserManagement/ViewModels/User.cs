@@ -6,12 +6,12 @@ public class User
 {
      public int Id { get; set; }
 
-    [Required(ErrorMessage = "Firstname Required.")]
+    [Required(ErrorMessage = "First Name Required.")]
     [StringLength(50, MinimumLength = 2, ErrorMessage = "String length must be between 2 and 50.")]
     [RegularExpression(@"^(?!.*[\x00-\x1F\x7F])[a-zA-Z0-9_]+(?: [a-zA-Z0-9_]+)*$", ErrorMessage = "Name should only contain letters, numbers, underscores, and spaces between words. No leading/trailing spaces allowed.")]
     public string Firstname { get; set; } 
 
-    [Required(ErrorMessage = "Lastname Required.")]
+    [Required(ErrorMessage = "Last Name Required.")]
     [StringLength(50, MinimumLength = 2, ErrorMessage = "String length must be between 2 and 50.")]
     [RegularExpression(@"^(?!.*[\x00-\x1F\x7F])[a-zA-Z0-9_]+(?: [a-zA-Z0-9_]+)*$", ErrorMessage = "Name should only contain letters, numbers, underscores, and spaces between words. No leading/trailing spaces allowed.")]
     public string Lastname { get; set; }
@@ -31,4 +31,8 @@ public class User
     public long? PhoneNumber { get; set; }
 
     public bool IsActive { get; set; }
+
+    [Required(ErrorMessage = "Date of Birth is required.")]
+    [DataType(DataType.Date)]
+    public DateTime Dateofbirth { get; set; }
 }
