@@ -9,6 +9,4 @@ public interface IUserApiService
     Task<(bool Success, string Message)> CreateUserAsync(User user);
     Task<(bool Success, string Message)> UpdateUserAsync(User user);
     Task<bool> DeleteUserAsync(int id);
-    Task<HttpResponseMessage> LoginAsync(LoginViewModel loginModel);
-
 }

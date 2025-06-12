@@ -13,11 +13,14 @@ namespace UserManagement.Controllers;
 public class AccountController: Controller
 {
     private readonly IUserApiService _userApiService;
+    private readonly IEmailService _emailService;
+    private readonly IAuthService _authService;
 
-    public AccountController(IUserApiService userApiService)
+    public AccountController(IUserApiService userApiService, IEmailService emailService, IAuthService authService)
     {
         _userApiService = userApiService;
-
+        _emailService = emailService;
+        _authService = authService;
     }
 
     public async Task<IActionResult> Register()
@@ -61,7 +64,7 @@ public class AccountController: Controller
             return View(loginModel);
 
         // Call the API Login endpoint
-        var response = await _userApiService.LoginAsync(loginModel);
+        var response = await _authService.LoginAsync(loginModel);
         if (!response.IsSuccessStatusCode)
         {
             TempData["error"] = "Invalid email or password";
@@ -119,7 +122,82 @@ public class AccountController: Controller
         };
     }
 
-     public async Task<IActionResult> Logout(){ 
+     // GET: Account/ForgotPassword
+    public IActionResult ForgotPassword()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
+
+        var baseUrl = $"{Request.Scheme}://{Request.Host}";
+        var response = await _authService.ForgotPasswordAsync(model.Email, baseUrl);
+
+        if (response.Success)
+        {
+            var resetLink = $"{baseUrl}/Account/ResetPassword?userId={response.UserId}&token={response.Token}";
+
+            // Send email from MVC using Razor view
+            await _emailService.SendPasswordResetEmail(model.Email, resetLink);
+
+            TempData["success"] = "A password reset link has been sent to your email.";
+            return RedirectToAction("Login");
+        }
+
+        TempData["error"] = response.Message;
+        return View(model);
+    }
+
+    public async Task<IActionResult> ResetPassword(int userId, string token)
+    {
+        if (userId == 0 || string.IsNullOrEmpty(token))
+        {
+            return BadRequest("Invalid password reset link.");
+        }
+
+        var isValid = await _authService.ValidateResetTokenAsync(userId, token);
+
+        if (!isValid)
+        {
+            TempData["error"] = "Reset link is invalid or expired.";
+            return RedirectToAction("ForgotPassword");
+        }
+
+        var model = new ResetPasswordViewModel
+        {
+            UserId = userId,
+            Token = token
+        };
+
+        return View(model);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
+
+        var result = await _authService.ResetPasswordAsync(model);
+
+        if (result == "User not found." || result == "Invalid or expired token.")
+        {
+            TempData["error"] = result;
+            return View(model);
+        }
+
+        TempData["success"] = result;
+        return RedirectToAction("Login");
+    }
+
+
+    public async Task<IActionResult> Logout(){ 
         Response.Cookies.Delete("AuthToken");
         Response.Cookies.Delete(".AspNetCore.Cookies");
         return RedirectToAction("Login","Account");

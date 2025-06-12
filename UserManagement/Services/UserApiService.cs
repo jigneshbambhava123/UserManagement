@@ -1,3 +1,4 @@
+using System.Text.Json;
 using UserManagement.ViewModels;
 
 namespace UserManagement.Services;
@@ -51,4 +52,23 @@ public class UserApiService : IUserApiService
     {
         return _httpClient.PostAsJsonAsync("api/Account/login", loginModel);
     }
+
+    public async Task<(bool Success, string Token, int UserId, string Message)> ForgotPasswordAsync(string email, string baseUrl)
+    {
+        var response = await _httpClient.PostAsync($"api/Account/forgot-password?email={email}&baseUrl={baseUrl}", null);
+        var json = await response.Content.ReadFromJsonAsync<Dictionary<string, JsonElement>>();
+
+
+        var token = json["token"].GetString();
+        int userId = json["userId"].GetInt32();
+        var message = json["message"].GetString();
+
+        if (userId==0)
+            return (false, null, 0, json?["message"].GetString());
+
+        return (true, token, userId, message);
+    }
+
+
+
 }

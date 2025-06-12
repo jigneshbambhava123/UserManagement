@@ -19,7 +19,12 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddControllersWithViews();
 
 // Configure typed HttpClient with BaseAddress
+builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddHttpClient<IUserApiService, UserApiService>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5086/");
+});
+builder.Services.AddHttpClient<IAuthService, AuthService>(client =>
 {
     client.BaseAddress = new Uri("http://localhost:5086/");
 });

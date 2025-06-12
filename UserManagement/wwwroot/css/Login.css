@@ -32,21 +32,27 @@ body{
 
 .leftimage{
     display: block;
-    height: 428px;
+    height: 505px;
     width: 34vw;
     background-image: url("/images/user.png"); 
     background-color: #cccccc; 
     background-position: center; 
     background-repeat: no-repeat; 
     background-size: cover; 
+    border-radius: 17px 0px 0px 17px;
 }
 .rightside{
     height: 428px;
         /* width: 30vw !important; */
 
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.rightpage{
+    height: 505px;
 }
 
 .loginpage{
@@ -63,7 +69,10 @@ body{
     color:darkslategray;
     
 }
-
+.annalysisform{
+    height: 505px;
+    border-radius: 0px 17px 17px 0px;
+}
 .emaillabel{
     width: 100%;
     text-align: left;
@@ -88,6 +97,10 @@ body{
         height: 100vh;
         width: 100vw;
         opacity: .2;
+        border-radius: 0px 0px 0px 0px;
+    }
+    .annalysisform{
+        height: 435px;
     }
     .rightside{
         z-index: 1;
@@ -96,8 +109,17 @@ body{
         width: 80vw;
         background-color: transparent;
     }
+    .rightpage{
+        height: 505px;
+         z-index: 1;
+        background-color: transparent;
+    }
     .text-center {
         width: 64vw;
+    }
+    .annalysisform{
+        height: 505px;
+        border-radius: 17px 17px 17px 17px;
     }
 }
 
