@@ -14,7 +14,7 @@ var currentUserId = User.Claims.FirstOrDefault(c => c.Type == "UserId" || c.Type
 
 <form asp-action="Edit" method="post">
     <div class="annalysisform p-2 shadow-lg p-3 mb-5 bg-white rounded">
-        <div class="onecolomnmain" style="margin: 10px;">
+        <div style="margin: 10px;">
 
             <input type="hidden" asp-for="Id" />
 
@@ -102,9 +102,6 @@ var currentUserId = User.Claims.FirstOrDefault(c => c.Type == "UserId" || c.Type
         {
             <text>toastr.success('@TempData["success"]');</text>
         }
-
-        // Debug message
-        console.log("run");
     });
 </script>
 }

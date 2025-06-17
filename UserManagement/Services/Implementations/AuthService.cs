@@ -1,25 +1,26 @@
 using System.Text.Json;
+using UserManagement.Services.Interfaces;
 using UserManagement.ViewModels;
 
-namespace UserManagement.Services;
+namespace UserManagement.Services.Implementations;
 
 public class AuthService: IAuthService
 {
     private readonly HttpClient _httpClient;
 
-    public AuthService(HttpClient httpClient)
+    public AuthService(IHttpClientFactory httpClientFactory)
     {
-        _httpClient = httpClient;
+        _httpClient = httpClientFactory.CreateClient("ApiClient");
     }
 
     public Task<HttpResponseMessage> LoginAsync(LoginViewModel loginModel)
     {
-        return _httpClient.PostAsJsonAsync("api/Account/login", loginModel);
+        return _httpClient.PostAsJsonAsync("api/Account/Login", loginModel);
     }
 
     public async Task<(bool Success, string Token, int UserId, string Message)> ForgotPasswordAsync(string email, string baseUrl)
     {
-        var response = await _httpClient.PostAsync($"api/Account/forgot-password?email={email}&baseUrl={baseUrl}", null);
+        var response = await _httpClient.PostAsync($"api/Account/ForgotPassword?email={email}&baseUrl={baseUrl}", null);
         var json = await response.Content.ReadFromJsonAsync<Dictionary<string, JsonElement>>();
 
 
@@ -35,17 +36,16 @@ public class AuthService: IAuthService
 
     public async Task<bool> ValidateResetTokenAsync(int userId, string token)
     {
-        var response = await _httpClient.GetAsync($"api/Account/validate-reset-token?userId={userId}&token={token}");
+        var response = await _httpClient.GetAsync($"api/Account/ValidateResetToken?userId={userId}&token={token}");
         return response.IsSuccessStatusCode;
     }
 
     public async Task<string> ResetPasswordAsync(ResetPasswordViewModel model)
     {
-        var response = await _httpClient.PostAsJsonAsync("api/Account/reset-password", model);
+        var response = await _httpClient.PostAsJsonAsync("api/Account/ResetPassword", model);
 
         var message = await response.Content.ReadAsStringAsync();
         return message;
     }
-
 
 }

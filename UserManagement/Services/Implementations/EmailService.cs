@@ -1,7 +1,8 @@
 using System.Net;
 using System.Net.Mail;
+using UserManagement.Services.Interfaces;
 
-namespace UserManagement.Services;
+namespace UserManagement.Services.Implementations;
 
 public class EmailService: IEmailService
 {

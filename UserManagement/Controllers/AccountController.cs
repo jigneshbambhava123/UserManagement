@@ -7,6 +7,7 @@ using static UserManagement.ViewModels.LoginViewModel;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using UserManagement.Services.Interfaces;
 
 namespace UserManagement.Controllers;
 
@@ -79,34 +80,25 @@ public class AccountController: Controller
             return View(loginModel);
         }
 
-        // Set AuthToken cookie
-        var cookieOptions = new CookieOptions
-        {
-            HttpOnly = true,
-            Secure = true,
-            SameSite = SameSiteMode.Strict,
-            Expires = loginModel.RememberMe ? DateTime.UtcNow.AddDays(30) : DateTime.UtcNow.AddHours(24)
-        };
-
-        Response.Cookies.Append("AuthToken", content.Token, cookieOptions);
-
-        // 1. Decode the JWT to get the claims
+        // Decode the JWT to get the claims
         var handler = new JwtSecurityTokenHandler();
         var jwtToken = handler.ReadJwtToken(content.Token);
 
-        // 2. ClaimsIdentity using the claims from the JWT
+        // ClaimsIdentity using the claims from the JWT
         var claims = jwtToken.Claims; 
         var claimsIdentity = new ClaimsIdentity(
             claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-        // 3. Set authentication properties for the cookie
+        // Set authentication properties for the cookie
         var authProperties = new AuthenticationProperties
         {
-            IsPersistent = loginModel.RememberMe,
-            ExpiresUtc = jwtToken.ValidTo 
+            IsPersistent = loginModel.RememberMe,  
+            ExpiresUtc = loginModel.RememberMe
+                ? DateTime.UtcNow.AddDays(30)   
+                : DateTime.UtcNow.AddHours(24)   
         };
 
-        // 4. Sign in the user using the Cookie Authentication scheme
+        // Sign in the user using the Cookie Authentication scheme
         await HttpContext.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme, 
             new ClaimsPrincipal(claimsIdentity),             
@@ -196,9 +188,7 @@ public class AccountController: Controller
         return RedirectToAction("Login");
     }
 
-
     public async Task<IActionResult> Logout(){ 
-        Response.Cookies.Delete("AuthToken");
         Response.Cookies.Delete(".AspNetCore.Cookies");
         return RedirectToAction("Login","Account");
     }

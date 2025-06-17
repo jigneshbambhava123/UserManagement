@@ -1,4 +1,4 @@
-namespace UserManagement.Services;
+namespace UserManagement.Services.Interfaces;
 
 public interface IEmailService
 {

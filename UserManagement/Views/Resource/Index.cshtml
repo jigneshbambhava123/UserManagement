@@ -1,0 +1,130 @@
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@{
+    ViewBag.Title = "Resource List";
+}
+
+<!-- Add Resource Modal -->
+<div class="modal fade" id="addResourceModal" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Resource</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="addResourceModalBody">
+                <!-- The partial view will be loaded here via AJAX -->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="d-sm-flex justify-content-between mb-3 mt-3">
+    <h3 class="dashboard" style="color: #0066a7;">
+        Resource List
+    </h3>
+
+    <div class="d-flex">
+
+        @if (User.IsInRole("Admin"))
+        {
+        <p>
+            <button data-bs-toggle="modal" data-bs-target="#addResourceModal" class="btn btn-primary btn-sm" style="height: 50px;" onclick="populateAddResourceModal(this)">+ Create Resource</button>
+        </p>
+        }
+    </div>
+</div>
+
+@* partial view to Resourcelist *@
+<div id="resourcelist-container"></div>
+</div>
+
+@section Scripts {
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: "/Resource/ResourceList",
+            type: "GET",
+            success: function (response) {
+                $('#resourcelist-container').html(response); 
+            },
+            error: function (xhr) {
+                console.error(xhr.responseText);
+                toastr.error("Error Resourcelist patialview");
+            }
+        });
+
+        // Edit resource get method partial view
+        $('#resourcelist-container').on('click','.editResourceBtn', function () {
+            var resourceId = $(this).data('id'); 
+            $.ajax({
+            url: '@Url.Action("EditResource", "Resource")', 
+            type: 'GET',
+            data: { id:resourceId },
+            success: function (response) {
+                $('#editResourceModalBody').html(response);
+            },
+            error: function () {
+                toastr.error("Error Fetch Resource Data.")
+            }
+            });
+        });
+
+        $('#resourcelist-container').on('click', '.bi-trash', function () {
+            var resourceId = $(this).data('id');
+
+            var deleteForm = $('#deleteResourceForm');
+            deleteForm.attr('action', '/Resource/Delete/' + resourceId);
+        });
+        
+    });
+
+     //add resource
+    function populateAddResourceModal(element){
+        $.ajax({
+            url: '@Url.Action("AddResource", "Resource")', 
+            type: 'GET',
+            success: function (response) {
+                $('#addResourceModalBody').html(response);
+            },
+            error: function (error) {
+                toastr.error("Error loading the partial view");
+            }
+        }); 
+    }
+
+    @* pagination script start *@  
+                
+    function loadResourceList(page) {
+        //get table list
+        var pageSize = $("#ordersPerPage").val();
+
+        taxAjaxRequest = $.ajax({
+
+            url: "/Resource/ResourceList",
+            type: 'GET',
+            data: { page :page, pageSize:pageSize },
+            success: function (data) {
+                $('#resourcelist-container').html(data);
+            },
+            error: function () {
+                toastr.error('Error loading orderlist table.');
+            }
+        }); 
+    }
+
+    // Change Items Per Page
+    function changeResourcelistPageSize(select) {
+        loadResourceList(1);
+    }
+
+    // Change Page
+    function changeResourcePage(newPage) {
+        loadResourceList(newPage);
+    }
+
+    @* pagination script end *@
+</script>
+}

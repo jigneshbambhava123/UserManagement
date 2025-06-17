@@ -1,9 +1,6 @@
-@model IEnumerable<UserManagement.ViewModels.User>
 @using Microsoft.AspNetCore.Authorization
 @inject IAuthorizationService AuthorizationService
-@{ 
-var currentUserId = User.Claims.FirstOrDefault(c => c.Type == "UserId" || c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;  
-}
+
 @{
     ViewBag.Title = "User List";
 }
@@ -43,12 +40,7 @@ var currentUserId = User.Claims.FirstOrDefault(c => c.Type == "UserId" || c.Type
         User List
     </h3>
 
-    <div class="seachbar d-flex">
-        <div class="d-flex" style="position: relative; margin-right: 10px; height: 50px; width: 199px;">
-            <input id="UserlistSearch" type="text" class="form-control search-input d-flex" placeholder="Search">
-            <img width="18" height="20" src="~/images/search-icon.svg" alt="..."
-                class="search-icon d-flex" style="position: absolute; top: 15px; right: 17px;">
-        </div>
+    <div class="d-flex">
 
         @if (User.IsInRole("Admin"))
         {
@@ -59,82 +51,25 @@ var currentUserId = User.Claims.FirstOrDefault(c => c.Type == "UserId" || c.Type
     </div>
 </div>
 
-
-<div class="table-responsive">
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Phone Number</th>
-            <th>Age</th>
-            <th>Active</th>
-             @if (User.IsInRole("Admin"))
-            {
-            <th>Action</th>
-            }
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var user in Model)
-    {
-        <tr>
-            <td>@user.Firstname</td>
-            <td>@user.Lastname</td>
-            <td>@user.Email</td>
-            @if(user.RoleId==1){
-                <td>Admin</td>
-            }else{
-                <td>User</td>
-            }
-            <td>@user.PhoneNumber</td>
-            <td>
-                @{
-                    if (user.Dateofbirth != default(DateTime))
-                    {
-                        var today = DateTime.Today;
-                        var birthDate = user.Dateofbirth.Date;
-                        var age = today.Year - birthDate.Year;
-                        if (today < birthDate.AddYears(age))
-                        {
-                            age--; 
-                        }
-                        @age
-                    }
-                    else
-                    {
-                        @:N/A
-                    }
-                }
-            </td>
-            <td>@(user.IsActive ? "Yes" : "No")</td>
-            @if (User.IsInRole("Admin"))
-            {
-            <td class="d-flex">
-                <a href="@Url.Action("Edit", "User", new { id = user.Id })" class="btn btn-sm btn-warning mb-2 me-2 mt-2">
-                    <i class="bi bi-pencil" style="color: black;"></i>
-
-                </a>
-                @if (user.Id.ToString() != currentUserId)
-                {
-                <div class="mt-2">|</div>
-                <i class="bi bi-trash btn btn-danger btn-sm mb-2 mt-2 ms-2" data-bs-toggle="modal" data-bs-target="#deleteUser" data-id="@user.Id"></i>
-                }
-            </td>
-            }
-        </tr>
-    }
-    </tbody>
-</table>
+@* partial view to userlist *@
+<div id="userlist-container"></div>
 </div>
-
-
 
 @section Scripts {
 <script>
     $(document).ready(function () {
+        $.ajax({
+            url: "/User/UserList",
+            type: "GET",
+            success: function (response) {
+                $('#userlist-container').html(response); 
+            },
+            error: function (xhr) {
+                console.error(xhr.responseText);
+                toastr.error("Error userlist patialview");
+            }
+        });
+
         @if(TempData["error"] != null)
         {
             <text>toastr.error('@TempData["error"]');</text>
@@ -144,12 +79,45 @@ var currentUserId = User.Claims.FirstOrDefault(c => c.Type == "UserId" || c.Type
             <text>toastr.success('@TempData["success"]');</text>
         }
 
-        $('.bi-trash').on('click', function () {
+        $('#userlist-container').on('click', '.bi-trash', function () {
             var userId = $(this).data('id');
 
             var deleteForm = $('#deleteUserForm');
             deleteForm.attr('action', '/User/Delete/' + userId);
         });
     });
+
+    @* pagination script start *@  
+                
+    function loadUserList(page) {
+        //get table list
+        
+        var pageSize = $("#ordersPerPage").val();
+
+        taxAjaxRequest = $.ajax({
+
+            url: "/User/UserList",
+            type: 'GET',
+            data: { page :page, pageSize:pageSize },
+            success: function (data) {
+                $('#userlist-container').html(data);
+            },
+            error: function () {
+                toastr.error('Error loading orderlist table.');
+            }
+        }); 
+    }
+
+    // Change Items Per Page
+    function changeUserlistPageSize(select) {
+        loadUserList(1);
+    }
+
+    // Change Page
+    function changeUserPage(newPage) {
+        loadUserList(newPage);
+    }
+
+    @* pagination script end *@
 </script>
 }

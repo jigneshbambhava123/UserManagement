@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using UserManagement.Services;
+using UserManagement.Services.Implementations;
+using UserManagement.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
+var apiBaseUrl = builder.Configuration["ApiSettings:BaseUrl"];
 
 builder.Services.AddAuthentication(options =>
 {
@@ -18,16 +21,20 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddControllersWithViews();
 
-// Configure typed HttpClient with BaseAddress
 builder.Services.AddScoped<IEmailService, EmailService>();
-builder.Services.AddHttpClient<IUserApiService, UserApiService>(client =>
+builder.Services.AddHttpClient("ApiClient", client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5086/");
+    client.BaseAddress = new Uri(apiBaseUrl);
 });
-builder.Services.AddHttpClient<IAuthService, AuthService>(client =>
-{
-    client.BaseAddress = new Uri("http://localhost:5086/");
-});
+
+builder.Services.AddScoped<IUserApiService, UserApiService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IResourceService, ResourceService>();
+
+// builder.Services.AddHttpClient<IUserApiService, UserApiService>(client =>
+// {
+//     client.BaseAddress = new Uri("http://localhost:5086/");
+// });
 
 var app = builder.Build();
 

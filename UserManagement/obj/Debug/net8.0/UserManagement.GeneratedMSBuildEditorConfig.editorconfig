@@ -54,6 +54,22 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Resource/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzb3VyY2VcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Resource/_AddResource.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzb3VyY2VcX0FkZFJlc291cmNlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Resource/_EditResource.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzb3VyY2VcX0VkaXRSZXNvdXJjZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Resource/_ResourceList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzb3VyY2VcX1Jlc291cmNlTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -76,6 +92,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/User/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/User/_UserList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxfVXNlckxpc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/_ViewImports.cshtml]

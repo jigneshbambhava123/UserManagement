@@ -1,0 +1,68 @@
+@model UserManagement.ViewModels.ResourceViewModel
+
+<form  id="addResourceForm"  enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    <div class="form-floating mb-3">
+        <input asp-for="Name" type="text" class="form-control" id="floatingInput" placeholder="name">
+        <label for="floatingInput">Name*</label>
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="col form-floating mb-3 me-2">
+        <input type="number" class="form-control" id="Quantity" asp-for="Quantity">
+        <label for="Quantity">Quantity*</label>
+        <span class="text-danger" asp-validation-for="Quantity"></span>
+    </div>
+    <div class="form-floating">
+        <textarea asp-for="Description" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+        <label for="floatingTextarea2">Description</label>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" >Save</button>
+        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () { 
+
+        //add resource postmethod 
+        $('#addResourceForm').on('submit', function (e) {
+            e.preventDefault();  
+
+            var form = $("#addResourceForm");
+
+            if(form.valid()) {
+
+                var formData = $(this).serialize();  
+                $.ajax({
+                    url: "/Resource/Create",
+                    type: "POST",
+                    data: formData,
+                    success: function (response) {
+                        debugger
+                        if(response.success){
+                            const modalEl = document.getElementById('addResourceModal');
+                            const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                            modalInstance.hide();
+                            $('.modal-backdrop').remove();
+                            toastr.success(response.message);
+                            loadResourceList();
+                        }else{
+                            toastr.error(response.message);
+                        }
+                        
+                    },
+                    error: function (xhr) {
+                        toastr.error("Error adding resource");
+                    }
+                });
+            } else {
+                toastr.warning("Please fill in required fields.");
+            }
+        });
+    });
+</script>
+@{
+    <partial name="_ValidationScriptsPartial"></partial>
+}
+

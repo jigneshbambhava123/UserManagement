@@ -14,7 +14,6 @@ public class HomeController : Controller
         _logger = logger;
     }
 
-
    [Authorize]
     public IActionResult Index()
     {

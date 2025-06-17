@@ -1,6 +1,6 @@
 using UserManagement.ViewModels;
 
-namespace UserManagement.Services;
+namespace UserManagement.Services.Interfaces;
 
 public interface IAuthService
 {

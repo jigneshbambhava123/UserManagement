@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserManagement.Services;
+using UserManagement.Services.Interfaces;
 using UserManagement.ViewModels;
 
 namespace UserManagement.Controllers;
@@ -14,11 +15,22 @@ public class UserController : Controller
         _userApiService = userApiService;
     }
 
-
+    [Authorize]
     public async Task<IActionResult> Index()
     {
-        var users = await _userApiService.GetAllUsersAsync();
-        return View(users);
+        return View();
+    }
+
+    public async Task<IActionResult> UserList(int page = 1, int pageSize = 5)
+    {
+        var allUsers = await _userApiService.GetAllUsersAsync();
+        var totalUsers = allUsers.Count(); // Total count before paging
+
+        var users = allUsers.Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            .ToList();
+
+        return PartialView("_UserList", new PaginatedList<User>(users, totalUsers, page, pageSize));
     }
 
     [Authorize(Roles = "Admin")]
@@ -49,7 +61,6 @@ public class UserController : Controller
         return View(user);
     }
 
-
     [Authorize(Roles = "Admin")]
     public IActionResult Create() => View();
 
@@ -72,7 +83,6 @@ public class UserController : Controller
         }
         return View(user);
     }
-
 
     [Authorize(Roles = "Admin")]
     [HttpPost]
