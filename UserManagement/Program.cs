@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using UserManagement.BackgroundServices;
 using UserManagement.Services;
 using UserManagement.Services.Implementations;
 using UserManagement.Services.Interfaces;
@@ -30,6 +31,9 @@ builder.Services.AddHttpClient("ApiClient", client =>
 builder.Services.AddScoped<IUserApiService, UserApiService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IResourceService, ResourceService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddHostedService<ExpiredBookingsService>();
+
 
 // builder.Services.AddHttpClient<IUserApiService, UserApiService>(client =>
 // {

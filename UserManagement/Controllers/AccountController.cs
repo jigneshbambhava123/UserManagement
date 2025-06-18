@@ -134,7 +134,6 @@ public class AccountController: Controller
         {
             var resetLink = $"{baseUrl}/Account/ResetPassword?userId={response.UserId}&token={response.Token}";
 
-            // Send email from MVC using Razor view
             await _emailService.SendPasswordResetEmail(model.Email, resetLink);
 
             TempData["success"] = "A password reset link has been sent to your email.";
@@ -189,7 +188,8 @@ public class AccountController: Controller
     }
 
     public async Task<IActionResult> Logout(){ 
-        Response.Cookies.Delete(".AspNetCore.Cookies");
+        await HttpContext.SignOutAsync();
+        // Response.Cookies.Delete(".AspNetCore.Cookies");
         return RedirectToAction("Login","Account");
     }
 

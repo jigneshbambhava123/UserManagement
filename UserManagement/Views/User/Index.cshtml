@@ -6,7 +6,7 @@
 }
 
 <!-- delete model -->
-<div class="modal fade" id="deleteUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+<div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -84,6 +84,35 @@
 
             var deleteForm = $('#deleteUserForm');
             deleteForm.attr('action', '/User/Delete/' + userId);
+        });
+
+        $('#deleteUserForm').on('submit', function (e) {
+            e.preventDefault();  
+
+            var form = $(this);
+            var actionUrl = form.attr('action'); 
+            var formData = form.serialize(); 
+
+            $.ajax({
+                url: actionUrl,
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    if(response.success){
+                         const modalEl = document.getElementById('deleteUserModal');
+                        const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                        modalInstance.hide();
+                        $('.modal-backdrop').remove();
+                        toastr.success(response.message);
+                        loadUserList();
+                    }else{
+                        toastr.error(response.message);
+                    }
+                },
+                error: function () {
+                    toastr.error("Error deleting User.");
+                }
+            });
         });
     });
 

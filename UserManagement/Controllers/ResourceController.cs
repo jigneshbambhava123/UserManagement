@@ -41,7 +41,7 @@ public class ResourceController : Controller
     [Authorize(Roles = "Admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(ResourceViewModel resource)
+    public async Task<IActionResult> Create(ResourceViewModel resourceViewModel)
     {
         if (!ModelState.IsValid)
         {
@@ -50,7 +50,7 @@ public class ResourceController : Controller
             return BadRequest("Validation Errors: " + string.Join(", ", errors));
         }
 
-        var (success, message) = await _resourceService.CreateResourceAsync(resource);
+        var (success, message) = await _resourceService.CreateResourceAsync(resourceViewModel);
 
         return Json(new { success , message });
     }
@@ -65,7 +65,7 @@ public class ResourceController : Controller
     [Authorize(Roles = "Admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditResource(ResourceViewModel resource)
+    public async Task<IActionResult> EditResource(ResourceViewModel resourceViewModel)
     {
           if (!ModelState.IsValid)
         {
@@ -74,7 +74,7 @@ public class ResourceController : Controller
             return BadRequest("Validation Errors: " + string.Join(", ", errors));
         }
 
-        var (success, message) = await _resourceService.UpdateResourceAsync(resource);
+        var (success, message) = await _resourceService.UpdateResourceAsync(resourceViewModel);
 
         return Json(new { success , message });
     }

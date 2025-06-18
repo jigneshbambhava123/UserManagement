@@ -8,5 +8,5 @@ public interface IUserApiService
     Task<User?> GetUserByIdAsync(int id);
     Task<(bool Success, string Message)> CreateUserAsync(User user);
     Task<(bool Success, string Message)> UpdateUserAsync(User user);
-    Task<bool> DeleteUserAsync(int id);
+    Task<(bool Success, string Message)> DeleteUserAsync(int id);
 }

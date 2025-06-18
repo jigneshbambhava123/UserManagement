@@ -19,7 +19,7 @@ public class ResourceService : IResourceService
 
     public async Task<ResourceViewModel?> GetResourceByIdAsync(int id)
     {
-        return await _httpClient.GetFromJsonAsync<ResourceViewModel>($"api/Resource/GetResourceById/{id}");
+        return await _httpClient.GetFromJsonAsync<ResourceViewModel>($"api/Resource/GetResourceById?id={id}");
     }
     
     public async Task<(bool Success, string Message)> CreateResourceAsync(ResourceViewModel resource)
@@ -38,7 +38,7 @@ public class ResourceService : IResourceService
 
     public async Task<(bool Success, string Message)> DeleteResourceAsync(int id)
     {
-        var response = await _httpClient.DeleteAsync($"api/Resource/DeleteResource/{id}");
+        var response = await _httpClient.DeleteAsync($"api/Resource/DeleteResource?id={id}");
         var message = await response.Content.ReadAsStringAsync();
         return (response.IsSuccessStatusCode, message);
     }

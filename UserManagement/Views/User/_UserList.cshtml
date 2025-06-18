@@ -22,6 +22,8 @@ var currentUserId = User.Claims.FirstOrDefault(c => c.Type == "UserId" || c.Type
             </tr>
         </thead>
         <tbody>
+        @if (Model.Items.Any())
+        {
         @foreach (var user in Model.Items)
         {
             <tr>
@@ -64,10 +66,20 @@ var currentUserId = User.Claims.FirstOrDefault(c => c.Type == "UserId" || c.Type
                     @if (user.Id.ToString() != currentUserId)
                     {
                     <div class="mt-2">|</div>
-                    <i class="bi bi-trash btn btn-danger btn-sm mb-2 mt-2 ms-2" data-bs-toggle="modal" data-bs-target="#deleteUser" data-id="@user.Id"></i>
+                    <i class="bi bi-trash btn btn-danger btn-sm mb-2 mt-2 ms-2" data-bs-toggle="modal" data-bs-target="#deleteUserModal" data-id="@user.Id"></i>
                     }
                 </td>
                 }
+            </tr>
+        }
+        }
+        else
+        {
+            <tr>
+            
+                <td colspan="4"><div class="alert text-center mt-3">
+                No records found.
+            </div></td>
             </tr>
         }
         </tbody>

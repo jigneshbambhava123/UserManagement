@@ -20,7 +20,7 @@ public class UserApiService : IUserApiService
 
     public async Task<User> GetUserByIdAsync(int id)
     {
-        return await _httpClient.GetFromJsonAsync<User>($"api/User/GetUserById/{id}");
+        return await _httpClient.GetFromJsonAsync<User>($"api/User/GetUserById?id={id}");
     }
 
     public async Task<(bool Success, string Message)> CreateUserAsync(User user)
@@ -39,10 +39,11 @@ public class UserApiService : IUserApiService
         return (response.IsSuccessStatusCode, message);
     }
 
-    public async Task<bool> DeleteUserAsync(int id)
+    public async Task<(bool Success, string Message)> DeleteUserAsync(int id)
     {
-        var response = await _httpClient.DeleteAsync($"api/User/DeleteUser/{id}");
-        return response.IsSuccessStatusCode;
+        var response = await _httpClient.DeleteAsync($"api/User/DeleteUser?id={id}");
+        var message = await response.Content.ReadAsStringAsync();
+        return (response.IsSuccessStatusCode, message);
     }
 
 }

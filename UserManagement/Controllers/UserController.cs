@@ -88,9 +88,9 @@ public class UserController : Controller
     [HttpPost]
     public async Task<IActionResult> Delete(int id)
     {
-        await _userApiService.DeleteUserAsync(id);
+        var (success, message) = await _userApiService.DeleteUserAsync(id);
 
-        TempData["success"] = "User Deleted Successfully!"; 
-        return RedirectToAction("Index");
+        return Json(new { success , message });
+        
     }
 }

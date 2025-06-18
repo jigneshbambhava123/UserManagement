@@ -1,0 +1,68 @@
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@{
+    ViewBag.Title = "Booking History";
+}
+
+<div class="d-sm-flex justify-content-between mb-3 mt-3">
+    <h3 class="dashboard" style="color: #0066a7;">
+        Booking History
+    </h3>
+
+</div>
+
+@* partial view to bookingHistorylist *@
+<div id="bookingHistorylist-container"></div>
+</div>
+
+@section Scripts {
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: "/Booking/BookingHistory",
+            type: "GET",
+            success: function (response) {
+                $('#bookingHistorylist-container').html(response); 
+            },
+            error: function (xhr) {
+                console.error(xhr.responseText);
+                toastr.error("Error bookingHistorylist patialview");
+            }
+        });
+        
+    });
+
+    @* pagination script start *@  
+                
+    function loadBookingHistoryList(page) {
+        //get table list
+        var pageSize = $("#ordersPerPage").val();
+
+        taxAjaxRequest = $.ajax({
+
+            url: "/Booking/BookingHistory",
+            type: 'GET',
+            data: { page :page, pageSize:pageSize },
+            success: function (data) {
+                $('#bookingHistorylist-container').html(data);
+            },
+            error: function () {
+                toastr.error('Error loading orderlist table.');
+            }
+        }); 
+    }
+
+    // Change Items Per Page
+    function changeBookingHistorylistPageSize(select) {
+        loadBookingHistoryList(1);
+    }
+
+    // Change Page
+    function changeBookingHistoryPage(newPage) {
+        loadBookingHistoryList(newPage);
+    }
+
+    @* pagination script end *@
+</script>
+}

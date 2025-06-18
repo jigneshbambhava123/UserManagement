@@ -2,18 +2,18 @@
 @inject IAuthorizationService AuthorizationService
 
 @{
-    ViewBag.Title = "Resource List";
+    ViewBag.Title = "My Resource";
 }
 
-<!-- Add Resource Modal -->
-<div class="modal fade" id="addResourceModal" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<!-- book Resource Modal -->
+<div class="modal fade" id="bookResourceModal" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Resource</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Book Resource</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" id="addResourceModalBody">
+            <div class="modal-body" id="bookResourceModalBody">
                 <!-- The partial view will be loaded here via AJAX -->
             </div>
         </div>
@@ -22,17 +22,13 @@
 
 <div class="d-sm-flex justify-content-between mb-3 mt-3">
     <h3 class="dashboard" style="color: #0066a7;">
-        Resource List
+        My Resource
     </h3>
 
     <div class="d-flex">
-
-        @if (User.IsInRole("Admin"))
-        {
         <p>
-            <button data-bs-toggle="modal" data-bs-target="#addResourceModal" class="btn btn-primary btn-sm" style="height: 50px;" onclick="populateAddResourceModal(this)">+ Create Resource</button>
+            <button data-bs-toggle="modal" data-bs-target="#bookResourceModal" class="btn btn-primary btn-sm" style="height: 50px;" onclick="populateBookResourceModal(this)">Book Resource</button>
         </p>
-        }
     </div>
 </div>
 
@@ -44,7 +40,7 @@
 <script>
     $(document).ready(function () {
         $.ajax({
-            url: "/Resource/ResourceList",
+            url: "/Booking/ActiveBookings",
             type: "GET",
             success: function (response) {
                 $('#resourcelist-container').html(response); 
@@ -54,39 +50,16 @@
                 toastr.error("Error Resourcelist patialview");
             }
         });
-
-        // Edit resource get method partial view
-        $('#resourcelist-container').on('click','.editResourceBtn', function () {
-            var resourceId = $(this).data('id'); 
-            $.ajax({
-            url: '@Url.Action("EditResource", "Resource")', 
-            type: 'GET',
-            data: { id:resourceId },
-            success: function (response) {
-                $('#editResourceModalBody').html(response);
-            },
-            error: function () {
-                toastr.error("Error Fetch Resource Data.")
-            }
-            });
-        });
-
-        $('#resourcelist-container').on('click', '.bi-trash', function () {
-            var resourceId = $(this).data('id');
-
-            var deleteForm = $('#deleteResourceForm');
-            deleteForm.attr('action', '/Resource/Delete/' + resourceId);
-        });
         
     });
 
-     //add resource
-    function populateAddResourceModal(element){
+     //book resource
+    function populateBookResourceModal(element){
         $.ajax({
-            url: '@Url.Action("AddResource", "Resource")', 
+            url: '@Url.Action("BookResource", "Booking")', 
             type: 'GET',
             success: function (response) {
-                $('#addResourceModalBody').html(response);
+                $('#bookResourceModalBody').html(response);
             },
             error: function (error) {
                 toastr.error("Error loading the partial view");
@@ -102,7 +75,7 @@
 
         taxAjaxRequest = $.ajax({
 
-            url: "/Resource/ResourceList",
+            url: "/Booking/ActiveBookings",
             type: 'GET',
             data: { page :page, pageSize:pageSize },
             success: function (data) {
