@@ -13,27 +13,27 @@ public class UserApiService : IUserApiService
         _httpClient = httpClientFactory.CreateClient("ApiClient");
     }
 
-    public async Task<IEnumerable<User>> GetAllUsersAsync()
+    public async Task<IEnumerable<UserViewModel>> GetAllUsersAsync()
     {
-        return await _httpClient.GetFromJsonAsync<IEnumerable<User>>("api/User/GetUsers");
+        return await _httpClient.GetFromJsonAsync<IEnumerable<UserViewModel>>("api/User");
     }
 
-    public async Task<User> GetUserByIdAsync(int id)
+    public async Task<UserViewModel> GetUserByIdAsync(int id)
     {
-        return await _httpClient.GetFromJsonAsync<User>($"api/User/GetUserById?id={id}");
+        return await _httpClient.GetFromJsonAsync<UserViewModel>($"api/User/{id}");
     }
 
-    public async Task<(bool Success, string Message)> CreateUserAsync(User user)
+    public async Task<(bool Success, string Message)> CreateUserAsync(UserViewModel user)
     {
-        var response = await _httpClient.PostAsJsonAsync("api/User/CreateUser", user);
+        var response = await _httpClient.PostAsJsonAsync("api/User", user);
         var message = await response.Content.ReadAsStringAsync();
 
         return (response.IsSuccessStatusCode, message);
     }
 
-    public async Task<(bool Success, string Message)> UpdateUserAsync(User user)
+    public async Task<(bool Success, string Message)> UpdateUserAsync(UserViewModel user)
     {
-        var response = await _httpClient.PutAsJsonAsync("api/User/UpdateUser", user);
+        var response = await _httpClient.PutAsJsonAsync("api/User", user);
         var message = await response.Content.ReadAsStringAsync();
 
         return (response.IsSuccessStatusCode, message);
@@ -41,7 +41,7 @@ public class UserApiService : IUserApiService
 
     public async Task<(bool Success, string Message)> DeleteUserAsync(int id)
     {
-        var response = await _httpClient.DeleteAsync($"api/User/DeleteUser?id={id}");
+        var response = await _httpClient.DeleteAsync($"api/User?id={id}");
         var message = await response.Content.ReadAsStringAsync();
         return (response.IsSuccessStatusCode, message);
     }

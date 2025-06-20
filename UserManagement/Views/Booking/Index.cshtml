@@ -32,26 +32,155 @@
     </div>
 </div>
 
-@* partial view to Resourcelist *@
-<div id="resourcelist-container"></div>
-</div>
+        <div class="resourcehistory d-sm-flex justify-content-start mb-1 shadow-lg  bg-white rounded"
+            style="height: 44px; background-color: #FFFFFF; border-radius: 5px ; ">
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-resource-tab" type="button" role="tab" 
+                        >
+                        <div class="resource d-flex" style="width: 150px; border-bottom: 2px solid #0066a7;">
+                            <i class="bi bi-list-task"
+                                style="height: 25px; width: 25px; cursor: pointer; margin-top: 3px; color: #0066a7;"></i>
+                            <div class="resource-text" style="color: #0066a7;">Active Resource</div>
+                        </div>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-history-tab" type="button" role="tab"
+                        >
+                        <div class="history d-flex" style="width: 150px; ">
+                            <i class="bi bi-clock-history"
+                                style="height: 25px; width: 25px; cursor: pointer; margin-top: 3px; color: #0066a7;"></i>
+                            <div class="history-text" style="margin-left: 5px; color: black;">Resource History</div>
+                        </div>
+                    </button>
+                </li>
+
+            </ul>
+        </div>
+        <!-- Loader -->
+        <div id="loader" class="loader-overlay" style="">
+            <div class="spinner-border text-primary" style="width: 4rem; height: 4rem;">
+            </div>
+        </div>
+        <div class="tab-content" id="pills-tabContent">
+            @* resources page *@
+            <div class="tab-pane fade show active" id="pills-resource" role="tabpanel" aria-labelledby="pills-resource-tab">
+              
+                @* partial view to Resourcelist *@
+                <div id="resourcelist-container"></div>            
+            </div>
+
+            @* history page *@
+            <div class="tab-pane fade" id="pills-history" role="tabpanel" aria-labelledby="pills-history-tab">
+                @* partial view to bookingHistorylist *@
+                <div id="bookingHistorylist-container"></div>
+            </div>
+        </div>
+
 
 @section Scripts {
 <script>
+    var resourcetab=true;
     $(document).ready(function () {
-        $.ajax({
-            url: "/Booking/ActiveBookings",
-            type: "GET",
-            success: function (response) {
-                $('#resourcelist-container').html(response); 
-            },
-            error: function (xhr) {
-                console.error(xhr.responseText);
-                toastr.error("Error Resourcelist patialview");
-            }
-        });
+        $("#resourcelist-container").hide();
+        showLoader();
+
+        setTimeout(function() {
+            $.ajax({
+                url: "/Booking/ActiveBookings",
+                type: "GET",
+                success: function (response) {
+                    hideLoader();
+                    $('#resourcelist-container').html(response); 
+                },
+                error: function (xhr) {
+                    hideLoader();
+                    console.error(xhr.responseText);
+                    toastr.error("Error Resourcelist patialview");
+                },
+                complete: function() {
+                    setTimeout(function() {
+                        $("#resourcelist-container").show();
+                    }, 500); 
+                }
+            });
+        }, 1000); 
+
+        setTimeout(function() {
+            $.ajax({
+                url: "/Booking/BookingHistory",
+                type: "GET",
+                success: function (response) {
+                    hideLoader();
+                    $('#bookingHistorylist-container').html(response); 
+                },
+                error: function (xhr) {
+                    hideLoader();
+                    toastr.error("Error bookingHistorylist patialview");
+                },
+                complete: function() {
+                    setTimeout(function() {
+                        $("#bookingHistorylist-container").show();
+                    }, 500); 
+                }
+            });
+        }, 500);
         
+        $('.nav-link').click(function () {
+            $('.nav-link').removeClass('active');
+            $('.nav-link').find('.resource, .history').css('color', 'black');
+            $('.nav-link').find('.resource-text, .history-text').css('color', 'black');
+            $('.nav-link').find('.resource, .history').css('border-bottom', 'none');
+
+            $(this).addClass('active');
+            $(this).find('.resource, .history').css('color', '#0066a7');
+            $(this).find('.resource-text, .history-text').css('color', '#0066a7');
+            $(this).find('.resource, .history').css('border-bottom', '2px solid #0066a7');
+        });
+
+        const tabs = new bootstrap.Tab(document.getElementById('pills-resource-tab'));
+
+        // Override default tab switch for Home
+        $('#pills-resource-tab').on('click', function (e) {
+            resourcetab=true;
+            $("#bookingHistorylist-container").hide();
+            $("#resourcelist-container").hide();
+            showLoader();
+            setTimeout(function () {
+                hideLoader();
+                setTimeout(function () {
+                    switchTab('pills-resource', 'pills-resource-tab');
+                    $("#resourcelist-container").show();
+                }, 500); 
+            }, 1000); 
+        });
+
+        // Override for History tab
+        $('#pills-history-tab').on('click', function (e) {
+            $("#resourcelist-container").hide();
+            $("#bookingHistorylist-container").hide();
+            resourcetab =false;
+            showLoader();
+            setTimeout(function () {
+                hideLoader();
+                setTimeout(function () {
+                    switchTab('pills-history', 'pills-history-tab');
+                    $("#bookingHistorylist-container").show();
+                }, 500);
+            }, 1000);
+        });
+
     });
+
+    function switchTab(tabIdToShow, tabButtonId) {
+        $('.nav-link').removeClass('active');
+        $('.tab-pane').removeClass('show active');
+
+        $(`#${tabButtonId}`).addClass('active');
+        $(`#${tabIdToShow}`).addClass('show active');
+    }
+
 
      //book resource
     function populateBookResourceModal(element){
@@ -71,30 +200,91 @@
                 
     function loadResourceList(page) {
         //get table list
-        var pageSize = $("#ordersPerPage").val();
+        var pageSize = $("#resourcePerPage").val();
+        $("#resourcelist-container").hide();
 
-        taxAjaxRequest = $.ajax({
+        if(resourcetab){
+            showLoader();
+        }
 
-            url: "/Booking/ActiveBookings",
-            type: 'GET',
-            data: { page :page, pageSize:pageSize },
-            success: function (data) {
-                $('#resourcelist-container').html(data);
-            },
-            error: function () {
-                toastr.error('Error loading orderlist table.');
-            }
-        }); 
+        setTimeout(function() {
+            $.ajax({
+                url: "/Booking/ActiveBookings",
+                type: 'GET',
+                data: { page :page, pageSize:pageSize },
+                success: function (data) {
+                    hideLoader();
+                    $('#resourcelist-container').html(data);
+                },
+                error: function () {
+                    hideLoader();
+                    toastr.error('Error loading resourcelist table.');
+                },
+                complete: function() {
+                    setTimeout(function() {
+                        $("#resourcelist-container").show();
+                    }, 500); 
+                }
+            }); 
+        }, 1000);
+
     }
 
     // Change Items Per Page
     function changeResourcelistPageSize(select) {
+        showLoader();
         loadResourceList(1);
     }
 
     // Change Page
     function changeResourcePage(newPage) {
+        showLoader();
         loadResourceList(newPage);
+    }
+
+    @* pagination script end *@
+
+
+    @* pagination script start *@  
+                
+    function loadBookingHistoryList(page) {
+        //get table list
+        var pageSize = $("#ordersPerPage").val();
+        $("#bookingHistorylist-container").hide();
+        $("#resourcelist-container").hide();
+        showLoader();
+
+        setTimeout(function() {
+            $.ajax({
+
+                url: "/Booking/BookingHistory",
+                type: 'GET',
+                data: { page :page, pageSize:pageSize },
+                success: function (data) {
+                    hideLoader();
+                    $('#bookingHistorylist-container').html(data);
+                },
+                error: function () {
+                    hideLoader();
+                    toastr.error('Error loading bookingHistorylist table.');
+                },
+                complete: function() {
+                    setTimeout(function() {
+                        $("#bookingHistorylist-container").show();
+                    }, 500); 
+                }
+            }); 
+        }, 1000);
+    }
+
+    // Change Items Per Page
+    function changeBookingHistorylistPageSize(select) {
+        loadBookingHistoryList(1);
+    }
+
+    // Change Page
+    function changeBookingHistoryPage(newPage) {
+        loadBookingHistoryList(newPage);
     }
 
     @* pagination script end *@

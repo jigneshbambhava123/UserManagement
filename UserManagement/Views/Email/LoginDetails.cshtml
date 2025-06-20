@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Account Login Details</title>
+    <style>
+        .userManagement{
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            background-color: blue;
+            height: 50px;
+            width: 100%;
+        }   
+        
+    </style>
+</head>
+<body>
+     <div class="userManagement" style="display:flex;justify-content:center;align-items:center;">
+        <div style="font-size: larger;display:flex;justify-content:center;align-align-items:center;">User Management</div>
+    </div>
+    <p>Hi <strong>{{Username}},</strong></p>
+    <p>Welcome to User Management</p>
+    <p>Please find the details below for login into your account.</p>
+
+    <div style="border: 2px solid black; padding: 12px;">
+        <p><strong>Login Details:</strong>,</p>
+
+        <p><strong>Email:</strong><strong>{{Email}}</strong> </p>
+        <p><strong>Password:</strong><strong>{{Password}}</strong> </p>
+
+
+    </div>
+    <p>if you encounter any issues or have any question, Pleasemdo not hastiate to Contact our support team.</p>
+</body>
+</html>

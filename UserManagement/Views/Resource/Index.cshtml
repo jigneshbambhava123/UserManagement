@@ -22,7 +22,7 @@
 
 <div class="d-sm-flex justify-content-between mb-3 mt-3">
     <h3 class="dashboard" style="color: #0066a7;">
-        Resource List
+        Resources
     </h3>
 
     <div class="d-flex">
@@ -36,6 +36,12 @@
     </div>
 </div>
 
+<!-- Loader -->
+<div id="loader" class="loader-overlay" style="">
+  <div class="spinner-border text-primary" style="width: 4rem; height: 4rem;">
+  </div>
+</div>
+
 @* partial view to Resourcelist *@
 <div id="resourcelist-container"></div>
 </div>
@@ -43,17 +49,29 @@
 @section Scripts {
 <script>
     $(document).ready(function () {
-        $.ajax({
-            url: "/Resource/ResourceList",
-            type: "GET",
-            success: function (response) {
-                $('#resourcelist-container').html(response); 
-            },
-            error: function (xhr) {
-                console.error(xhr.responseText);
-                toastr.error("Error Resourcelist patialview");
-            }
-        });
+        $("#resourcelist-container").hide();
+        showLoader();
+
+        setTimeout(function() {
+            $.ajax({
+                url: "/Resource/ResourceList",
+                type: "GET",
+                success: function (response) {
+                    hideLoader();
+                    $('#resourcelist-container').html(response); 
+                },
+                error: function (xhr) {
+                    hideLoader();
+                    console.error(xhr.responseText);
+                    toastr.error("Error Resourcelist patialview");
+                },
+                complete: function() {
+                    setTimeout(function() {
+                        $("#resourcelist-container").show();
+                    }, 500); 
+                }
+            });
+        }, 500); 
 
         // Edit resource get method partial view
         $('#resourcelist-container').on('click','.editResourceBtn', function () {
@@ -99,19 +117,30 @@
     function loadResourceList(page) {
         //get table list
         var pageSize = $("#ordersPerPage").val();
+        $("#resourcelist-container").hide();
 
-        taxAjaxRequest = $.ajax({
+        showLoader();
 
-            url: "/Resource/ResourceList",
-            type: 'GET',
-            data: { page :page, pageSize:pageSize },
-            success: function (data) {
-                $('#resourcelist-container').html(data);
-            },
-            error: function () {
-                toastr.error('Error loading orderlist table.');
-            }
-        }); 
+        setTimeout(function() {
+            $.ajax({
+                url: "/Resource/ResourceList",
+                type: 'GET',
+                data: { page :page, pageSize:pageSize },
+                success: function (data) {
+                    hideLoader();
+                    $('#resourcelist-container').html(data);
+                },
+                error: function () {
+                    hideLoader();
+                    toastr.error('Error loading orderlist table.');
+                },
+                complete: function() {
+                    setTimeout(function() {
+                        $("#resourcelist-container").show();
+                    }, 500); 
+                }
+            }); 
+        }, 500);
     }
 
     // Change Items Per Page

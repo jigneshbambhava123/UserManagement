@@ -1,10 +1,10 @@
-@model UserManagement.ViewModels.PaginatedList<UserManagement.ViewModels.User>
+@model UserManagement.ViewModels.PaginatedList<UserManagement.ViewModels.UserViewModel>
 @using Microsoft.AspNetCore.Authorization
 @inject IAuthorizationService AuthorizationService
 @{ 
 var currentUserId = User.Claims.FirstOrDefault(c => c.Type == "UserId" || c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;  
 }
-<div class="table-responsive">
+<div class="table-responsive shadow-lg  bg-white rounded p-3">
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -86,7 +86,7 @@ var currentUserId = User.Claims.FirstOrDefault(c => c.Type == "UserId" || c.Type
     </table>
 
      <!-- Pagination Controls -->
-    <div class="d-sm-flex justify-content-end me-3 pb-3 mt-3">
+    <div class="d-sm-flex justify-content-end me-3 mt-3">
         <!-- Items Per Page -->
         <div class="items-per-page me-3 mb-2">
             <label for="ordersPerPage" class="me-2">Items per page:</label>

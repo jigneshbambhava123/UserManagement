@@ -31,7 +31,7 @@ public class AccountController: Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Register(User user)
+    public async Task<IActionResult> Register(UserViewModel user)
     {
        
         if (ModelState.IsValid)
@@ -40,11 +40,12 @@ public class AccountController: Controller
 
             if (success)
             {
+                await _emailService.SendAccountDetailsEmail(user.Email, user.Firstname, user.Password);
                 TempData["success"] = "User Register Successfully!"; 
                 return RedirectToAction("Login");
             }
 
-            TempData["error"] = "A user with this email is already registered.";
+            TempData["error"] = "Registration unsuccessful. Please check your details and try again.";
             return View(user);
         }
         return View(user);
@@ -68,7 +69,7 @@ public class AccountController: Controller
         var response = await _authService.LoginAsync(loginModel);
         if (!response.IsSuccessStatusCode)
         {
-            TempData["error"] = "Invalid email or password";
+            TempData["error"] = "The email or password you entered is incorrect. Please try again.";
             ModelState.AddModelError("", "Invalid email or password");
             return View(loginModel);
         }
@@ -148,14 +149,15 @@ public class AccountController: Controller
     {
         if (userId == 0 || string.IsNullOrEmpty(token))
         {
-            return BadRequest("Invalid password reset link.");
+            TempData["error"] = "Password reset link is invalid or expired. Kindly request a new link.";
+            return RedirectToAction("ForgotPassword");
         }
 
         var isValid = await _authService.ValidateResetTokenAsync(userId, token);
 
         if (!isValid)
         {
-            TempData["error"] = "Reset link is invalid or expired.";
+            TempData["error"] = "Password reset link is invalid or expired. Kindly request a new link.";
             return RedirectToAction("ForgotPassword");
         }
 
@@ -164,7 +166,6 @@ public class AccountController: Controller
             UserId = userId,
             Token = token
         };
-
         return View(model);
     }
 
@@ -177,7 +178,7 @@ public class AccountController: Controller
 
         var result = await _authService.ResetPasswordAsync(model);
 
-        if (result == "User not found." || result == "Invalid or expired token.")
+        if (result == "The requested user could not be found." || result == "Token is invalid or expired. Please obtain a new token.")
         {
             TempData["error"] = result;
             return View(model);

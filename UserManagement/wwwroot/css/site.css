@@ -63,7 +63,15 @@ body {
     }
 }
 
-
+/* loader css */
+.loader-overlay {
+  background: rgba(255, 255, 255, 0.8);
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050; /* Above modal */
+}
 
 /* Page heading */
 .dashboard {
@@ -158,3 +166,15 @@ table.table .btn-danger:hover {
         font-size: 1.5rem;
     }
 }
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    background-color: transparent !important;
+    color: #0066a7 !important;
+}
+
+@media (max-width: 376px) {
+    .resourcehistory{
+        height: 86px !important;
+    }
+}
+

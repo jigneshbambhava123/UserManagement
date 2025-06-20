@@ -38,7 +38,7 @@
     <header style="position: sticky; top: 0;">
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm ps-3 pe-3" style="background-color: #0066a7 !important;">
             <a class="navbar-brand fw-bold me-4" asp-area="" asp-controller="Home" asp-action="Index">
-                <h3 style="color: white;">UserManagement</h3>
+                <h3 style="color: white;">User Management</h3>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,14 +56,11 @@
                     @if (User.IsInRole("Admin"))
                     {
                     <li class="nav-item me-4">
-                        <a class="nav-link" asp-controller="Resource" asp-action="Index"  style="color: white;">Resource</a>
+                        <a class="nav-link" asp-controller="Resource" asp-action="Index"  style="color: white;">Resources</a>
                     </li>
                     }
                     <li class="nav-item me-4">
                         <a class="nav-link" asp-controller="Booking" asp-action="Index"  style="color: white;">My Resource</a>
-                    </li>
-                    <li class="nav-item me-4">
-                        <a class="nav-link" asp-controller="Booking" asp-action="History"  style="color: white;">History</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link btn btn-outline-primary d-flex justify-content-center" data-bs-toggle="modal" data-bs-target="#logout" role="button"  style="text-decoration:none;color: white;">
@@ -91,6 +88,15 @@
 
     <!-- Toastr CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet" />
+    <script>
+        function showLoader() {
+            $('#loader').fadeIn(150);
+        }
+
+        function hideLoader() {
+            $('#loader').fadeOut(150);
+        }
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

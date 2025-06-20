@@ -43,7 +43,7 @@ public class EmailService: IEmailService
         }
     }
 
-    public async Task SendAccountDetailsEmail(string email, string username, string temporaryPassword)
+    public async Task SendAccountDetailsEmail(string email, string username, string Password)
     {
         try
         {
@@ -59,7 +59,8 @@ public class EmailService: IEmailService
             string emailTemplate = await File.ReadAllTextAsync("Views/Email/LoginDetails.cshtml");
             string emailBody = emailTemplate
                     .Replace("{{Username}}", username)
-                    .Replace("{{TemporaryPassword}}", temporaryPassword);
+                    .Replace("{{Password}}", Password)
+                    .Replace("{Email}", email);
 
             var mailMessage = new MailMessage
             {

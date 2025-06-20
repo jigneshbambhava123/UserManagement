@@ -70,12 +70,6 @@ public class BookingController : Controller
         return PartialView("_ActiveBookingList", new PaginatedList<BookingViewModel>(bookings, totalActiveBookings, page, pageSize));
     }
 
-    [Authorize(Roles ="Admin,User")]
-    public async Task<IActionResult> History()
-    {
-        return View();
-    }
-
     public async Task<IActionResult> BookingHistory(int page = 1, int pageSize = 5)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);

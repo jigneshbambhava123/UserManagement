@@ -10,9 +10,11 @@ namespace UserManagement.Controllers;
 public class UserController : Controller
 {
     private readonly IUserApiService _userApiService;
-    public UserController(IUserApiService userApiService)
+    private readonly IEmailService _emailService;
+    public UserController(IUserApiService userApiService,IEmailService emailService)
     {
         _userApiService = userApiService;
+        _emailService = emailService;
     }
 
     [Authorize]
@@ -30,7 +32,7 @@ public class UserController : Controller
                             .Take(pageSize)
                             .ToList();
 
-        return PartialView("_UserList", new PaginatedList<User>(users, totalUsers, page, pageSize));
+        return PartialView("_UserList", new PaginatedList<UserViewModel>(users, totalUsers, page, pageSize));
     }
 
     [Authorize(Roles = "Admin")]
@@ -42,7 +44,7 @@ public class UserController : Controller
 
     [Authorize(Roles = "Admin")]
     [HttpPost]
-    public async Task<IActionResult> Edit(User user)
+    public async Task<IActionResult> Edit(UserViewModel user)
     {
         if (ModelState.IsValid)
         {
@@ -66,7 +68,7 @@ public class UserController : Controller
 
     [Authorize(Roles = "Admin")]
     [HttpPost]
-    public async Task<IActionResult> Create(User user)
+    public async Task<IActionResult> Create(UserViewModel user)
     {
         if (ModelState.IsValid)
         {
@@ -74,6 +76,8 @@ public class UserController : Controller
 
             if (success)
             {
+                // Send account details email
+                await _emailService.SendAccountDetailsEmail(user.Email, user.Firstname, user.Password);
                 TempData["success"] = message; 
                 return RedirectToAction("Index");
             }

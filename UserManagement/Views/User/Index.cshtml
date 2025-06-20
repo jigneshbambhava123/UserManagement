@@ -3,6 +3,8 @@
 
 @{
     ViewBag.Title = "User List";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
 <!-- delete model -->
@@ -37,7 +39,7 @@
 
 <div class="d-sm-flex justify-content-between mb-3 mt-3">
     <h3 class="dashboard" style="color: #0066a7;">
-        User List
+        User
     </h3>
 
     <div class="d-flex">
@@ -51,6 +53,12 @@
     </div>
 </div>
 
+<!-- Loader -->
+<div id="loader" class="loader-overlay" style="">
+  <div class="spinner-border text-primary" style="width: 4rem; height: 4rem;">
+  </div>
+</div>
+
 @* partial view to userlist *@
 <div id="userlist-container"></div>
 </div>
@@ -58,17 +66,29 @@
 @section Scripts {
 <script>
     $(document).ready(function () {
-        $.ajax({
-            url: "/User/UserList",
-            type: "GET",
-            success: function (response) {
-                $('#userlist-container').html(response); 
-            },
-            error: function (xhr) {
-                console.error(xhr.responseText);
-                toastr.error("Error userlist patialview");
-            }
-        });
+        $("#userlist-container").hide();
+        showLoader();
+
+        setTimeout(function() {
+            $.ajax({
+                url: "/User/UserList",
+                type: "GET",
+                success: function (response) {
+                    hideLoader();
+                    $('#userlist-container').html(response); 
+                },
+                error: function (xhr) {
+                    hideLoader();
+                    console.error(xhr.responseText);
+                    toastr.error("Error userlist patialview");
+                },
+                complete: function() {
+                    setTimeout(function() {
+                        $("#userlist-container").show();
+                    }, 500); 
+                }
+            });
+        }, 500); 
 
         @if(TempData["error"] != null)
         {
@@ -122,19 +142,30 @@
         //get table list
         
         var pageSize = $("#ordersPerPage").val();
+        $("#userlist-container").hide();
 
-        taxAjaxRequest = $.ajax({
+        showLoader();
 
-            url: "/User/UserList",
-            type: 'GET',
-            data: { page :page, pageSize:pageSize },
-            success: function (data) {
-                $('#userlist-container').html(data);
-            },
-            error: function () {
-                toastr.error('Error loading orderlist table.');
-            }
-        }); 
+        setTimeout(function() {
+            $.ajax({
+                url: "/User/UserList",
+                type: 'GET',
+                data: { page :page, pageSize:pageSize },
+                success: function (data) {
+                    hideLoader();
+                    $('#userlist-container').html(data);
+                },
+                error: function () {
+                    hideLoader();
+                    toastr.error('Error loading userlist table.');
+                },
+                complete: function() {
+                    setTimeout(function() {
+                        $("#userlist-container").show();
+                    }, 500); 
+                }
+            }); 
+        }, 500);
     }
 
     // Change Items Per Page
@@ -148,5 +179,6 @@
     }
 
     @* pagination script end *@
+
 </script>
 }

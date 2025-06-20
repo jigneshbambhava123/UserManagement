@@ -9,119 +9,119 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = UserManagement
 build_property.RootNamespace = UserManagement
-build_property.ProjectDir = C:\Users\pctr48\Downloads\New folder (6)\UserManagement\Usermanagement\
+build_property.ProjectDir = C:\Users\pctr48\Downloads\New folder (6)\UserManagement\usermanagement\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\pctr48\Downloads\New folder (6)\UserManagement\Usermanagement
+build_property.MSBuildProjectDirectory = C:\Users\pctr48\Downloads\New folder (6)\UserManagement\usermanagement
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/Account/AccessDenied.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Account/AccessDenied.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxBY2Nlc3NEZW5pZWQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/Account/ForgotPassword.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Account/ForgotPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxGb3Jnb3RQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/Account/Login.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/Account/Register.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/Account/ResetPassword.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Account/ResetPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZXNldFBhc3N3b3JkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/Booking/History.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xIaXN0b3J5LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/Booking/Index.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Booking/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/Booking/_ActiveBookingList.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Booking/_ActiveBookingList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xfQWN0aXZlQm9va2luZ0xpc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/Booking/_BookingHistoryList.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Booking/_BookingHistoryList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xfQm9va2luZ0hpc3RvcnlMaXN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/Booking/_BookResource.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Booking/_BookResource.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xfQm9va1Jlc291cmNlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/Email/ResetPassword.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Email/LoginDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1haWxcTG9naW5EZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Email/ResetPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1haWxcUmVzZXRQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/Home/Index.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/Home/NotFound.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Home/NotFound.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxOb3RGb3VuZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/Resource/Index.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Resource/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzb3VyY2VcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/Resource/_AddResource.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Resource/_AddResource.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzb3VyY2VcX0FkZFJlc291cmNlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/Resource/_EditResource.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Resource/_EditResource.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzb3VyY2VcX0VkaXRSZXNvdXJjZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/Resource/_ResourceList.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Resource/_ResourceList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzb3VyY2VcX1Jlc291cmNlTGlzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/Shared/Error.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/Shared/_AccountLayout.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Shared/_AccountLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BY2NvdW50TGF5b3V0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/User/Create.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/User/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/User/Edit.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/User/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/User/Index.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/User/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/User/_UserList.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/User/_UserList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxfVXNlckxpc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/_ViewImports.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/_ViewStart.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/Usermanagement/Views/Shared/_Layout.cshtml]
+[C:/Users/pctr48/Downloads/New folder (6)/UserManagement/usermanagement/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-6s5nqko3df

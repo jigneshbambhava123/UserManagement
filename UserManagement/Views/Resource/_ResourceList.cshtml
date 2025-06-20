@@ -48,13 +48,14 @@
     </div>
 </div>
 
-<div class="table-responsive">
+<div class="table-responsive shadow-lg  bg-white rounded p-3">
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Quantity</th>
+                <th>Booked Quantity</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -67,7 +68,7 @@
                     <td>@resource.Name</td>
                     <td>@resource.Description</td>
                     <td>@resource.Quantity</td>
-                    
+                    <td>@resource.UsedQuantity</td>
                     @if (User.IsInRole("Admin"))
                     {
                     <td class="d-flex">
@@ -92,7 +93,7 @@
     </table>
 
      <!-- Pagination Controls -->
-    <div class="d-sm-flex justify-content-end me-3 pb-3 mt-3">
+    <div class="d-sm-flex justify-content-end me-3 mt-3">
         <!-- Items Per Page -->
         <div class="items-per-page me-3 mb-2">
             <label for="ordersPerPage" class="me-2">Items per page:</label>

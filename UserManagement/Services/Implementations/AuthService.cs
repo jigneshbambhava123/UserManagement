@@ -25,7 +25,7 @@ public class AuthService: IAuthService
 
 
         var token = json["token"].GetString();
-        int userId = json["userId"].GetInt32();
+        int userId = json["userId"].GetInt32(); 
         var message = json["message"].GetString();
 
         if (userId==0)
@@ -36,7 +36,7 @@ public class AuthService: IAuthService
 
     public async Task<bool> ValidateResetTokenAsync(int userId, string token)
     {
-        var response = await _httpClient.GetAsync($"api/Account/ValidateResetToken?userId={userId}&token={token}");
+        var response = await _httpClient.GetAsync($"api/Account?userId={userId}&token={token}");
         return response.IsSuccessStatusCode;
     }
 

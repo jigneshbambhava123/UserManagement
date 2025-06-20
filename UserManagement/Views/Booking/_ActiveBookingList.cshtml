@@ -1,6 +1,6 @@
 @model UserManagement.ViewModels.PaginatedList<UserManagement.ViewModels.BookingViewModel>
 
-<div class="table-responsive">
+<div class="table-responsive mt-3 shadow-lg  bg-white rounded p-3">
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -36,11 +36,11 @@
     </table>
 
      <!-- Pagination Controls -->
-    <div class="d-sm-flex justify-content-end me-3 pb-3 mt-3">
+    <div class="d-sm-flex justify-content-end me-3 mt-3">
         <!-- Items Per Page -->
         <div class="items-per-page me-3 mb-2">
-            <label for="ordersPerPage" class="me-2">Items per page:</label>
-            <select id="ordersPerPage" onchange="changeResourcelistPageSize(this)" style="height: 27px; width: 55px; border-radius: 5px;">
+            <label for="resourcePerPage" class="me-2">Items per page:</label>
+            <select id="resourcePerPage" onchange="changeResourcelistPageSize(this)" style="height: 27px; width: 55px; border-radius: 5px;">
                 <option value="5" selected="@(Model.PageSize == 5 ? "selected" : null)">5</option>
                 <option value="10" selected="@(Model.PageSize == 10 ? "selected" : null)">10</option>
                 <option value="20" selected="@(Model.PageSize == 20 ? "selected" : null)">20</option>
