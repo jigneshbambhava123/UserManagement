@@ -3,25 +3,24 @@
 <form  id="bookResourceForm"  enctype="multipart/form-data">
     @Html.AntiForgeryToken()
     <input type="number" asp-for="UserId" hidden>
-    <div class="row mb-2">
-        <div class="col form-floating mb-2 me-2">
-            <select class="form-select" asp-for="ResourceId" aria-label="Select Role">
-                <option value="" selected>Select Resource</option>
-                @foreach (var resource in Model.Resources)
-                {
-                    if (resource.Quantity - resource.UsedQuantity > 0) 
+        <div class="row mb-2">
+            <div class="col form-floating mb-2 me-2">
+                <select class="form-select" asp-for="ResourceId" aria-label="Select Role">
+                    <option value="" selected>Select Resource</option>
+                    @foreach (var resource in Model.Resources)
                     {
-                        <option value="@resource.Id" data-qty="@(resource.Quantity - resource.UsedQuantity)">
-                            @resource.Name
-                        </option>
+                        if (resource.Quantity - resource.UsedQuantity > 0) 
+                        {
+                            <option value="@resource.Id" data-qty="@(resource.Quantity - resource.UsedQuantity)">
+                                @resource.Name
+                            </option>
+                        }
                     }
-                }
-            </select>   
-            <label class="ms-2">Resource*</label>
-            <span asp-validation-for="ResourceId" class="text-danger"></span>
-        </div>
-        
-    </div>  
+                </select>   
+                <label class="ms-2">Resource*</label>
+                <span asp-validation-for="ResourceId" class="text-danger"></span>
+            </div>
+        </div>  
     <div class="row mb-2">
         <div class="col form-floating mb-2 me-2">
             <input type="number" class="form-control" id="availableQuantity" value="0" disabled>
@@ -51,18 +50,46 @@
         <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
     </div>
 </form>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
 
 <script>
     $(document).ready(function () { 
+
+        const connection = new signalR.HubConnectionBuilder()
+        .withUrl("http://localhost:5086/resourceHub") 
+        .build();
+
+        connection.start().catch(err => console.error(err.toString()));
+
+        connection.on("ReceiveQuantityUpdate", (resourceId, newAvailableQty) => {
+            updatedQuantities[resourceId] = newAvailableQty;
+
+            const option = document.querySelector(`select[name='ResourceId'] option[value='${resourceId}']`);
+            if (option) {
+                option.setAttribute('data-qty', newAvailableQty);
+
+                const selectedResourceId = document.querySelector("select[name='ResourceId']").value;
+                if (selectedResourceId === resourceId.toString()) {
+                    const availableQuantity = document.getElementById('availableQuantity');
+                    if (availableQuantity) {
+                        availableQuantity.value = newAvailableQty;
+                    }
+                }
+            }
+        });
+
         var today = new Date().toISOString().split('T')[0];  
     
         $('#fromDate').attr('min', today);
         $('#toDate').attr('min', today);
 
         // Update available quantity based on resource selection
-        $('select').on('change', function () {
+        $('select[name="ResourceId"]').on('change', function () {
             var selectedOption = $(this).find('option:selected');
-            var availableQty = selectedOption.data('qty');
+            var selectedResourceId = selectedOption.val();
+            var updatedQty = updatedQuantities[selectedResourceId];
+            var availableQty = updatedQty ?? selectedOption.data('qty');
+
             $('#availableQuantity').val(availableQty ?? '0');
         });
 
@@ -75,7 +102,10 @@
             if(form.valid()) {
 
                 var selectedOption = $('#bookResourceForm select option:selected');
-                var availableQuantity = parseInt(selectedOption.data('qty'));
+                var selectedResourceId = selectedOption.val();
+                var updatedQty = updatedQuantities[selectedResourceId];
+
+                var availableQuantity = updatedQty ?? selectedOption.data('qty');
                 var enteredQuantity = parseInt($('#Quantity').val());
 
                 if (enteredQuantity > availableQuantity) {

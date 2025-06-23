@@ -34,12 +34,6 @@ builder.Services.AddScoped<IResourceService, ResourceService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddHostedService<ExpiredBookingsService>();
 
-
-// builder.Services.AddHttpClient<IUserApiService, UserApiService>(client =>
-// {
-//     client.BaseAddress = new Uri("http://localhost:5086/");
-// });
-
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
