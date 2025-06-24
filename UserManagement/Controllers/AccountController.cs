@@ -109,8 +109,8 @@ public class AccountController: Controller
 
         return roleClaim switch
         {
-            "Admin" => RedirectToAction("Index", "Home"), 
-            "User" => RedirectToAction("Index", "Home"), 
+            "Admin" => RedirectToAction("Index", "Dashboard"), 
+            "User" => RedirectToAction("Index", "Dashboard"), 
             _ => RedirectToAction("Login", "Account")      
         };
     }

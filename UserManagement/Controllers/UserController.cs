@@ -23,13 +23,35 @@ public class UserController : Controller
         return View();
     }
 
-    public async Task<IActionResult> UserList(int page = 1, int pageSize = 5)
+    public async Task<IActionResult> UserList(int page = 1, int pageSize = 5, string search = "", string sortColumn = "Id", string sortDirection = "asc")
     {
         var allUsers = await _userApiService.GetAllUsersAsync();
-        var totalUsers = allUsers.Count(); // Total count before paging
+
+          // Search logic
+        if (!string.IsNullOrEmpty(search))
+        {
+            search = search.ToLower();
+            allUsers = allUsers.Where(u =>
+                (u.Firstname?.ToLower().Contains(search) ?? false) ||
+                (u.Lastname?.ToLower().Contains(search) ?? false) ||
+                (u.Email?.ToLower().Contains(search) ?? false) ||
+                (u.RoleName?.ToLower().Contains(search) ?? false)
+            );
+        }
+
+        // Sorting logic
+        allUsers = sortColumn switch
+        {
+            "Firstname" => sortDirection == "asc" ? allUsers.OrderBy(u => u.Firstname) : allUsers.OrderByDescending(u => u.Firstname),
+            "Lastname" => sortDirection == "asc" ? allUsers.OrderBy(u => u.Lastname) : allUsers.OrderByDescending(u => u.Lastname),
+            "RoleName" => sortDirection == "asc" ? allUsers.OrderBy(u => u.RoleName) : allUsers.OrderByDescending(u => u.RoleName),
+            _ => sortDirection == "asc" ? allUsers.OrderBy(u => u.Id) : allUsers.OrderByDescending(u => u.Id),
+        };
+
+        var totalUsers = allUsers.Count();
 
         var users = allUsers.Skip((page - 1) * pageSize)
-                            .Take(pageSize)
+                            .Take(pageSize) 
                             .ToList();
 
         return PartialView("_UserList", new PaginatedList<UserViewModel>(users, totalUsers, page, pageSize));

@@ -1,0 +1,210 @@
+﻿@{
+    ViewData["Title"] = "Resource Dashboard";
+}
+
+<div class="d-sm-flex justify-content-between mb-3 mt-3">
+    <h3 class="dashboard" style="color: #0066a7;">
+        Dashboard
+    </h3>    
+</div>
+
+<div class="active-users-section shadow-lg  bg-white rounded">
+    <h2 class="active-users-heading">
+        <svg class="active-users-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-3-3H5a3 3 0 00-3 3v2h5m0 0a3 3 0 003-3V9a2 2 0 012-2h2a2 2 0 012 2v6m-3 0h6"></path></svg>
+        Active Users
+    </h2>
+    <p class="active-user-count" id="activeUserCountDisplay">
+        
+    </p>
+</div>
+
+<div class="chart-section shadow-lg  bg-white rounded">
+    <div class="chart-heading-container">
+        <h2 class="chart-heading">
+            <svg class="chart-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3m0 0l3 3m-3-3v8m0-9a9 9 0 110 18 9 9 0 010-18z"></path></svg>
+            Resource Usage History
+        </h2>
+        <select id="daysFilter" class="days-filter-select">
+            <option value="10" selected>Last 10 Days</option>
+            <option value="30" >Last 30 Days</option>
+            <option value="60">Last 60 Days</option>
+        </select>
+    </div>
+    <div class="chart-container">
+        <canvas id="resourceUsageChart"></canvas>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        let resourceUsageChart;
+        let allHistoricalData = [];
+
+        function getActiveUserCount() {
+            $.ajax({
+                url: '/Dashboard/GetActiveUserCountJson', 
+                method: 'GET',
+                dataType: 'json', 
+                success: function(activeUserCount) {
+                    $('#activeUserCountDisplay').text(activeUserCount);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching active user count:', textStatus, errorThrown);
+                    $('#activeUserCountDisplay').text('0');
+                }
+            });
+        }
+
+        function fetchAllResourceHistory() {
+            $.ajax({
+                url: '/Dashboard/GetResourceUsed', 
+                method: 'GET',
+                dataType: 'json', 
+                success: function(data) {
+                    allHistoricalData = data;
+                    console.log('Fetched all historical data:', allHistoricalData);
+
+                    const initialDays = $('#daysFilter').val(); 
+                    renderResourceUsageChart(parseInt(initialDays, 10)); 
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching all resource usage history:', textStatus, errorThrown);
+                }
+            });
+        }
+
+        function renderResourceUsageChart(days) {
+            if (!allHistoricalData || allHistoricalData.length === 0) {
+                console.warn('No historical data available to render chart.');
+                if (resourceUsageChart) {
+                    resourceUsageChart.destroy();
+                    resourceUsageChart = null;
+                }
+                return;
+            }
+
+            const now = new Date(); 
+            const cutoffDate = new Date();
+            cutoffDate.setDate(now.getDate() - days);
+
+            const filteredData = allHistoricalData.filter(item => {
+                const itemDate = new Date(item.toDate); 
+                return itemDate >= cutoffDate && itemDate <= now;
+            });
+
+            const quantity = {};
+            filteredData.forEach(item => {
+                const dateKey = new Date(item.toDate).toLocaleDateString('en-CA');
+                if (!quantity[dateKey]) {
+                    quantity[dateKey] = 0;
+                }
+                quantity[dateKey] += item.quantity;
+            });
+
+            const labels = [];
+            const chartQuantities = [];
+            for (let i = days - 1; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(now.getDate() - i);
+                const dateKey = date.toLocaleDateString('en-CA');
+                labels.push(date.toLocaleDateString()); 
+                chartQuantities.push(quantity[dateKey] || 0); 
+            }
+
+            const ctx = document.getElementById('resourceUsageChart').getContext('2d');
+
+            if (resourceUsageChart) {
+                resourceUsageChart.destroy();
+            }
+
+            resourceUsageChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels, 
+                    datasets: [{
+                        label: 'Total Quantity Used', 
+                        data: chartQuantities, 
+                        backgroundColor: 'rgba(59, 130, 246, 0.7)', 
+                        borderColor: 'rgba(59, 130, 246, 1)',     
+                        borderWidth: 1,
+                        borderRadius: 4, 
+                        hoverBackgroundColor: 'rgba(37, 99, 235, 0.8)', 
+                        hoverBorderColor: 'rgba(37, 99, 235, 1)',
+                    }]
+                },
+                options: {
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true, 
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0,0,0,0.7)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            cornerRadius: 6,
+                            displayColors: false, 
+                            callbacks: {
+                                label: function(context) {
+                                    return `Quantity: ${context.raw}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false, 
+                            },
+                            ticks: {
+                                autoSkip: true, 
+                                maxRotation: 45, 
+                                minRotation: 0,
+                            },
+                            title: {
+                                display: true, 
+                                text: 'Date',
+                                color: '#374151', 
+                                font: {
+                                    weight: 'bold' 
+                                }
+                            }
+                        },
+                        y: {
+                            beginAtZero: true, 
+                            grid: {
+                                color: 'rgba(229, 231, 235, 0.5)', 
+                            },
+                            title: {
+                                display: true, 
+                                text: 'Total Quantity Used',
+                                color: '#374151', 
+                                font: {
+                                    weight: 'bold' 
+                                }
+                            },
+                            ticks: {
+                                precision: 0 
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            
+            getActiveUserCount();      
+            fetchAllResourceHistory(); 
+
+            $('#daysFilter').on('change', function() {
+                const selectedDays = parseInt($(this).val(), 10); 
+                renderResourceUsageChart(selectedDays); 
+            });
+        });
+    </script>
+}
+

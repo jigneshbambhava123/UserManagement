@@ -37,7 +37,7 @@
 
     <header style="position: sticky; top: 0;">
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm ps-3 pe-3" style="background-color: #0066a7 !important;">
-            <a class="navbar-brand fw-bold me-4" asp-area="" asp-controller="Home" asp-action="Index">
+            <a class="navbar-brand fw-bold me-4" asp-area="" asp-controller="Dashboard" asp-action="Index">
                 <h3 style="color: white;">User Management</h3>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -46,28 +46,34 @@
             </button>
             
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav d-flex flex-row  justify-content-end mt-2">
-                    <li class="nav-item me-4">
-                        <a class="nav-link" asp-controller="Home" asp-action="Index"  style="color: white;">Home</a>
+                <ul class="navbar-nav d-flex flex-row justify-content-end mt-2">
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Dashboard" ? "active" : "")"
+                        asp-controller="Dashboard" asp-action="Index">Dashboard</a>
                     </li>
-                    <li class="nav-item me-4">
-                        <a class="nav-link" asp-controller="User" asp-action="Index"  style="color: white;">User</a>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "User" ? "active" : "")"
+                        asp-controller="User" asp-action="Index">User</a>
                     </li>
                     @if (User.IsInRole("Admin"))
                     {
-                    <li class="nav-item me-4">
-                        <a class="nav-link" asp-controller="Resource" asp-action="Index"  style="color: white;">Resources</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Resource" ? "active" : "")"
+                            asp-controller="Resource" asp-action="Index">Resource Management</a>
+                        </li>
                     }
-                    <li class="nav-item me-4">
-                        <a class="nav-link" asp-controller="Booking" asp-action="Index"  style="color: white;">My Resource</a>
-                    </li>
                     <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary d-flex justify-content-center" data-bs-toggle="modal" data-bs-target="#logout" role="button"  style="text-decoration:none;color: white;">
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Booking" ? "active" : "")"
+                        asp-controller="Booking" asp-action="Index">My Resources</a>
+                    </li>
+                    <li class="nav-item1">
+                        <a class="nav-link1 btn logoutbtn d-flex justify-content-center align-items-center"
+                        data-bs-toggle="modal" data-bs-target="#logout" role="button" >
                             Logout
                         </a>
                     </li>
                 </ul>
+
             </div>
         </nav>
     </header>

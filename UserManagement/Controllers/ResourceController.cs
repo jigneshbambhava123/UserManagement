@@ -21,9 +21,27 @@ public class ResourceController : Controller
         return View();
     }
 
-    public async Task<IActionResult> ResourceList(int page = 1, int pageSize = 5)
+    public async Task<IActionResult> ResourceList(int page = 1, int pageSize = 5, string search = "", string sortColumn = "Id", string sortDirection = "asc")
     {
         var allResources = await _resourceService.GetAllResourcesAsync();
+          // Search logic
+        if (!string.IsNullOrEmpty(search))
+        {
+            search = search.ToLower();
+            allResources = allResources.Where(u =>
+                (u.Name?.ToLower().Contains(search) ?? false) ||
+                u.Quantity.ToString().Contains(search)
+            );
+        }
+
+        // Sorting logic
+        allResources = sortColumn switch
+        {
+            "Name" => sortDirection == "asc" ? allResources.OrderBy(u => u.Name) : allResources.OrderByDescending(u => u.Name),
+            "Quantity" => sortDirection == "asc" ? allResources.OrderBy(u => u.Quantity) : allResources.OrderByDescending(u => u.Quantity),
+            _ => sortDirection == "asc" ? allResources.OrderBy(u => u.Id) : allResources.OrderByDescending(u => u.Id),
+        };
+
         var totalResources = allResources.Count();
 
         var resources = allResources.Skip((page - 1) * pageSize)

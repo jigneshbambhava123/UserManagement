@@ -35,4 +35,7 @@ public class UserViewModel
     [Required(ErrorMessage = "Date of Birth is required.")]
     [DataType(DataType.Date)]
     public DateTime Dateofbirth { get; set; }
+    
+    public string RoleName => RoleId == 1 ? "Admin" : "User";
+
 }

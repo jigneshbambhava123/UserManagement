@@ -1,0 +1,16 @@
+C:\Publish\UserManagementMVC\UserManagement.exe
+C:\Publish\UserManagementMVC\appsettings.Development.json
+C:\Publish\UserManagementMVC\appsettings.json
+C:\Publish\UserManagementMVC\UserManagement.dll
+C:\Publish\UserManagementMVC\UserManagement.deps.json
+C:\Publish\UserManagementMVC\UserManagement.runtimeconfig.json
+C:\Publish\UserManagementMVC\UserManagement.pdb
+C:\Publish\UserManagementMVC\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Publish\UserManagementMVC\Microsoft.IdentityModel.Abstractions.dll
+C:\Publish\UserManagementMVC\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Publish\UserManagementMVC\Microsoft.IdentityModel.Logging.dll
+C:\Publish\UserManagementMVC\Microsoft.IdentityModel.Protocols.dll
+C:\Publish\UserManagementMVC\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Publish\UserManagementMVC\Microsoft.IdentityModel.Tokens.dll
+C:\Publish\UserManagementMVC\Npgsql.dll
+C:\Publish\UserManagementMVC\System.IdentityModel.Tokens.Jwt.dll

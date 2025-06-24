@@ -8,10 +8,19 @@ var currentUserId = User.Claims.FirstOrDefault(c => c.Type == "UserId" || c.Type
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>Firstname</th>
-                <th>Lastname</th>
+                <th>Firstname
+                    <i class="bi bi-arrow-up" data-column="Firstname" data-direction="asc"></i>
+                    <i class="bi bi-arrow-down" data-column="Firstname" data-direction="desc"></i>
+                </th>
+                <th>Lastname
+                    <i class="bi bi-arrow-up" data-column="Lastname" data-direction="asc"></i>
+                    <i class="bi bi-arrow-down" data-column="Lastname" data-direction="desc"></i>
+                </th>
                 <th>Email</th>
-                <th>Role</th>
+                <th>Role
+                    <i class="bi bi-arrow-up" data-column="RoleName" data-direction="asc"></i>
+                    <i class="bi bi-arrow-down" data-column="RoleName" data-direction="desc"></i>
+                </th>
                 <th>Phone Number</th>
                 <th>Age</th>
                 <th>Active</th>
@@ -77,7 +86,7 @@ var currentUserId = User.Claims.FirstOrDefault(c => c.Type == "UserId" || c.Type
         {
             <tr>
             
-                <td colspan="4"><div class="alert text-center mt-3">
+                <td colspan="8"><div class="alert text-center mt-3">
                 No records found.
             </div></td>
             </tr>

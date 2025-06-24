@@ -52,9 +52,15 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>Name</th>
+                <th>Name
+                    <i class="bi bi-arrow-up" data-column="Name" data-direction="asc"></i>
+                    <i class="bi bi-arrow-down" data-column="Name" data-direction="desc"></i>
+                </th>
                 <th>Description</th>
-                <th>Quantity</th>
+                <th>Quantity
+                    <i class="bi bi-arrow-up" data-column="Quantity" data-direction="asc"></i>
+                    <i class="bi bi-arrow-down" data-column="Quantity" data-direction="desc"></i>
+                </th>
                 <th>Booked Quantity</th>
                 <th>Action</th>
             </tr>
@@ -83,8 +89,7 @@
             else
             {
                 <tr>
-                
-                    <td colspan="4"><div class="alert text-center mt-3">
+                    <td colspan="5"><div class="alert text-center mt-3">
                     No records found.
                 </div></td>
                 </tr>

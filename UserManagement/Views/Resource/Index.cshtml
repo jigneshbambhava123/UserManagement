@@ -22,10 +22,16 @@
 
 <div class="d-sm-flex justify-content-between mb-3 mt-3">
     <h3 class="dashboard" style="color: #0066a7;">
-        Resources
+        Resource Management
     </h3>
 
-    <div class="d-flex">
+    <div class="seachbar d-flex justify-content-end">
+
+        <div class="d-flex" style="position: relative; margin-right: 10px; height: 50px;">
+            <input id="ResourceListSearch" type="text" class="form-control search-input d-flex" placeholder="Search">
+            <img width="18" height="20" src="~/images/search-icon.svg" alt="..."
+                class="search-icon d-flex" style="position: absolute; top: 15px; right: 17px;">
+        </div>
 
         @if (User.IsInRole("Admin"))
         {
@@ -48,6 +54,9 @@
 
 @section Scripts {
 <script>
+    var sortColumn = 'Id'; 
+    var sortDirection = 'asc';
+    
     $(document).ready(function () {
         $("#resourcelist-container").hide();
         showLoader();
@@ -72,6 +81,34 @@
                 }
             });
         }, 500); 
+
+         @* code for searchbar *@
+        $("#ResourceListSearch").on("input", function () {
+            setTimeout(function () {
+                loadResourceList(1, sortColumn, sortDirection);
+            }, 500); 
+        });
+
+         @* code for sorting column wise*@
+        $('#resourcelist-container').on('click','th i',function () {
+            var column = $(this).data('column');
+            var direction = $(this).data('direction');
+            
+            // Toggle sorting direction
+            if (direction === 'asc') {
+                $(this).data('direction', 'desc');
+                $(this).siblings('i').data('direction', 'asc');
+            } else {
+                $(this).data('direction', 'asc');
+                $(this).siblings('i').data('direction', 'desc');
+            }
+                
+            // Set sorting parameters
+            sortColumn = column;
+            sortDirection = $(this).data('direction');
+            
+            loadResourceList(1, sortColumn, sortDirection); 
+        });
 
         // Edit resource get method partial view
         $('#resourcelist-container').on('click','.editResourceBtn', function () {
@@ -114,9 +151,10 @@
 
     @* pagination script start *@  
                 
-    function loadResourceList(page) {
+    function loadResourceList(page, sortColumn = 'Id' , sortDirection = 'asc') {
         //get table list
         var pageSize = $("#ordersPerPage").val();
+        var searchTerm = $("#ResourceListSearch").val().toLowerCase();
         $("#resourcelist-container").hide();
 
         showLoader();
@@ -125,7 +163,7 @@
             $.ajax({
                 url: "/Resource/ResourceList",
                 type: 'GET',
-                data: { page :page, pageSize:pageSize },
+                data: { page :page, pageSize:pageSize , search: searchTerm, sortColumn: sortColumn, sortDirection: sortDirection },
                 success: function (data) {
                     hideLoader();
                     $('#resourcelist-container').html(data);
@@ -145,12 +183,12 @@
 
     // Change Items Per Page
     function changeResourcelistPageSize(select) {
-        loadResourceList(1);
+        loadResourceList(1,sortColumn, sortDirection);
     }
 
     // Change Page
     function changeResourcePage(newPage) {
-        loadResourceList(newPage);
+        loadResourceList(newPage,sortColumn, sortDirection);
     }
 
     @* pagination script end *@

@@ -28,4 +28,17 @@ public class BookingService : IBookingService
     {
         return await _httpClient.GetFromJsonAsync<IEnumerable<BookingViewModel>>($"api/Booking/ResourceHistory?id={userId}");
     }
+
+    public async Task<int> GetTotalActiveUserCount()
+    {
+        var allActiveBookings = await _httpClient.GetFromJsonAsync<IEnumerable<BookingViewModel>>("api/Booking/ActiveBookings");
+
+        if (allActiveBookings == null)
+        {
+            return 0;
+        }
+
+        var distinctActiveUsers = allActiveBookings.Select(b => b.UserId).Distinct().Count();
+        return distinctActiveUsers;
+    }
 }
