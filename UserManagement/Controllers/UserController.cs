@@ -117,6 +117,5 @@ public class UserController : Controller
         var (success, message) = await _userApiService.DeleteUserAsync(id);
 
         return Json(new { success , message });
-        
     }
 }

@@ -23,7 +23,6 @@ public class AuthService: IAuthService
         var response = await _httpClient.PostAsync($"api/Account/ForgotPassword?email={email}&baseUrl={baseUrl}", null);
         var json = await response.Content.ReadFromJsonAsync<Dictionary<string, JsonElement>>();
 
-
         var token = json["token"].GetString();
         int userId = json["userId"].GetInt32(); 
         var message = json["message"].GetString();

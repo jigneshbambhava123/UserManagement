@@ -86,7 +86,9 @@ public class AccountController: Controller
         var jwtToken = handler.ReadJwtToken(content.Token);
 
         // ClaimsIdentity using the claims from the JWT
-        var claims = jwtToken.Claims; 
+        var claims = jwtToken.Claims.ToList();
+
+        claims.Add(new Claim("access_token", content.Token));
         var claimsIdentity = new ClaimsIdentity(
             claims, CookieAuthenticationDefaults.AuthenticationScheme);
 

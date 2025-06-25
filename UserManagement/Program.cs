@@ -34,6 +34,8 @@ builder.Services.AddScoped<IResourceService, ResourceService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddHostedService<ExpiredBookingsService>();
 
+builder.Services.AddHttpContextAccessor(); 
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())

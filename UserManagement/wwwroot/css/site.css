@@ -29,7 +29,7 @@ body {
 }
 
 /* Navbar links */
-.navbar-nav .nav-link {
+.nav .nav-link {
     border: 1px solid transparent;
     border-radius: 8px;
     padding: 6px 14px;
@@ -40,22 +40,22 @@ body {
     color: #333;
     transition: color 0.3s ease;
 }
-.navbar-nav .nav-link.active {
+.nav .nav-link.active {
     background-color: white !important;
     color: #0066a7 !important;
     font-weight: 600;
     box-shadow: 0 0 8px rgba(0, 102, 167, 0.3);
 }
 
-.navbar-nav .nav-link:hover,
-.navbar-nav .nav-link:focus {
+.nav .nav-link:hover,
+.nav .nav-link:focus {
      background-color: rgba(255, 255, 255, 0.15);
     border-color: #ffffff33;
     text-decoration: none;
 }
 
 /* Logout button styling */
-.navbar-nav .btn-outline-primary {
+.nav .btn-outline-primary {
     border-radius: 25px;
     font-weight: 600;
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -64,7 +64,7 @@ body {
     width: 70px;
 }
 
-.navbar-nav .btn-outline-primary:hover {
+.nav .btn-outline-primary:hover {
     background-color: #004974;
     color: white !important;
     border-color: #004974;
@@ -74,7 +74,7 @@ body {
 
 /* Responsive adjustments */
 @media (max-width: 576px) {
-    .navbar-nav {
+    .nav {
         margin-top: 1rem;
     }
 }

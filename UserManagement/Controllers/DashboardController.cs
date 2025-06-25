@@ -16,13 +16,13 @@ public class DashboardController : Controller
         _bookingService = bookingService;
     }
 
-   [Authorize]
+    [Authorize]
     public IActionResult Index()
     {
         return View();
     }
 
-    public async Task<IActionResult> GetActiveUserCountJson()
+    public async Task<IActionResult> GetActiveUserCount()
     {
         var count = await _bookingService.GetTotalActiveUserCount();
         return Json(count);

@@ -46,27 +46,27 @@
             </button>
             
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav d-flex flex-row justify-content-end mt-2">
-                    <li class="nav-item">
+                <ul class="nav d-sm-flex mt-2">
+                    <li class="nav-item mb-2">
                         <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Dashboard" ? "active" : "")"
                         asp-controller="Dashboard" asp-action="Index">Dashboard</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item mb-2">
                         <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "User" ? "active" : "")"
                         asp-controller="User" asp-action="Index">User</a>
                     </li>
                     @if (User.IsInRole("Admin"))
                     {
-                        <li class="nav-item">
+                        <li class="nav-item mb-2">
                             <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Resource" ? "active" : "")"
                             asp-controller="Resource" asp-action="Index">Resource Management</a>
                         </li>
                     }
-                    <li class="nav-item">
+                    <li class="nav-item mb-2">
                         <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Booking" ? "active" : "")"
                         asp-controller="Booking" asp-action="Index">My Resources</a>
                     </li>
-                    <li class="nav-item1">
+                    <li class="nav-item1 mb-2">
                         <a class="nav-link1 btn logoutbtn d-flex justify-content-center align-items-center"
                         data-bs-toggle="modal" data-bs-target="#logout" role="button" >
                             Logout

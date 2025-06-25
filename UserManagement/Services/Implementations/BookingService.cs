@@ -1,37 +1,39 @@
+using UserManagement.Services.Base;
 using UserManagement.Services.Interfaces;
 using UserManagement.ViewModels;
 
 namespace UserManagement.Services.Implementations;
 
-public class BookingService : IBookingService
+public class BookingService :  BaseService, IBookingService
 {
-    private readonly HttpClient _httpClient;
-
-    public BookingService(IHttpClientFactory httpClientFactory)
-    {
-        _httpClient = httpClientFactory.CreateClient("ApiClient");
-    }
+    public BookingService(IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
+    : base(httpClientFactory.CreateClient("ApiClient"), httpContextAccessor) 
+    {}
 
     public async Task<(bool Success, string Message)> BookResourceAsync(BookingViewModel bookingViewModel)
     {
-        var response = await _httpClient.PostAsJsonAsync("api/Booking", bookingViewModel);
+        SetAuthorizationHeader();
+        var response = await HttpClient.PostAsJsonAsync("api/Booking", bookingViewModel);
         var message = await response.Content.ReadAsStringAsync();
         return (response.IsSuccessStatusCode, message);
     }
 
     public async Task<IEnumerable<BookingViewModel>> GetActiveBookingsAsync(int userId)
     {
-        return await _httpClient.GetFromJsonAsync<IEnumerable<BookingViewModel>>($"api/Booking/ActiveBookings?id={userId}");
+        SetAuthorizationHeader();
+        return await HttpClient.GetFromJsonAsync<IEnumerable<BookingViewModel>>($"api/Booking/ActiveBookings?id={userId}");
     }
 
     public async Task<IEnumerable<BookingViewModel>> GetBookingHistoryAsync(int userId)
     {
-        return await _httpClient.GetFromJsonAsync<IEnumerable<BookingViewModel>>($"api/Booking/ResourceHistory?id={userId}");
+        SetAuthorizationHeader();
+        return await HttpClient.GetFromJsonAsync<IEnumerable<BookingViewModel>>($"api/Booking/ResourceHistory?id={userId}");
     }
 
     public async Task<int> GetTotalActiveUserCount()
     {
-        var allActiveBookings = await _httpClient.GetFromJsonAsync<IEnumerable<BookingViewModel>>("api/Booking/ActiveBookings");
+        SetAuthorizationHeader();
+        var allActiveBookings = await HttpClient.GetFromJsonAsync<IEnumerable<BookingViewModel>>("api/Booking/ActiveBookings");
 
         if (allActiveBookings == null)
         {

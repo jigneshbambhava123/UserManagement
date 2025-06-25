@@ -1,31 +1,32 @@
 using System.Text.Json;
+using UserManagement.Services.Base;
 using UserManagement.Services.Interfaces;
 using UserManagement.ViewModels;
 
 namespace UserManagement.Services.Implementations;
 
-public class UserApiService : IUserApiService
+public class UserApiService :  BaseService, IUserApiService
 {
-    private readonly HttpClient _httpClient;
-
-    public UserApiService(IHttpClientFactory httpClientFactory)
-    {
-        _httpClient = httpClientFactory.CreateClient("ApiClient");
-    }
+    public UserApiService(IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
+    : base(httpClientFactory.CreateClient("ApiClient"), httpContextAccessor) 
+    {}
 
     public async Task<IEnumerable<UserViewModel>> GetAllUsersAsync()
     {
-        return await _httpClient.GetFromJsonAsync<IEnumerable<UserViewModel>>("api/User");
+        SetAuthorizationHeader();
+        return await HttpClient.GetFromJsonAsync<IEnumerable<UserViewModel>>("api/User");
     }
 
     public async Task<UserViewModel> GetUserByIdAsync(int id)
     {
-        return await _httpClient.GetFromJsonAsync<UserViewModel>($"api/User/{id}");
+        SetAuthorizationHeader();
+        return await HttpClient.GetFromJsonAsync<UserViewModel>($"api/User/{id}");
     }
 
     public async Task<(bool Success, string Message)> CreateUserAsync(UserViewModel user)
     {
-        var response = await _httpClient.PostAsJsonAsync("api/User", user);
+        SetAuthorizationHeader();
+        var response = await HttpClient.PostAsJsonAsync("api/User", user);
         var message = await response.Content.ReadAsStringAsync();
 
         return (response.IsSuccessStatusCode, message);
@@ -33,7 +34,8 @@ public class UserApiService : IUserApiService
 
     public async Task<(bool Success, string Message)> UpdateUserAsync(UserViewModel user)
     {
-        var response = await _httpClient.PutAsJsonAsync("api/User", user);
+        SetAuthorizationHeader();
+        var response = await HttpClient.PutAsJsonAsync("api/User", user);
         var message = await response.Content.ReadAsStringAsync();
 
         return (response.IsSuccessStatusCode, message);
@@ -41,7 +43,8 @@ public class UserApiService : IUserApiService
 
     public async Task<(bool Success, string Message)> DeleteUserAsync(int id)
     {
-        var response = await _httpClient.DeleteAsync($"api/User?id={id}");
+        SetAuthorizationHeader();
+        var response = await HttpClient.DeleteAsync($"api/User?id={id}");
         var message = await response.Content.ReadAsStringAsync();
         return (response.IsSuccessStatusCode, message);
     }
