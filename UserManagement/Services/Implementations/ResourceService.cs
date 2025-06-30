@@ -1,48 +1,70 @@
 using UserManagement.Services.Base;
 using UserManagement.Services.Interfaces;
 using UserManagement.ViewModels;
+using System.Net.Http.Json; 
+using System.Text.Json;     
+using System.Net;         
+using System.Collections.Generic; 
 
 namespace UserManagement.Services.Implementations;
 
-public class ResourceService :  BaseService, IResourceService
+public class ResourceService : BaseService, IResourceService 
 {
     public ResourceService(IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
-    : base(httpClientFactory.CreateClient("ApiClient"), httpContextAccessor) 
+    : base(httpClientFactory.CreateClient("ApiClient"), httpContextAccessor)
     {}
 
     public async Task<IEnumerable<ResourceViewModel>> GetAllResourcesAsync()
     {
         SetAuthorizationHeader();
-        return await HttpClient.GetFromJsonAsync<IEnumerable<ResourceViewModel>>("api/Resource");
+        HttpResponseMessage response = await HttpClient.GetAsync("api/Resource");
+        await HandleApiVoidResponse(response); 
+
+        var resources = await response.Content.ReadFromJsonAsync<IEnumerable<ResourceViewModel>>();
+        return resources ?? Enumerable.Empty<ResourceViewModel>();
     }
 
     public async Task<ResourceViewModel?> GetResourceByIdAsync(int id)
     {
         SetAuthorizationHeader();
-        return await HttpClient.GetFromJsonAsync<ResourceViewModel>($"api/Resource/{id}");
+        HttpResponseMessage response = await HttpClient.GetAsync($"api/Resource/{id}");
+
+        if (response.StatusCode == HttpStatusCode.NotFound)
+        {
+            return null;
+        }
+
+        await HandleApiVoidResponse(response); 
+
+        return await response.Content.ReadFromJsonAsync<ResourceViewModel>();
     }
-    
+
     public async Task<(bool Success, string Message)> CreateResourceAsync(ResourceViewModel resource)
     {
         SetAuthorizationHeader();
         var response = await HttpClient.PostAsJsonAsync("api/Resource", resource);
-        var message = await response.Content.ReadAsStringAsync();
-        return (response.IsSuccessStatusCode, message);
+        return await HandleApiTupleResponse(response);
     }
 
     public async Task<(bool Success, string Message)> UpdateResourceAsync(ResourceViewModel resource)
     {
         SetAuthorizationHeader();
         var response = await HttpClient.PutAsJsonAsync("api/Resource", resource);
-        var message = await response.Content.ReadAsStringAsync();
-        return (response.IsSuccessStatusCode, message);
+        return await HandleApiTupleResponse(response);
+    }
+
+    public async Task<(bool Success, string Message)> UpdateResourceFieldAsync(int id, Dictionary<string, string> updateData)
+    {
+        SetAuthorizationHeader();
+        var content = JsonContent.Create(updateData);
+        var response = await HttpClient.PatchAsync($"api/Resource?id={id}", content);
+        return await HandleApiTupleResponse(response); 
     }
 
     public async Task<(bool Success, string Message)> DeleteResourceAsync(int id)
     {
         SetAuthorizationHeader();
         var response = await HttpClient.DeleteAsync($"api/Resource?id={id}");
-        var message = await response.Content.ReadAsStringAsync();
-        return (response.IsSuccessStatusCode, message);
+        return await HandleApiTupleResponse(response);
     }
 }

@@ -20,29 +20,50 @@ html {
 body {
   margin-bottom: 60px;
   background-color: #ffffff !important;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
 }
 
 /* Navbar brand style */
 .navbar-brand {
     font-size: 1.5rem;
     letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: white !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Navbar links */
 .nav .nav-link {
+    letter-spacing: 0.08em;
     border: 1px solid transparent;
-    border-radius: 8px;
+    border-radius: 25px;
     padding: 6px 14px;
     margin-right: 8px;
     color: white !important;
-    transition: all 0.3s ease;
-    font-weight: 500;   
-    color: #333;
-    transition: color 0.3s ease;
+    transition: all  0.4s cubic-bezier(0.25, 0.8, 0.25, 1);;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
 }
+.nav .nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(170, 218, 224, 0.3), transparent);
+    transition: all 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.nav .nav-link:hover::before {
+    right: -100%;
+}
+
 .nav .nav-link.active {
     background-color: white !important;
-    color: #0066a7 !important;
+    color: #4fa1cf !important;
     font-weight: 600;
     box-shadow: 0 0 8px rgba(0, 102, 167, 0.3);
 }
@@ -50,8 +71,9 @@ body {
 .nav .nav-link:hover,
 .nav .nav-link:focus {
      background-color: rgba(255, 255, 255, 0.15);
-    border-color: #ffffff33;
+    border-color: #ffffff66;
     text-decoration: none;
+    transform: translateY(-3px);
 }
 
 /* Logout button styling */
@@ -79,6 +101,157 @@ body {
     }
 }
 
+
+
+/* Page heading */
+.dashboard {
+    color: #7ea9c2 !important;
+    font-weight: 700;
+    font-size: 1.8rem;
+    letter-spacing: 0.05em;
+}
+
+/* Create button styling */
+.btn-primary {
+    background-color: #93d3f6 !important;
+    border: 1px solid #e6f4fc !important;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    min-width: 100px;
+    margin: 0 10px;
+    font-weight: 600 !important;
+}
+
+.btn-primary:hover {
+    border: 2px solid #9bc1d8 !important;
+    color: #4fa1cf !important;
+    background-color: #fff !important;
+    transform: scale(1.05);
+}
+
+.btn-danger:hover{
+    border: 2px solid #9bc1d8 !important;
+    color: #4fa1cf !important;
+    background-color: #fff !important;
+    transform: scale(1.05);
+}
+
+.btn-outline-primary {
+    --bs-btn-color: #93d3f6 !important;
+    --bs-btn-border-color: #93d3f6 !important;
+    --bs-btn-hover-border-color: #eef1f3 !important;
+    --bs-btn-hover-color: #8f7676;
+    --bs-btn-hover-bg: #93d3f6 !important;
+}
+
+.logoutbtn {
+    color: #fff !important;
+    background-color: #93d3f6 !important;
+    border: 2px solid #e6f4fc !important;
+    border-radius: 25px;
+    font-weight: 600;
+    padding: 8px 18px;
+    min-width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.logoutbtn:hover {
+    color: #4fa1cf !important;
+    background-color: #fff !important;
+    border-color: #c6dae7 !important;
+    transform: scale(1.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) { 
+    .navbar-collapse {
+        background-color: #cae7f8; 
+        margin-top: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav .nav-link {
+        margin-right: 10px;
+        margin-left: 5px;
+        margin-top: 0px;
+        text-align: center;
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    .nav .nav-link.active {
+        background-color: white !important;
+        color: #0066a7 !important;
+    }
+    .logoutbtn {
+        margin-left: 10px;
+        width: 100%;
+    }
+}
+
+/* Modal specific styles */
+.modal-content {
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden; 
+}
+
+.modal-header {
+    background-color: #c5dee4; 
+    color: white; 
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #bcd7e2; 
+    border-top-left-radius: 14px; 
+    border-top-right-radius: 14px; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header .modal-title {
+    font-size: 1.4rem; 
+    font-weight: 700; 
+    letter-spacing: 0.02em; 
+    margin-bottom: 0;
+    color: white; /
+}
+
+/* Ensure the modal content also has border-radius */
+.modal-content {
+    border-radius: 15px; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.modal-body {
+    padding: 30px;
+    text-align: center;
+    font-size: 1.0rem;
+    color: #555;
+}
+
+.modal-body img {
+    height: 60px; /* Larger icon */
+    width: auto;
+    margin-bottom: 15px;
+    animation: bounceIn 0.8s forwards; 
+}
+
+.modal-footer {
+    justify-content: center;
+    padding: 20px 30px;
+    background-color: #f0f0f0; 
+    border-top: 1px solid #e9e9e9;
+}
+
+.modal-footer .btn {
+    min-width: 100px;
+    margin: 0 10px;
+    font-weight: 600;
+}
+
 /* loader css */
 .loader-overlay {
   background: rgba(255, 255, 255, 0.8);
@@ -87,44 +260,6 @@ body {
   justify-content: center;
   align-items: center;
   z-index: 1050; /* Above modal */
-}
-
-/* Page heading */
-.dashboard {
-    font-weight: 700;
-    font-size: 1.8rem;
-    letter-spacing: 0.05em;
-}
-
-/* Create button styling */
-.btn-primary {
-    background-color: #0066a7 !important;
-    border-color: #005488 !important;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-.btn-primary:hover {
-    background-color: #004974 !important;
-    border-color: #003755 !important;
-}
-
-.btn-outline-primary {
-    --bs-btn-color: #004974 !important;
-    --bs-btn-border-color: #004974 !important;
-    --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #004974 !important;
-}
-
-.logoutbtn {
-    color: #fff !important;
-    background-color: #004974 !important;
-    border-color: #004974 !important;
-}
-
-.logoutbtn:hover {
-    color: #004974 !important;
-    background-color: #fff !important;
-    border-color: #004974 !important;
 }
 
 /* Table styling */
@@ -145,7 +280,7 @@ table.table td {
 }
 
 table.table thead th {
-    background-color: #0066a7;
+    background-color: #cae7f8 ;
     color: white;
     font-weight: 600;
     text-align: left;
@@ -299,4 +434,66 @@ table.table .btn-danger:hover {
 
 canvas {
     display: block;
+}
+
+/* MY RESOURCEPAGE CSS */
+.nav .nav-linkK {
+    border: 2px solid white;
+    background-color: white;
+    margin-right: 8px;
+    color: white !important;
+    transition: all  0.4s cubic-bezier(0.25, 0.8, 0.25, 1);;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Resource Management CSS */
+.table td, .table th {
+    vertical-align: middle !important;
+}
+
+.form-control-sm {
+    font-size: 0.875rem !important;
+    padding: 0.25rem 0.5rem !important;
+}
+
+textarea.form-control {
+    resize: none !important;
+}
+
+.editable-cell {
+    cursor: pointer;
+    position: relative; 
+    padding: 0.5rem !important; 
+}
+
+.editable-cell .edit-mode {
+    display: none;
+    width: 100%;
+    box-sizing: border-box; 
+}
+
+.editable-cell .display-mode {
+    display: block;
+    min-height: calc(0.875rem + 0.5rem * 2); 
+    line-height: normal; 
+    padding: 0.25rem 0.5rem; 
+}
+
+.editable-cell .edit-mode.form-control {
+    border: 1px solid #ced4da;
+    background-color: #fff;
+}
+
+.table-fixed-layout {
+    table-layout: fixed; 
+    width: 100%; 
+}
+
+.table-fixed-layout th,
+.table-fixed-layout td {
+     overflow: hidden; 
+    text-overflow: ellipsis; 
+     white-space: nowrap; 
 }

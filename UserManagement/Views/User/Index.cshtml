@@ -31,7 +31,7 @@
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
                 
-                <button type="button" class="btn  btn-light  " data-bs-dismiss="modal">NO</button>
+                <button type="button" class="btn  btn-outline-primary" data-bs-dismiss="modal">NO</button>
             </div>
         </div>
     </div>
@@ -53,7 +53,7 @@
         @if (User.IsInRole("Admin"))
         {
         <p>
-            <a href="@Url.Action("Create", "User")" class="btn btn-primary btn-sm" style="height: 50px;">+ Add User</a>
+            <a href="@Url.Action("Create", "User")" class="btn btn-primary btn-sm" style="height: 50px; display:flex; justify-content: center; align-items: center;">+ Add User</a>
         </p>
         }
     </div>
@@ -100,11 +100,9 @@
         }, 500); 
 
         @* code for searchbar *@
-        $("#UserlistSearch").on("input", function () {
-            setTimeout(function () {
-                loadUserList(1, sortColumn, sortDirection);
-            }, 500); 
-        });
+        $("#UserlistSearch").on("input", debounce(function () {
+            loadUserList(1, sortColumn, sortDirection);
+        }, 500));
 
          @* code for sorting column wise*@
         $('#userlist-container').on('click','th i',function () {
@@ -192,6 +190,7 @@
                 success: function (data) {
                     hideLoader();
                     $('#userlist-container').html(data);
+                    highlightActiveArrow(); 
                 },
                 error: function () {
                     hideLoader();
@@ -205,6 +204,19 @@
             }); 
         }, 500);
     }
+
+   function highlightActiveArrow() {
+    $('#userlist-container').find('i[data-column]').removeClass('active-arrow');
+
+    if (sortDirection === "asc") {
+        // Highlight the DESC arrow if sortDirection is asc (you want to toggle highlight)
+        $(`#userlist-container i[data-column="${sortColumn}"][data-direction="desc"]`).addClass('active-arrow');
+    } else {
+        // Otherwise highlight the ASC arrow
+        $(`#userlist-container i[data-column="${sortColumn}"][data-direction="asc"]`).addClass('active-arrow');
+    }
+}
+
 
     // Change Items Per Page
     function changeUserlistPageSize(select) {

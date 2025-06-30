@@ -61,6 +61,11 @@ public class UserController : Controller
     public async Task<IActionResult> Edit(int id)
     {
         var user = await _userApiService.GetUserByIdAsync(id);
+         if (user == null)
+        {
+            TempData["error"] = $"User with ID {id} not found.";
+            return RedirectToAction("Index");
+        }
         return View(user);
     }
 

@@ -4,7 +4,12 @@
 @{
     ViewBag.Title = "My Resource";
 }
-
+<style>
+    .active-arrow {
+        color: black;
+        font-weight: bold;
+    }
+</style>
 <!-- book Resource Modal -->
 <div class="modal fade" id="bookResourceModal" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -45,27 +50,27 @@
             </div>
 
             <p>
-                <button data-bs-toggle="modal" data-bs-target="#bookResourceModal" class="btn btn-primary btn-sm" style="height: 50px;" onclick="populateBookResourceModal(this)">Book Resource</button>
+                <button data-bs-toggle="modal" data-bs-target="#bookResourceModal" class="btn btn-primary btn-sm" style="height: 50px;" onclick="populateBookResourceModal(this)">+ Book Resource</button>
             </p>
         </div>
     </div>
 </div>
 
-<div class="resourcehistory d-sm-flex justify-content-start mb-1 shadow-lg  bg-white rounded"
+<div class="resourcehistory d-sm-flex justify-content-start mb-1 shadow-sm  bg-white rounded"
     style="height: 44px; background-color: #FFFFFF; border-radius: 5px ; ">
     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="pills-resource-tab" type="button" role="tab" 
+            <button class="nav-linkK active" id="pills-resource-tab" type="button" role="tab" 
                 >
                 <div class="resource d-flex" style="width: 150px; border-bottom: 2px solid #0066a7;">
                     <i class="bi bi-list-task"
                         style="height: 25px; width: 25px; cursor: pointer; margin-top: 3px; color: #0066a7;"></i>
                     <div class="resource-text" style="color: #0066a7;">Active Resource</div>
-                </div>
+                </div>  
             </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="pills-history-tab" type="button" role="tab"
+            <button class="nav-linkK" id="pills-history-tab" type="button" role="tab"
                 >
                 <div class="history d-flex" style="width: 150px !important; ">
                     <i class="bi bi-clock-history"
@@ -130,17 +135,21 @@
         }, 1000); 
 
         @* code for searchbar *@
-        $("#ResourceListSearch").on("input", function () {
-            setTimeout(function () {
+        $("#ResourceListSearch").on("input", debounce(function () {
+            if (resourcetab) {
                 loadResourceList(1, sortColumn, sortDirection);
+            }else{
                 loadBookingHistoryList(1, sortColumn, sortDirection); 
-            }, 500); 
-        });
+            }
+        }, 500));
 
         @* code for statusFilter and timeFilter*@
-        $("#timeFilter").on("change input", function () {
-            loadResourceList(1, sortColumn, sortDirection);
-            loadBookingHistoryList(1, sortColumn, sortDirection); 
+        $(document).on("change", "#timeFilter", function () {
+            if (resourcetab) {
+                loadResourceList(1, sortColumn, sortDirection);
+            } else {
+                loadBookingHistoryList(1, sortColumn, sortDirection);
+            }
         });
 
          @* code for sorting column wise*@
@@ -185,7 +194,6 @@
             loadBookingHistoryList(1, sortColumn, sortDirection); 
         });
 
-
         setTimeout(function() {
             $.ajax({
                 url: "/Booking/BookingHistory",
@@ -206,11 +214,11 @@
             });
         }, 500);
         
-        $('.nav-link').click(function () {
-            $('#pills-tab .nav-link').removeClass('active');
-            $('#pills-tab .nav-link').find('.resource, .history').css('color', 'black');
-            $('#pills-tab .nav-link').find('.resource-text, .history-text').css('color', 'black');
-            $('#pills-tab .nav-link').find('.resource, .history').css('border-bottom', 'none');
+        $('.nav-linkK').click(function () {
+            $('#pills-tab .nav-linkK').removeClass('active');
+            $('#pills-tab .nav-linkK').find('.resource, .history').css('color', 'black');
+            $('#pills-tab .nav-linkK').find('.resource-text, .history-text').css('color', 'black');
+            $('#pills-tab .nav-linkK').find('.resource, .history').css('border-bottom', 'none');
 
             $(this).addClass('active');
             $(this).find('.resource, .history').css('color', '#0066a7');
@@ -225,14 +233,12 @@
             resourcetab=true;
             $("#bookingHistorylist-container").hide();
             $("#resourcelist-container").hide();
-            showLoader();
-            setTimeout(function () {
-                hideLoader();
-                setTimeout(function () {
+            
+                    loadResourceList(1, sortColumn, sortDirection);
                     switchTab('pills-resource', 'pills-resource-tab');
+                setTimeout(function () {
                     $("#resourcelist-container").show();
                 }, 500); 
-            }, 1000); 
         });
 
         // Override for History tab
@@ -240,20 +246,38 @@
             $("#resourcelist-container").hide();
             $("#bookingHistorylist-container").hide();
             resourcetab =false;
-            showLoader();
-            setTimeout(function () {
-                hideLoader();
-                setTimeout(function () {
+                    loadBookingHistoryList(1, sortColumn, sortDirection);
                     switchTab('pills-history', 'pills-history-tab');
+                setTimeout(function () {
                     $("#bookingHistorylist-container").show();
                 }, 500);
-            }, 1000);
         });
 
     });
 
+    function highlightActiveArrowResourceList() {
+        $('#resourcelist-container').find('i[data-column]').removeClass('active-arrow');
+
+        if (sortDirection === "asc") {
+            $(`#resourcelist-container i[data-column="${sortColumn}"][data-direction="desc"]`).addClass('active-arrow');
+        } else {
+            $(`#resourcelist-container i[data-column="${sortColumn}"][data-direction="asc"]`).addClass('active-arrow');
+        }
+    }
+
+    function highlightActiveArrowBookingHistory() {
+        $('#bookingHistorylist-container').find('i[data-column]').removeClass('active-arrow');
+
+        if (sortDirection === "asc") {
+            $(`#bookingHistorylist-container i[data-column="${sortColumn}"][data-direction="desc"]`).addClass('active-arrow');
+        } else {
+            $(`#bookingHistorylist-container i[data-column="${sortColumn}"][data-direction="asc"]`).addClass('active-arrow');
+        }
+    }
+
+
     function switchTab(tabIdToShow, tabButtonId) {
-        $('#pills-tab .nav-link').removeClass('active');
+        $('#pills-tab .nav-linkK').removeClass('active');
         $('.tab-pane').removeClass('show active');
 
         $(`#${tabButtonId}`).addClass('active');
@@ -296,6 +320,7 @@
                 success: function (data) {
                     hideLoader();
                     $('#resourcelist-container').html(data);
+                    highlightActiveArrowResourceList();
                 },
                 error: function () {
                     hideLoader();
@@ -307,7 +332,7 @@
                     }, 500); 
                 }
             }); 
-        }, 1000);
+        }, 300);
 
     }
 
@@ -346,6 +371,7 @@
                 success: function (data) {
                     hideLoader();
                     $('#bookingHistorylist-container').html(data);
+                    highlightActiveArrowBookingHistory();
                 },
                 error: function () {
                     hideLoader();
@@ -357,7 +383,7 @@
                     }, 500); 
                 }
             }); 
-        }, 1000);
+        }, 300);
     }
 
     // Change Items Per Page

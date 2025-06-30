@@ -19,6 +19,10 @@
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Logout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
                 <div class="modal-body"
                     style="display: flex;flex-direction: column;justify-content: center;align-items: center;">
                     <img style="height: 36px; width: 51px;" src="~/images/toppng.com-warning-icon-2400x2400.png"
@@ -29,14 +33,14 @@
                 </div>
                 <div class="modal-footer">
                     <a type="button" class="btn btn-primary" asp-controller="Account" asp-action="Logout">Yes</a>
-                    <button type="button" class="btn  btn-light  " data-bs-dismiss="modal">NO</button>
+                    <button type="button" class="btn  btn-outline-primary  " data-bs-dismiss="modal">NO</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <header style="position: sticky; top: 0;">
-        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm ps-3 pe-3" style="background-color: #0066a7 !important;">
+    <header style="position: sticky; top: 0; z-index: 1000;">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm ps-3 pe-3" style="background-color: #cae7f8 !important;">
             <a class="navbar-brand fw-bold me-4" asp-area="" asp-controller="Dashboard" asp-action="Index">
                 <h3 style="color: white;">User Management</h3>
             </a>
@@ -48,26 +52,26 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="nav d-sm-flex mt-2">
                     <li class="nav-item mb-2">
-                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Dashboard" ? "active" : "")"
+                        <a class="nav-link fw-bold @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Dashboard" ? "active" : "")"
                         asp-controller="Dashboard" asp-action="Index">Dashboard</a>
                     </li>
                     <li class="nav-item mb-2">
-                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "User" ? "active" : "")"
+                        <a class="nav-link fw-bold @(ViewContext.RouteData.Values["Controller"]?.ToString() == "User" ? "active" : "")"
                         asp-controller="User" asp-action="Index">User</a>
                     </li>
                     @if (User.IsInRole("Admin"))
                     {
                         <li class="nav-item mb-2">
-                            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Resource" ? "active" : "")"
+                            <a class="nav-link fw-bold @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Resource" ? "active" : "")"
                             asp-controller="Resource" asp-action="Index">Resource Management</a>
                         </li>
                     }
                     <li class="nav-item mb-2">
-                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Booking" ? "active" : "")"
+                        <a class="nav-link fw-bold @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Booking" ? "active" : "")"
                         asp-controller="Booking" asp-action="Index">My Resources</a>
                     </li>
                     <li class="nav-item1 mb-2">
-                        <a class="nav-link1 btn logoutbtn d-flex justify-content-center align-items-center"
+                        <a class="nav-link1 fw-bold btn logoutbtn d-flex justify-content-center align-items-center"
                         data-bs-toggle="modal" data-bs-target="#logout" role="button" >
                             Logout
                         </a>
@@ -103,6 +107,34 @@
         function hideLoader() {
             $('#loader').fadeOut(150);
         }
+        
+        function debounce(func, delay) {
+            let timeoutId;
+            return function(...args) {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => {
+                    func.apply(this, args);
+                }, delay);
+            };
+        }
+
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

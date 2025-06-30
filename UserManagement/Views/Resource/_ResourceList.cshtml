@@ -1,7 +1,12 @@
 @model UserManagement.ViewModels.PaginatedList<UserManagement.ViewModels.ResourceViewModel>
 @using Microsoft.AspNetCore.Authorization
 @inject IAuthorizationService AuthorizationService
-
+<style>
+   .active-arrow {
+        color: black; /* Blue color for active arrow */
+        font-weight: bold;
+    }
+</style>
 <!-- edit Resource Modal -->
 <div class="modal fade" id="editResourceModal" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -24,7 +29,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete Conformation</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Delete Confirmation</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body"
@@ -32,7 +37,7 @@
                 <img style="height: 36px; width: 51px;" src="~/images/toppng.com-warning-icon-2400x2400.png"
                     alt="">
                 <div class="form">
-                    Are you sure You Want to delete this Resource?
+                    Are you sure you Want to delete this Resource?
                 </div>
             </div>
             <div class="modal-footer">
@@ -42,60 +47,84 @@
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
                 
-                <button type="button" class="btn  btn-light  " data-bs-dismiss="modal">NO</button>
+                <button type="button" class="btn  btn-outline-primary" data-bs-dismiss="modal">NO</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="table-responsive shadow-lg  bg-white rounded p-3">
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Name
-                    <i class="bi bi-arrow-up" data-column="Name" data-direction="asc"></i>
-                    <i class="bi bi-arrow-down" data-column="Name" data-direction="desc"></i>
-                </th>
-                <th>Description</th>
-                <th>Quantity
-                    <i class="bi bi-arrow-up" data-column="Quantity" data-direction="asc"></i>
-                    <i class="bi bi-arrow-down" data-column="Quantity" data-direction="desc"></i>
-                </th>
-                <th>Booked Quantity</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.Items.Any())
-            {
+<div class="table-responsive shadow  bg-white rounded p-3">
+     <table class="table table-bordered table-striped align-middle ">@*table-fixed-layout *@
+    <thead>
+        <tr>
+            <th style="white-space: nowrap;">
+                <div class="d-flex align-items-center justify-content-between">
+                    <span>Name</span>
+                    <span class="d-flex ms-1">
+                        <i class="bi bi-arrow-up" data-column="Name" data-direction="asc"></i>
+                        <i class="bi bi-arrow-down" data-column="Name" data-direction="desc"></i>
+                    </span>
+                </div>
+            </th>
+            <th style="white-space: nowrap;">Description</th>
+            <th style="white-space: nowrap;">
+                <div class="d-flex align-items-center justify-content-between">
+                    <span>Quantity</span>
+                    <span class="d-flex ms-1">
+                        <i class="bi bi-arrow-up" data-column="Quantity" data-direction="asc"></i>
+                        <i class="bi bi-arrow-down" data-column="Quantity" data-direction="desc"></i>
+                    </span>
+                </div>
+            </th>
+            <th style="white-space: nowrap;">Booked Quantity</th>
+            <th style="white-space: nowrap;">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Items.Any())
+        {
             @foreach (var resource in Model.Items)
             {
                 <tr>
-                    <td>@resource.Name</td>
-                    <td>@resource.Description</td>
-                    <td>@resource.Quantity</td>
+                    <td class="editable-cell" data-field="Name" data-id="@resource.Id">
+                        <span class="display-mode">@resource.Name</span>
+                        <input type="text" class="edit-mode form-control form-control-sm" value="@resource.Name" style="display: none;" />
+                    </td>
+                    
+                    <td class="editable-cell" data-field="Description" data-id="@resource.Id">
+                        <span class="display-mode">@resource.Description</span>
+                        <textarea class="edit-mode form-control form-control-sm" rows="1" style="display: none;">@resource.Description</textarea>
+                    </td>
+
+                    <td class="editable-cell" data-field="Quantity" data-id="@resource.Id">
+                        <span class="display-mode">@resource.Quantity</span>
+                        <input type="number" class="edit-mode form-control form-control-sm" value="@resource.Quantity" style="display: none;" />
+                    </td>
+
                     <td>@resource.UsedQuantity</td>
+                    
                     @if (User.IsInRole("Admin"))
                     {
-                    <td class="d-flex">
-                        <i class="bi bi-pencil btn btn-sm btn-warning mb-2 me-2 mt-2 editResourceBtn" style="color: black;" data-id="@resource.Id" data-bs-toggle="modal" data-bs-target="#editResourceModal"></i>
-                        <div class="mt-2">|</div>
-                        <i class="bi bi-trash btn btn-danger btn-sm mb-2 mt-2 ms-2" data-bs-toggle="modal" data-bs-target="#deleteResourceModal" data-id="@resource.Id"></i>
-                    </td>
+                        <td class="d-flex justify-content-center align-items-center h-100">
+                            <i class="bi bi-pencil btn btn-sm btn-warning me-2 editResourceBtn" style="color: black;" data-id="@resource.Id" data-bs-toggle="modal" data-bs-target="#editResourceModal"></i>
+                            <i class="bi bi-trash btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteResourceModal" data-id="@resource.Id"></i>
+                        </td>
                     }
                 </tr>
             }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="5"><div class="alert text-center mt-3">
-                    No records found.
-                </div></td>
-                </tr>
-            }
-        </tbody>
-    </table>
+        }
+        else
+        {
+            <tr>
+                <td colspan="5">
+                    <div class="alert text-center mt-3">
+                        No records found.
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
      <!-- Pagination Controls -->
     <div class="d-sm-flex justify-content-end me-3 mt-3">

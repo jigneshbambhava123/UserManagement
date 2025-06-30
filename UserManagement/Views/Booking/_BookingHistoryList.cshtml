@@ -1,24 +1,44 @@
 @model UserManagement.ViewModels.PaginatedList<UserManagement.ViewModels.BookingViewModel>
 
-<div class="table-responsive mt-3 shadow-lg  bg-white rounded p-3">
+<div class="table-responsive mt-3 shadow  bg-white rounded p-3">
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>Name
-                    <i class="bi bi-arrow-up" data-column="Name" data-direction="asc"></i>
-                    <i class="bi bi-arrow-down" data-column="Name" data-direction="desc"></i>
+                <th>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>Name</span>
+                        <span class="d-flex ms-1">
+                            <i class="bi bi-arrow-up" data-column="Name" data-direction="asc"></i>
+                            <i class="bi bi-arrow-down" data-column="Name" data-direction="desc"></i>
+                        </span>
+                    </div>
                 </th>
-                <th>From Date
-                    <i class="bi bi-arrow-up" data-column="FromDate" data-direction="asc"></i>
-                    <i class="bi bi-arrow-down" data-column="FromDate" data-direction="desc"></i>
+                <th style="white-space: nowrap;">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>From Date</span>
+                        <span class="d-flex ms-1">
+                            <i class="bi bi-arrow-up" data-column="FromDate" data-direction="asc"></i>
+                            <i class="bi bi-arrow-down" data-column="FromDate" data-direction="desc"></i>
+                        </span>
+                    </div>
                 </th>
-                <th>To Date
-                    <i class="bi bi-arrow-up" data-column="ToDate" data-direction="asc"></i>
-                    <i class="bi bi-arrow-down" data-column="ToDate" data-direction="desc"></i>
+                <th style="white-space: nowrap;">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>To Date</span>
+                        <span class="d-flex ms-1">
+                            <i class="bi bi-arrow-up" data-column="ToDate" data-direction="asc"></i>
+                            <i class="bi bi-arrow-down" data-column="ToDate" data-direction="desc"></i>
+                        </span>
+                    </div>
                 </th>
-                <th>Quantity
-                    <i class="bi bi-arrow-up" data-column="Quantity" data-direction="asc"></i>
-                    <i class="bi bi-arrow-down" data-column="Quantity" data-direction="desc"></i>
+                <th>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>Quantity</span>
+                        <span class="d-flex ms-1">
+                            <i class="bi bi-arrow-up" data-column="Quantity" data-direction="asc"></i>
+                            <i class="bi bi-arrow-down" data-column="Quantity" data-direction="desc"></i>
+                        </span>
+                    </div>
                 </th>
             </tr>
         </thead>

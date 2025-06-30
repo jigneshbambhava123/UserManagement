@@ -511,11 +511,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement\\UserManagement\\UserManagement.csproj",
+      "projectUniqueName": "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement8\\UserManagement\\UserManagement.csproj",
       "projectName": "UserManagement",
-      "projectPath": "c:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement\\UserManagement\\UserManagement.csproj",
+      "projectPath": "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement8\\UserManagement\\UserManagement.csproj",
       "packagesPath": "C:\\Users\\pctr48\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement\\UserManagement\\obj\\",
+      "outputPath": "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement8\\UserManagement\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\pctr48\\AppData\\Roaming\\NuGet\\NuGet.Config"

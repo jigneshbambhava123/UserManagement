@@ -8,5 +8,6 @@ public interface IResourceService
     Task<ResourceViewModel?> GetResourceByIdAsync(int id);
     Task<(bool Success, string Message)> CreateResourceAsync(ResourceViewModel resource);
     Task<(bool Success, string Message)> UpdateResourceAsync(ResourceViewModel resource);
+    Task<(bool Success, string Message)> UpdateResourceFieldAsync(int id, Dictionary<string, string> updateData);
     Task<(bool Success, string Message)> DeleteResourceAsync(int id);
 }

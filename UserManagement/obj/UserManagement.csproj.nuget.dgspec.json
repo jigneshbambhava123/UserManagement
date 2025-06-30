@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement\\usermanagement\\UserManagement.csproj": {}
+    "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement8\\usermanagement\\UserManagement.csproj": {}
   },
   "projects": {
-    "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement\\usermanagement\\UserManagement.csproj": {
+    "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement8\\usermanagement\\UserManagement.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement\\usermanagement\\UserManagement.csproj",
+        "projectUniqueName": "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement8\\usermanagement\\UserManagement.csproj",
         "projectName": "UserManagement",
-        "projectPath": "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement\\usermanagement\\UserManagement.csproj",
+        "projectPath": "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement8\\usermanagement\\UserManagement.csproj",
         "packagesPath": "C:\\Users\\pctr48\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement\\usermanagement\\obj\\",
+        "outputPath": "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement8\\usermanagement\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\pctr48\\AppData\\Roaming\\NuGet\\NuGet.Config"

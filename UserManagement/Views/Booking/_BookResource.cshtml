@@ -63,7 +63,6 @@
 
         connection.on("ReceiveQuantityUpdate", (resourceId, newAvailableQty) => {
             updatedQuantities[resourceId] = newAvailableQty;
-
             const option = document.querySelector(`select[name='ResourceId'] option[value='${resourceId}']`);
             if (option) {
                 option.setAttribute('data-qty', newAvailableQty);

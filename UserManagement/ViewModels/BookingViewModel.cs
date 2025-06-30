@@ -6,7 +6,7 @@ public class BookingViewModel
 {
     public int Id { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Resource is required.")]
     public int ResourceId { get; set; }
 
     public int UserId { get; set; }

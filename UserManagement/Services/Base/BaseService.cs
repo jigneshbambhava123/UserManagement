@@ -1,4 +1,5 @@
 using System.Net.Http.Headers;
+using System.Text.Json;
 
 namespace UserManagement.Services.Base;
 
@@ -24,6 +25,63 @@ public abstract class BaseService
         if (HttpClient.DefaultRequestHeaders.Authorization?.Parameter != token)
         {
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        }
+    }
+
+    protected async Task HandleApiVoidResponse(HttpResponseMessage response)
+    {
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorContent = await response.Content.ReadAsStringAsync();
+            string errorMessage = errorContent;
+
+            try
+            {
+                var apiError = JsonSerializer.Deserialize<ViewModels.ApiErrorResponse>(errorContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                if (apiError != null)
+                {
+                    if (!string.IsNullOrEmpty(apiError.Message))
+                    {
+                        errorMessage = apiError.Message;
+                    }
+                    else if (!string.IsNullOrEmpty(apiError.Details))
+                    {
+                        errorMessage = apiError.Details;
+                    }
+                }
+            }
+            catch (JsonException)
+            {
+            }
+            throw new HttpRequestException($"API call failed: {response.StatusCode} - {errorMessage}", null, response.StatusCode);
+        }
+    }
+
+    protected async Task<(bool Success, string Message)> HandleApiTupleResponse(HttpResponseMessage response)
+    {
+        if (response.IsSuccessStatusCode)
+        {
+            return (true, await response.Content.ReadAsStringAsync());
+        }
+        else
+        {
+            var errorContent = await response.Content.ReadAsStringAsync();
+            try
+            {
+                var apiError = JsonSerializer.Deserialize<ViewModels.ApiErrorResponse>(errorContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                if (apiError != null)
+                {
+                    if (!string.IsNullOrEmpty(apiError.Message))
+                    {
+                        return (false, apiError.Message);
+                    }
+                }
+                return (false, $"An API error occurred: {response.StatusCode} - {errorContent}");
+            }
+            catch (JsonException)
+            {
+                return (false, $"An unexpected error occurred: {response.StatusCode} - {errorContent}");
+            }
         }
     }
 }

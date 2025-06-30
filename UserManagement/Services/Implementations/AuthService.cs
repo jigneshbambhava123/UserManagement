@@ -47,4 +47,12 @@ public class AuthService: IAuthService
         return message;
     }
 
+    public async Task<(bool Success, string Message)> RegisterAsync(UserViewModel user)
+    {
+        var response = await _httpClient.PostAsJsonAsync("api/Account/Register", user);
+        var message = await response.Content.ReadAsStringAsync();
+
+        return (response.IsSuccessStatusCode, message);
+    }
+
 }

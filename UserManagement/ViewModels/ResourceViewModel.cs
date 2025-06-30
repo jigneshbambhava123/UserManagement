@@ -13,6 +13,7 @@ public class ResourceViewModel
     public string? Description { get; set; }
 
     [Required(ErrorMessage = "Quantity is required.")]
+    [Range(0, int.MaxValue, ErrorMessage = "Please enter a valid quantity of zero or more.")]
     public int Quantity { get; set; }
 
     public int? UsedQuantity { get; set; }

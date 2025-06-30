@@ -5,6 +5,7 @@
     ViewBag.Title = "Resource List";
 }
 
+
 <!-- Add Resource Modal -->
 <div class="modal fade" id="addResourceModal" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -83,11 +84,9 @@
         }, 500); 
 
          @* code for searchbar *@
-        $("#ResourceListSearch").on("input", function () {
-            setTimeout(function () {
-                loadResourceList(1, sortColumn, sortDirection);
-            }, 500); 
-        });
+        $("#ResourceListSearch").on("input", debounce(function () {
+            loadResourceList(1, sortColumn, sortDirection);
+        }, 500));
 
          @* code for sorting column wise*@
         $('#resourcelist-container').on('click','th i',function () {
@@ -126,12 +125,119 @@
             });
         });
 
+        // Activate edit mode on cell click
+        $('#resourcelist-container').on('click', '.editable-cell', function() {
+            var cell = $(this);
+            var displaySpan = cell.find('.display-mode');
+            var editInput = cell.find('.edit-mode');
+
+            editInput.data('original-value', editInput.val()); 
+
+            displaySpan.hide();
+            editInput.show().focus();
+        });
+
+         $('#resourcelist-container').on('blur', '.editable-cell .edit-mode', function() {
+            var editInput = $(this);
+            var cell = editInput.closest('.editable-cell');
+            var displaySpan = cell.find('.display-mode');
+            
+            editInput.hide();
+            displaySpan.show();
+        });
+
+        $('#resourcelist-container').on('change', '.editable-cell .edit-mode', function() {
+            var editInput = $(this);
+            var cell = editInput.closest('.editable-cell');
+            var displaySpan = cell.find('.display-mode'); 
+
+            const resourceId = cell.data('id');
+            const fieldName = cell.data('field'); 
+            const newValue = editInput.val().trim(); 
+
+            const originalValue = editInput.data('original-value').trim();
+
+            editInput.hide();
+            displaySpan.show();
+
+            let isValid = true;
+            let errorMessage = "";
+            
+            if(fieldName === "Name") {
+                if (newValue.length < 2 || newValue.length > 50) {
+                    errorMessage = "Name must be between 2 and 50 characters.";
+                    isValid = false;
+                } else {
+                    const regex = /^(?!.*[\x00-\x1F\x7F])[a-zA-Z0-9_]+(?: [a-zA-Z0-9_]+)*$/;
+                    if (!regex.test(newValue)) {
+                        errorMessage = "Name can only contain letters, numbers, underscores, and spaces. No leading/trailing spaces.";
+                        isValid = false;
+                    }
+                }
+            } else if(fieldName === "Quantity") {
+                if (isNaN(newValue) || parseInt(newValue) < 0) {
+                    errorMessage = "Please enter a valid quantity of zero or more.";
+                    isValid = false;
+                }
+            } 
+
+            if (!isValid) {
+                toastr.error(errorMessage);
+                displaySpan.text(originalValue); 
+                editInput.val(originalValue); 
+                return; 
+            }
+
+            if (newValue === originalValue) {
+                displaySpan.text(newValue); 
+                return; 
+            }
+
+            const dataToSend = {};
+            dataToSend[fieldName] = newValue;
+
+            $.ajax({
+                url: `/Resource/UpdateResourceField?id=${resourceId}`,
+                method: 'PATCH', 
+                contentType: 'application/json', 
+                data: JSON.stringify(dataToSend), 
+                headers: {
+                    'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() 
+                },
+                success: function (response) {
+                    if (response.success) {
+                        toastr.success(`${fieldName} updated successfully.`);
+                        displaySpan.text(newValue);
+                    } else {
+                        toastr.warning(response.message);
+                        displaySpan.text(originalValue); 
+                        editInput.val(originalValue); 
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(`AJAX Error updating ${fieldName}:`, status, error, xhr.responseText);
+                    toastr.error(`Failed to update ${fieldName}. Please try again.`);
+                    displaySpan.text(originalValue); 
+                    editInput.val(originalValue); 
+                }
+            });
+        });
+
         $('#resourcelist-container').on('click', '.bi-trash', function () {
             var resourceId = $(this).data('id');
 
             var deleteForm = $('#deleteResourceForm');
             deleteForm.attr('action', '/Resource/Delete/' + resourceId);
         });
+
+         @if(TempData["error"] != null)
+        {
+            <text>toastr.error('@TempData["error"]');</text>
+        }
+        @if(TempData["success"] != null)
+        {
+            <text>toastr.success('@TempData["success"]');</text>
+        }
         
     });
 
@@ -167,6 +273,7 @@
                 success: function (data) {
                     hideLoader();
                     $('#resourcelist-container').html(data);
+                     highlightActiveArrow(); 
                 },
                 error: function () {
                     hideLoader();
@@ -179,6 +286,16 @@
                 }
             }); 
         }, 500);
+    }
+
+    function highlightActiveArrow() {
+        $('#resourcelist-container').find('i[data-column]').removeClass('active-arrow');
+
+        if (sortDirection === "asc") {
+            $(`#resourcelist-container i[data-column="${sortColumn}"][data-direction="desc"]`).addClass('active-arrow');
+        } else {
+            $(`#resourcelist-container i[data-column="${sortColumn}"][data-direction="asc"]`).addClass('active-arrow');
+        }
     }
 
     // Change Items Per Page

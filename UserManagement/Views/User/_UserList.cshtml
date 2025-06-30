@@ -4,26 +4,49 @@
 @{ 
 var currentUserId = User.Claims.FirstOrDefault(c => c.Type == "UserId" || c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;  
 }
-<div class="table-responsive shadow-lg  bg-white rounded p-3">
+<style>
+    .active-arrow {
+        color: black; /* Bootstrap primary color */
+        font-weight: bold;
+    }
+</style>
+<div class="table-responsive shadow  bg-white rounded p-3">
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>Firstname
-                    <i class="bi bi-arrow-up" data-column="Firstname" data-direction="asc"></i>
-                    <i class="bi bi-arrow-down" data-column="Firstname" data-direction="desc"></i>
+                <th>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>Firstname</span>
+                        <span class="d-flex ms-1">
+                            <i class="bi bi-arrow-up" data-column="Firstname" data-direction="asc"></i>
+                            <i class="bi bi-arrow-down" data-column="Firstname" data-direction="desc"></i>
+                        </span>
+                    </div>
                 </th>
-                <th>Lastname
-                    <i class="bi bi-arrow-up" data-column="Lastname" data-direction="asc"></i>
-                    <i class="bi bi-arrow-down" data-column="Lastname" data-direction="desc"></i>
+                <th>
+                     <div class="d-flex align-items-center justify-content-between">
+                        <span>Lastname</span>
+                        <span class="d-flex ms-1">
+                            <i class="bi bi-arrow-up" data-column="Lastname" data-direction="asc"></i>
+                            <i class="bi bi-arrow-down" data-column="Lastname" data-direction="desc"></i>
+                        </span>
+                    </div>
                 </th>
                 <th>Email</th>
-                <th>Role
-                    <i class="bi bi-arrow-up" data-column="RoleName" data-direction="asc"></i>
-                    <i class="bi bi-arrow-down" data-column="RoleName" data-direction="desc"></i>
+                <th>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>Role</span>
+                        <span class="d-flex ms-1">
+                            <i class="bi bi-arrow-up" data-column="RoleName" data-direction="asc"></i>
+                            <i class="bi bi-arrow-down" data-column="RoleName" data-direction="desc"></i>
+                        </span>
+                    </div>
+                </th>   
+                <th style="white-space: nowrap;">
+                    <span>Phone Number</span>
                 </th>
-                <th>Phone Number</th>
+
                 <th>Age</th>
-                <th>Active</th>
                 @if (User.IsInRole("Admin"))
                 {
                 <th>Action</th>
@@ -64,7 +87,6 @@ var currentUserId = User.Claims.FirstOrDefault(c => c.Type == "UserId" || c.Type
                         }
                     }
                 </td>
-                <td>@(user.IsActive ? "Yes" : "No")</td>
                 @if (User.IsInRole("Admin"))
                 {
                 <td class="d-flex">
@@ -130,3 +152,4 @@ var currentUserId = User.Claims.FirstOrDefault(c => c.Type == "UserId" || c.Type
         </div>      
     </div>
 </div>
+

@@ -13,13 +13,11 @@ namespace UserManagement.Controllers;
 
 public class AccountController: Controller
 {
-    private readonly IUserApiService _userApiService;
     private readonly IEmailService _emailService;
     private readonly IAuthService _authService;
 
-    public AccountController(IUserApiService userApiService, IEmailService emailService, IAuthService authService)
+    public AccountController(IEmailService emailService, IAuthService authService)
     {
-        _userApiService = userApiService;
         _emailService = emailService;
         _authService = authService;
     }
@@ -36,7 +34,7 @@ public class AccountController: Controller
        
         if (ModelState.IsValid)
         {
-            var (success, message) = await _userApiService.CreateUserAsync(user);
+            var (success, message) = await _authService.RegisterAsync(user);
 
             if (success)
             {

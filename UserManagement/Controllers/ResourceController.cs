@@ -77,6 +77,10 @@ public class ResourceController : Controller
     public async Task<IActionResult> EditResource(int id)
     {
         var resource = await _resourceService.GetResourceByIdAsync(id);
+         if (resource == null)
+        {
+            TempData["error"] = $"Resource with ID {id} not found.";
+        }
         return PartialView("_EditResource", resource);
     }
 
@@ -95,6 +99,16 @@ public class ResourceController : Controller
         var (success, message) = await _resourceService.UpdateResourceAsync(resourceViewModel);
 
         return Json(new { success , message });
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPatch]
+    public async Task<IActionResult> UpdateResourceField(int id, [FromBody] Dictionary<string, string> updateData)
+    {
+        var (success, message) = await _resourceService.UpdateResourceFieldAsync(id, updateData);
+        if (success)
+            return Ok(new { success = true, message });
+        return BadRequest(new { success = false, message });
     }
 
     [Authorize(Roles = "Admin")]
