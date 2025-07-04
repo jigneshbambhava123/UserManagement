@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qvSj3XN3i0c=",
+  "dgSpecHash": "ChUnS5k73iE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement8\\usermanagement\\UserManagement.csproj",
+  "projectFilePath": "C:\\Users\\pctr48\\Downloads\\New folder (6)\\UserManagement8\\Usermanagement\\UserManagement.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\pctr48\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.5\\microsoft.aspnetcore.authentication.jwtbearer.8.0.5.nupkg.sha512",
     "C:\\Users\\pctr48\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",

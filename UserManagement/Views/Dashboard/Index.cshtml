@@ -10,10 +10,10 @@
 
 <div class="active-users-section shadow-sm  bg-white rounded">
     <h2 class="active-users-heading">
-        <i class="bi bi-people me-3" style="color: #0066a7;"></i>
-        <div style="color: #0066a7;">Active Users</div>
+        <i class="bi bi-people me-3" style="color: #70c0ef;"></i>
+        <div style="color: #70c0ef;">Active Users</div>
     </h2>
-    <p class="active-user-count" style="color: #0066a7;" id="activeUserCountDisplay">
+    <p class="active-user-count" style="color: #70c0ef;" id="activeUserCountDisplay">
         
     </p>
 </div>
@@ -21,8 +21,8 @@
 <div class="chart-section shadow-sm  bg-white rounded">
     <div class="chart-heading-container">
         <h2 class="chart-heading">
-            <i class="bi bi-clock-history me-3" style="color: #0066a7;"></i>
-            <div style="color: #0066a7;">Free Resources History</div>
+            <i class="bi bi-clock-history me-3" style="color: #70c0ef;"></i>
+            <div style="color: #70c0ef;">Free Resources History</div>
         </h2>
         <select id="daysFilter" class="days-filter-select">
             <option value="10" selected>Last 10 Days</option>
@@ -30,9 +30,15 @@
             <option value="60">Last 60 Days</option>
         </select>
     </div>
+     <div id="noDataMessage" class="text-center text-muted mt-5" style="display: none;">
+        <i class="bi bi-emoji-frown" style="font-size: 2rem;"></i>
+        <p  style="color: #70c0ef;">No data available for the selected range.</p>
+    </div>
     <div class="chart-container">
         <canvas id="resourceUsageChart"></canvas>
     </div>
+   
+
 </div>
 
 @section Scripts {
@@ -82,6 +88,8 @@
                     resourceUsageChart.destroy();
                     resourceUsageChart = null;
                 }
+                 $('.chart-container').hide();
+                $('#noDataMessage').show(); 
                 return;
             }
 
@@ -113,6 +121,21 @@
                 chartQuantities.push(quantity[dateKey] || 0); 
             }
 
+            const hasData = chartQuantities.some(q => q > 0);
+            if (!hasData) {
+                if (resourceUsageChart) {
+                    resourceUsageChart.destroy();
+                    resourceUsageChart = null;
+                }
+
+                $('.chart-container').hide();
+                $('#noDataMessage').show(); 
+                return;
+            }
+
+            $('#noDataMessage').hide();    
+            $('.chart-container').show(); 
+
             const ctx = document.getElementById('resourceUsageChart').getContext('2d');
 
             if (resourceUsageChart) {
@@ -126,12 +149,12 @@
                     datasets: [{
                         label: 'Total Quantity Used', 
                         data: chartQuantities, 
-                        backgroundColor: 'rgba(59, 130, 246, 0.7)', 
-                        borderColor: 'rgba(59, 130, 246, 1)',     
+                        backgroundColor: '#70c0ef',
+                        borderColor: '#70c0ef',
                         borderWidth: 1,
-                        borderRadius: 4, 
-                        hoverBackgroundColor: 'rgba(37, 99, 235, 0.8)', 
-                        hoverBorderColor: 'rgba(37, 99, 235, 1)',
+                        borderRadius: 4,
+                        hoverBackgroundColor: '#b1dbf3',
+                        hoverBorderColor: '#b1dbf3',
                     }]
                 },
                 options: {
@@ -140,6 +163,9 @@
                     plugins: {
                         legend: {
                             display: true, 
+                            labels: {
+                                color: '#70c0ef' 
+                            }
                         },
                         tooltip: {
                             backgroundColor: 'rgba(0,0,0,0.7)',
@@ -163,14 +189,13 @@
                                 autoSkip: true, 
                                 maxRotation: 45, 
                                 minRotation: 0,
+                                color: 'black'
                             },
                             title: {
                                 display: true, 
                                 text: 'Date',
-                                color: '#374151', 
-                                font: {
-                                    weight: 'bold' 
-                                }
+                                color: 'black'
+                               
                             }
                         },
                         y: {
@@ -181,13 +206,12 @@
                             title: {
                                 display: true, 
                                 text: 'Total Quantity Used',
-                                color: '#374151', 
-                                font: {
-                                    weight: 'bold' 
-                                }
+                                color: 'black'
+                                
                             },
                             ticks: {
-                                precision: 0 
+                                precision: 0 ,  
+                                color: 'black'
                             }
                         }
                     }
@@ -196,6 +220,16 @@
         }
 
         $(document).ready(function() {
+
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("http://localhost:5086/resourceHub")
+                .build();
+
+            connection.start().catch(err => console.error(err.toString()));
+
+            connection.on("ReceiveUserCountUpdate", (updatedCount) => {
+                $('#activeUserCountDisplay').text(updatedCount);
+            });
             
             getActiveUserCount();      
             fetchAllResourceHistory(); 

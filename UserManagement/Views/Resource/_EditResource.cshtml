@@ -42,7 +42,7 @@
                             modal.hide(); 
                             $('.modal-backdrop').remove();
                             toastr.success(response.message);
-                            loadResourceList();
+                            loadResourceList(1,sortColumn, sortDirection);
                         }else{
                             toastr.error(response.message);
                         }

@@ -138,7 +138,6 @@ public class BookingController : Controller
                 u.Quantity.ToString().Contains(search)
             );
         }
-
         
          // Time filter logic
         if (!string.IsNullOrEmpty(time) && time != "AllTime")

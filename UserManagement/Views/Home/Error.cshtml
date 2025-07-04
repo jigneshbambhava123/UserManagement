@@ -1,5 +1,5 @@
 @{
-    ViewBag.Title = "404 - Page Not Found";
+    ViewBag.Title = "500 - Error Page";
     Layout = "~/Views/Shared/_AccountLayout.cshtml";
 }
 
@@ -48,8 +48,8 @@
 
 <div class="not-found-wrapper">
     <div class="not-found-content">
-        <h1>404</h1>
-        <p>Oops! The page you are looking for doesn't exist or has been moved.</p>
+        <h1>500</h1>
+        <p>Oops! Something went wrong.</p>
         <a href="@Url.Action("Index", "Dashboard")" class="btn btn-primary">Go to Dashboard Page</a>
     </div>
 </div>

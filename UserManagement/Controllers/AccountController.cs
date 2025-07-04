@@ -178,7 +178,7 @@ public class AccountController: Controller
 
         var result = await _authService.ResetPasswordAsync(model);
 
-        if (result == "The requested user could not be found." || result == "Token is invalid or expired. Please obtain a new token.")
+        if (result == "The requested user could not be found." || result == "Token is invalid or expired. Please request a new one.")
         {
             TempData["error"] = result;
             return View(model);

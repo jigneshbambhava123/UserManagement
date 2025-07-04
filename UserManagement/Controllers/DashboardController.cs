@@ -10,10 +10,12 @@ namespace UserManagement.Controllers;
 public class DashboardController : Controller
 {
     private readonly IBookingService _bookingService;
+    private readonly IUserApiService _userApiService;
 
-    public DashboardController(IBookingService bookingService)
+    public DashboardController(IBookingService bookingService,IUserApiService userApiService)
     {
         _bookingService = bookingService;
+        _userApiService = userApiService;
     }
 
     [Authorize]
@@ -24,9 +26,11 @@ public class DashboardController : Controller
 
     public async Task<IActionResult> GetActiveUserCount()
     {
-        var count = await _bookingService.GetTotalActiveUserCount();
-        return Json(count);
+        var users = await _userApiService.GetAllUsersAsync();
+        var count = users.Count(); 
+        return Json(count);       
     }
+
 
     public async Task<IActionResult> GetResourceUsed()
     {

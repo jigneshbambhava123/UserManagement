@@ -132,7 +132,9 @@
                             modalInstance.hide();
                             $('.modal-backdrop').remove();
                             toastr.success(response.message);
-                            loadResourceList();
+                            if (resourcetab) {
+                                loadResourceList(1, sortColumn, sortDirection);
+                            }
                         }else{
                             toastr.error(response.message);
                         }

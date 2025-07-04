@@ -26,7 +26,7 @@
 </div>
 
 <div class="d-sm-flex justify-content-between mb-3 mt-3">
-    <h3 class="dashboard" style="color: #0066a7;">
+    <h3 class="dashboard" style="color: #7ea9c2;">
         My Resources
     </h3>
 
@@ -41,7 +41,7 @@
         <div class="d-flex me-3">
             <!-- Time Filter Dropdown -->
             <div class="position-relative d-flex flex-grow-1 mb-2">
-                <select class="form-select me-2" id="timeFilter" style="height:50px;">
+                <select class="days-filter-select" id="timeFilter" style="height:50px;">
                     <option value="AllTime">All Time</option>
                     <option value="today">Today</option>
                     <option value="this_week">This Week</option>
@@ -62,10 +62,10 @@
         <li class="nav-item" role="presentation">
             <button class="nav-linkK active" id="pills-resource-tab" type="button" role="tab" 
                 >
-                <div class="resource d-flex" style="width: 150px; border-bottom: 2px solid #0066a7;">
+                <div class="resource d-flex" style="width: 150px; border-bottom: 2px solid #70c0ef;">
                     <i class="bi bi-list-task"
-                        style="height: 25px; width: 25px; cursor: pointer; margin-top: 3px; color: #0066a7;"></i>
-                    <div class="resource-text" style="color: #0066a7;">Active Resource</div>
+                        style="height: 25px; width: 25px; cursor: pointer; margin-top: 1px; color: #70c0ef;"></i>
+                    <div class="resource-text" style="color: #70c0ef;">Active Resource</div>
                 </div>  
             </button>
         </li>
@@ -74,8 +74,8 @@
                 >
                 <div class="history d-flex" style="width: 150px !important; ">
                     <i class="bi bi-clock-history"
-                        style="height: 25px; width: 25px; cursor: pointer; margin-top: 3px; color: #0066a7;"></i>
-                    <div class="history-text" style="margin-left: 5px; color: black; width: 150px ;">Resource History</div>
+                        style="height: 25px; width: 25px; cursor: pointer; color: #7ea9c2;"></i>
+                    <div class="history-text" style="margin-left: 5px; color: #696464; width: 150px ;">Resource History</div>
                 </div>
             </button>
         </li>
@@ -108,7 +108,9 @@
     var updatedQuantities = {};
     var resourcetab=true;
     var sortColumn = 'Id'; 
+    var sortColumnForHistory = 'Id'; 
     var sortDirection = 'asc';
+    var sortDirectionForHistory = 'asc';
     $(document).ready(function () {
         $("#resourcelist-container").hide();
         showLoader();
@@ -139,7 +141,7 @@
             if (resourcetab) {
                 loadResourceList(1, sortColumn, sortDirection);
             }else{
-                loadBookingHistoryList(1, sortColumn, sortDirection); 
+                loadBookingHistoryList(1, sortColumnForHistory, sortDirectionForHistory); 
             }
         }, 500));
 
@@ -148,7 +150,7 @@
             if (resourcetab) {
                 loadResourceList(1, sortColumn, sortDirection);
             } else {
-                loadBookingHistoryList(1, sortColumn, sortDirection);
+                loadBookingHistoryList(1, sortColumnForHistory, sortDirectionForHistory);
             }
         });
 
@@ -188,10 +190,10 @@
             }
                 
             // Set sorting parameters
-            sortColumn = column;
-            sortDirection = $(this).data('direction');
+            sortColumnForHistory = column;
+            sortDirectionForHistory = $(this).data('direction');
             
-            loadBookingHistoryList(1, sortColumn, sortDirection); 
+            loadBookingHistoryList(1, sortColumnForHistory, sortDirectionForHistory); 
         });
 
         setTimeout(function() {
@@ -216,14 +218,14 @@
         
         $('.nav-linkK').click(function () {
             $('#pills-tab .nav-linkK').removeClass('active');
-            $('#pills-tab .nav-linkK').find('.resource, .history').css('color', 'black');
-            $('#pills-tab .nav-linkK').find('.resource-text, .history-text').css('color', 'black');
+            $('#pills-tab .nav-linkK').find('.resource, .history').css('color', '#696464');
+            $('#pills-tab .nav-linkK').find('.resource-text, .history-text').css('color', '#696464');
             $('#pills-tab .nav-linkK').find('.resource, .history').css('border-bottom', 'none');
 
             $(this).addClass('active');
-            $(this).find('.resource, .history').css('color', '#0066a7');
-            $(this).find('.resource-text, .history-text').css('color', '#0066a7');
-            $(this).find('.resource, .history').css('border-bottom', '2px solid #0066a7');
+            $(this).find('.resource, .history').css('color', '#70c0ef');
+            $(this).find('.resource-text, .history-text').css('color', '#70c0ef');
+            $(this).find('.resource, .history').css('border-bottom', '2px solid #70c0ef');
         });
 
         const tabs = new bootstrap.Tab(document.getElementById('pills-resource-tab'));
@@ -246,7 +248,7 @@
             $("#resourcelist-container").hide();
             $("#bookingHistorylist-container").hide();
             resourcetab =false;
-                    loadBookingHistoryList(1, sortColumn, sortDirection);
+                    loadBookingHistoryList(1, sortColumnForHistory, sortDirectionForHistory);
                     switchTab('pills-history', 'pills-history-tab');
                 setTimeout(function () {
                     $("#bookingHistorylist-container").show();
@@ -268,10 +270,10 @@
     function highlightActiveArrowBookingHistory() {
         $('#bookingHistorylist-container').find('i[data-column]').removeClass('active-arrow');
 
-        if (sortDirection === "asc") {
-            $(`#bookingHistorylist-container i[data-column="${sortColumn}"][data-direction="desc"]`).addClass('active-arrow');
+        if (sortDirectionForHistory === "asc") {
+            $(`#bookingHistorylist-container i[data-column="${sortColumnForHistory}"][data-direction="desc"]`).addClass('active-arrow');
         } else {
-            $(`#bookingHistorylist-container i[data-column="${sortColumn}"][data-direction="asc"]`).addClass('active-arrow');
+            $(`#bookingHistorylist-container i[data-column="${sortColumnForHistory}"][data-direction="asc"]`).addClass('active-arrow');
         }
     }
 
@@ -345,7 +347,7 @@
     // Change Page
     function changeResourcePage(newPage) {
         showLoader();
-        loadResourceList(newPage,sortColumn, sortDirection);
+        loadResourceList(newPage,sortColumnForHistory, sortDirection);
     }
 
     @* pagination script end *@
@@ -353,7 +355,7 @@
 
     @*My Resource pagination script start *@  
                 
-    function loadBookingHistoryList(page, sortColumn = 'Id' , sortDirection = 'asc') {
+    function loadBookingHistoryList(page, sortColumnForHistory = 'Id' , sortDirectionForHistory = 'asc') {
         //get table list
         var pageSize = $("#ordersPerPage").val();
         var searchTerm = $("#ResourceListSearch").val().toLowerCase();
@@ -367,7 +369,7 @@
 
                 url: "/Booking/BookingHistory",
                 type: 'GET',
-                data: { page :page, pageSize:pageSize , search: searchTerm, time: timeFilter, sortColumn: sortColumn, sortDirection: sortDirection},
+                data: { page :page, pageSize:pageSize , search: searchTerm, time: timeFilter, sortColumn: sortColumnForHistory, sortDirection: sortDirectionForHistory},
                 success: function (data) {
                     hideLoader();
                     $('#bookingHistorylist-container').html(data);
@@ -388,12 +390,12 @@
 
     // Change Items Per Page
     function changeBookingHistorylistPageSize(select) {
-        loadBookingHistoryList(1,sortColumn, sortDirection);
+        loadBookingHistoryList(1,sortColumnForHistory, sortDirectionForHistory);
     }
 
     // Change Page
     function changeBookingHistoryPage(newPage) {
-        loadBookingHistoryList(newPage,sortColumn, sortDirection);
+        loadBookingHistoryList(newPage,sortColumnForHistory, sortDirectionForHistory);
     }
 
     @*My Resource pagination script end *@

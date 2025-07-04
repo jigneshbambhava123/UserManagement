@@ -38,7 +38,7 @@
 </div>
 
 <div class="d-sm-flex justify-content-between mb-3 mt-3">
-    <h3 class="dashboard" style="color: #0066a7;">
+    <h3 class="dashboard mb-3" style="color: #0066a7;">
         User
     </h3>
 
@@ -159,7 +159,8 @@
                         modalInstance.hide();
                         $('.modal-backdrop').remove();
                         toastr.success(response.message);
-                        loadUserList();
+                        @* loadUserList(); *@
+                        loadUserList(1,sortColumn, sortDirection);
                     }else{
                         toastr.error(response.message);
                     }
