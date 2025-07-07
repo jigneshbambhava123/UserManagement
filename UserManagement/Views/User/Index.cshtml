@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "User List";
-        Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
 
@@ -59,12 +59,6 @@
     </div>
 </div>
 
-<!-- Loader -->
-<div id="loader" class="loader-overlay" style="">
-  <div class="spinner-border text-primary" style="width: 4rem; height: 4rem;">
-  </div>
-</div>
-
 @* partial view to userlist *@
 <div id="userlist-container"></div>
 </div>
@@ -75,7 +69,6 @@
     var sortDirection = 'asc';
 
     $(document).ready(function () {
-        $("#userlist-container").hide();
         showLoader();
 
         setTimeout(function() {
@@ -90,11 +83,6 @@
                     hideLoader();
                     console.error(xhr.responseText);
                     toastr.error("Error userlist patialview");
-                },
-                complete: function() {
-                    setTimeout(function() {
-                        $("#userlist-container").show();
-                    }, 500); 
                 }
             });
         }, 500); 
@@ -159,7 +147,6 @@
                         modalInstance.hide();
                         $('.modal-backdrop').remove();
                         toastr.success(response.message);
-                        @* loadUserList(); *@
                         loadUserList(1,sortColumn, sortDirection);
                     }else{
                         toastr.error(response.message);
@@ -179,7 +166,7 @@
         
         var pageSize = $("#ordersPerPage").val();
         var searchTerm = $("#UserlistSearch").val().toLowerCase();
-        $("#userlist-container").hide();
+        @* $("#userlist-container").hide(); *@
 
         showLoader();
 
@@ -196,11 +183,6 @@
                 error: function () {
                     hideLoader();
                     toastr.error('Error loading userlist table.');
-                },
-                complete: function() {
-                    setTimeout(function() {
-                        $("#userlist-container").show();
-                    }, 500); 
                 }
             }); 
         }, 500);

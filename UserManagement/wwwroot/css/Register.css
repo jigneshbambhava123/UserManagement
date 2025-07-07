@@ -1,10 +1,48 @@
-body{
+:root {
+    /* Modern Color Palette */
+    --primary-navy: #0f172a;
+    --primary-slate: #1e293b;
+    --accent-blue: #3b82f6;
+    --accent-indigo: #6366f1;
+    --accent-purple: #8b5cf6;
+    --accent-emerald: #10b981;
+    --accent-amber: #f59e0b;
+    --accent-rose: #f43f5e;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-secondary: linear-gradient(135deg, #e9e8e9 0%, #ece5e7 100%);
+    --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --gradient-dark: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    
+    /* Glass Effects */
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-shadow: rgba(31, 38, 135, 0.37);
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    
+    /* Transitions */
+    --transition-fast: all 0.15s ease;
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-elastic: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+body {
     display: block;
     height: 100vh;
     width: 100vw;
+    background: var(--gradient-secondary);
+
 }
 
-.main{
+.main {
     display: flex;
     flex-direction: row;
     height: 100vh;
@@ -13,65 +51,66 @@ body{
 
 /* Create button styling */
 .btn-primary {
-    background-color: #93d3f6 !important;
-    border: 1px solid #e6f4fc !important;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    background: var(--gradient-accent) !important;
+    border: 1px solid var(--accent-blue) !important;
+    transition: var(--transition-smooth);
+    box-shadow: var(--shadow-md);
 }
 
 .btn-primary:hover {
-    border: 2px solid #9bc1d8 !important;
-    color: #4fa1cf !important;
-    background-color: #fff !important;
+    border: 2px solid var(--accent-indigo) !important;
+    color: var(--primary-navy) !important;
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
 }
 
 .btn-outline-primary {
-    --bs-btn-color: #93d3f6 !important;
-    --bs-btn-border-color: #93d3f6 !important;
-    --bs-btn-hover-border-color: #eef1f3 !important;
-    --bs-btn-hover-color: #8f7676;
-    --bs-btn-hover-bg: #93d3f6 !important;
+    --bs-btn-color: var(--accent-blue) !important;
+    --bs-btn-border-color: var(--accent-blue) !important;
+    --bs-btn-hover-border-color: var(--accent-indigo) !important;
+    --bs-btn-hover-color: var(--primary-navy);
+    --bs-btn-hover-bg: var(--accent-blue) !important;
+    transition: var(--transition-smooth);
 }
 
-.annalysisform{
+.annalysisform {
     width: 34vw !important;
 }
 
-.dashboardpage{
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        width: 100vw;
-        justify-content: center;
-        align-items: center;
-        background-color: rgb(208, 224, 228);
+.dashboardpage {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+    background: var(--gradient-primary);
 }
 
-.loginheader{
-    color:darkslategray;
-    
+.loginheader {
+    color: var(--primary-slate);
 }
 
-.emaillabel{
+.emaillabel {
     width: 100%;
     text-align: left;
-    color: darkslategray;
+    color: var(--primary-slate);
     font-family: inherit;
     font-size: large;
 }
 
-.text-center{
+.text-center {
     width: 32vw;
 }
 
-.invalid-feedback{
+.invalid-feedback {
     text-align: left;
 }
 
-@media (max-width:992px){
-    .annalysisform{
-    width: 70vw !important;
+@media (max-width: 992px) {
+    .annalysisform {
+        width: 70vw !important;
+    }
 }
-
-    
-}
-

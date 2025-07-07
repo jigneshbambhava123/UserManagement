@@ -40,50 +40,60 @@
     </div>
 
     <header style="position: sticky; top: 0; z-index: 1000;">
-        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm ps-3 pe-3" style="background-color: #8acff7 !important;">
-            <a class="navbar-brand fw-bold me-4" asp-area="" asp-controller="Dashboard" asp-action="Index">
-                <h3 style="color: white;">User Management</h3>
+    <nav class="navbar navbar-expand-xl">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-area="" asp-controller="Dashboard" asp-action="Index">
+                <h3><i class="bi bi-people me-2"></i>User Management</h3>
             </a>
+            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="nav d-sm-flex mt-2">
-                    <li class="nav-item mb-2">
-                        <a class="nav-link fw-bold @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Dashboard" ? "active" : "")"
-                        asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Dashboard" ? "active" : "")"
+                           asp-controller="Dashboard" asp-action="Index">
+                            <i class="bi bi-grid-fill me-2"></i>Dashboard
+                        </a>
                     </li>
-                    <li class="nav-item mb-2">
-                        <a class="nav-link fw-bold @(ViewContext.RouteData.Values["Controller"]?.ToString() == "User" ? "active" : "")"
-                        asp-controller="User" asp-action="Index">User</a>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "User" ? "active" : "")"
+                           asp-controller="User" asp-action="Index">
+                            <i class="bi bi-people me-2"></i>User
+                        </a>
                     </li>
                     @if (User.IsInRole("Admin"))
                     {
-                        <li class="nav-item mb-2">
-                            <a class="nav-link fw-bold @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Resource" ? "active" : "")"
-                            asp-controller="Resource" asp-action="Index">Resource Management</a>
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Resource" ? "active" : "")"
+                               asp-controller="Resource" asp-action="Index">
+                                <i class="bi bi-gear me-2"></i>Resource Management
+                            </a>
                         </li>
                     }
-                    <li class="nav-item mb-2">
-                        <a class="nav-link fw-bold @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Booking" ? "active" : "")"
-                        asp-controller="Booking" asp-action="Index">My Resources</a>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Booking" ? "active" : "")"
+                           asp-controller="Booking" asp-action="Index">
+                            <i class="bi bi-list-task me-2"></i>My Resources
+                        </a>
                     </li>
-                    <li class="nav-item1 mb-2">
-                        <a class="nav-link1 fw-bold btn logoutbtn d-flex justify-content-center align-items-center"
-                        data-bs-toggle="modal" data-bs-target="#logout" role="button" >
-                            Logout
+                    <li class="nav-item nav-item1">
+                        <a class="logout-btn" data-bs-toggle="modal" data-bs-target="#logout" role="button">
+                            <i class="bi bi-box-arrow-right me-1"></i>Logout
                         </a>
                     </li>
                 </ul>
-
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
+</header>
 
     <div class="container">
-        <main role="main" class="pb-3">
+        <partial name="_LoaderPartial" />
+        <main role="main" class="main pb-3">
             @RenderBody()
         </main>
     </div>
@@ -103,11 +113,19 @@
         function showLoader() {
             $('#loader').fadeIn(150);
         }
-
+ 
         function hideLoader() {
             $('#loader').fadeOut(150);
+            $('.main').show();
+        }
+
+        function showLoadermain() {
+            $('#loader').fadeIn(150);
+            $('.main').hide();
         }
         
+        showLoadermain();
+    
         function debounce(func, delay) {
             let timeoutId;
             return function(...args) {

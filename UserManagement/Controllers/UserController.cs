@@ -80,15 +80,23 @@ public class UserController : Controller
             if (success)
             {
                 TempData["success"] = message; 
-                return RedirectToAction("Index");
+                return Json(new { success = true, message });
             }
 
-            TempData["error"] = message; 
-            return View(user);
+            return Json(new { success = false, message });
         }
 
-        return View(user);
+        // If validation failed, collect errors
+        var errors = ModelState
+            .Where(kv => kv.Value.Errors.Count > 0)
+            .ToDictionary(
+                kv => kv.Key,
+                kv => kv.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+            );
+
+        return Json(new { success = false, errors });
     }
+
 
     [Authorize(Roles = "Admin")]
     public IActionResult Create() => View();
@@ -103,17 +111,27 @@ public class UserController : Controller
 
             if (success)
             {
-                // Send account details email
-                await _emailService.SendAccountDetailsEmail(user.Email, user.Firstname, user.Password);
+                _ = Task.Run(async () => 
+                {
+                    await _emailService.SendAccountDetailsEmail(user.Email, user.Firstname, user.Password);
+                });     
+                
                 TempData["success"] = message; 
-                return RedirectToAction("Index");
+                return Json(new { success = true, message = message });
             }
-
-            TempData["error"] = message; 
-            return View(user);
+            return Json(new { success = false, message = message });
         }
-        return View(user);
+
+        var errors = ModelState
+            .Where(kv => kv.Value.Errors.Count > 0)
+            .ToDictionary(
+                kv => kv.Key,
+                kv => kv.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+            );
+
+        return Json(new { success = false, errors });
     }
+
 
     [Authorize(Roles = "Admin")]
     [HttpPost]

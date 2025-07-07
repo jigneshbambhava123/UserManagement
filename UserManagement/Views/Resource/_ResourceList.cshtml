@@ -1,12 +1,7 @@
 @model UserManagement.ViewModels.PaginatedList<UserManagement.ViewModels.ResourceViewModel>
 @using Microsoft.AspNetCore.Authorization
 @inject IAuthorizationService AuthorizationService
-<style>
-   .active-arrow {
-        color: black; /* Blue color for active arrow */
-        font-weight: bold;
-    }
-</style>
+
 <!-- edit Resource Modal -->
 <div class="modal fade" id="editResourceModal" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -54,7 +49,7 @@
 </div>
 
 <div class="table-responsive shadow  bg-white rounded p-3">
-     <table class="table table-bordered table-striped align-middle ">@*table-fixed-layout *@
+     <table class="table align-middle ">@*table-fixed-layout *@
     <thead>
         <tr>
             <th style="white-space: nowrap;">

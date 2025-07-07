@@ -9,10 +9,10 @@ var currentUserId = User.Claims.FirstOrDefault(c => c.Type == "UserId" || c.Type
 
 <div class="d-flex justify-content-between mb-3 mt-3">
     <div class="dashboard" style="color: #0066a7;">Edit User</div>
-    <a asp-action="Index" class="btn btn-outline-primary">Back</a>
+    <a asp-action="Index" class="btn btn-primary" style="display: flex; justify-content: center;align-items: center;">Back</a>
 </div>
 
-<form asp-action="Edit" method="post">
+<form asp-action="Edit" id="editUserForm" method="post">
     <div class="annalysisform p-2 shadow-lg p-3 mb-5 bg-white rounded">
         <div style="margin: 10px;">
 
@@ -80,23 +80,58 @@ var currentUserId = User.Claims.FirstOrDefault(c => c.Type == "UserId" || c.Type
                 }
             </div>
 
-            <button type="submit" class="btn btn-primary btn-sm">Update</button>
-            <a asp-action="Index" class="btn btn-secondary btn-sm">Cancel</a>
+            <button id="submitEditBtn" type="button" class="btn btn-secondary btn-sm">Update</button>
+            <a asp-action="Index" class="btn btn-sm">Cancel</a>
         </div>
     </div>
 </form>
 
 @section Scripts {
+<partial name="_ValidationScriptsPartial" />
 <script>
     $(document).ready(function () {
-        @if(TempData["error"] != null)
+        setTimeout(function () {
+            hideLoader();
+        }, 500);
+
+        @if (TempData["error"] != null)
         {
             <text>toastr.error('@TempData["error"]');</text>
         }
-        @if(TempData["success"] != null)
+        @if (TempData["success"] != null)
         {
             <text>toastr.success('@TempData["success"]');</text>
         }
+
+        $("#submitEditBtn").on("click", function (e) {
+            e.preventDefault();
+
+            var form = $("#editUserForm");
+
+            if (form.valid()) {
+                $.ajax({
+                    url: form.attr("action"),
+                    type: "POST",
+                    data: form.serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            window.location.href = '@Url.Action("Index", "User")';
+                        } else {
+                            if (response.errors) {
+                                $.each(response.errors, function (key, errorMessages) {
+                                    toastr.error(errorMessages.join("<br/>"));
+                                });
+                            } else {
+                                toastr.error(response.message);
+                            }
+                        }
+                    },
+                    error: function () {
+                        toastr.error("An unexpected error occurred.");
+                    }
+                });
+            }
+        });
     });
 </script>
 }

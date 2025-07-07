@@ -2,15 +2,17 @@
 
 @{
     ViewBag.Title = "Create User";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
-@* <h2 class="mt-3" style="color: #0066a7;">Add New User</h2> *@
 <div class="d-flex justify-content-between mb-3 mt-3">
     <div class="dashboard" style="color: #0066a7;">Add New User</div>
-    <a asp-action="Index" class="btn btn-outline-primary">Back</a>
+    <a asp-action="Index" class="btn btn-primary" style="display: flex; justify-content: center;align-items: center;">Back</a>
 </div>
 
-<form asp-action="Create" method="post">
+<form asp-action="Create" id="createUserForm" method="post">
+     @Html.AntiForgeryToken()
     <div class="annalysisform p-2 shadow-lg p-3 mb-5 bg-white rounded">
         <div class="onecolomnmain" style="margin: 10px;">
             <div class="row">
@@ -89,15 +91,19 @@
 
             <input asp-for="IsActive" type="checkbox" value="true"  hidden/>
 
-            <button type="submit" class="btn btn-primary btn-sm">Create</button>
-            <a asp-action="Index" class="btn btn-secondary btn-sm">Cancel</a>
+            <button id="submitUserBtn" type="button" class="btn btn-secondary btn-sm">Create</button>
+            <a asp-action="Index" class="btn btn-sm">Cancel</a>
         </div>
     </div>
 </form>
 
 @section Scripts {
+<partial name="_ValidationScriptsPartial" />
 <script>
     $(document).ready(function () {
+        setTimeout(function() {
+            hideLoader();
+        }, 500);
         @if(TempData["error"] != null)
         {
             <text>toastr.error('@TempData["error"]');</text>
@@ -106,6 +112,38 @@
         {
             <text>toastr.success('@TempData["success"]');</text>
         }
+
+        $("#submitUserBtn").on("click", function (e) {
+            e.preventDefault();
+
+            var form = $("#createUserForm");
+
+            if (form.valid()) {
+                var formData = form.serialize();
+
+                $.ajax({
+                    url: form.attr("action"),
+                    type: "POST",
+                    data: form.serialize(),
+                    success: function(response) {                        
+                        if (response.success) {
+                            window.location.href = '@Url.Action("Index", "User")';
+                        } else {
+                            if (response.errors) {
+                                $.each(response.errors, function(key, errorMessages) {
+                                    toastr.error(errorMessages.join("<br/>"));
+                                });
+                            } else {
+                                toastr.error(response.message);
+                            }
+                        }   
+                    },
+                    error: function(xhr) {
+                        toastr.error("An unexpected error occurred.");
+                    }
+                });
+            } 
+        });
     });
 </script>
 }

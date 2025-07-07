@@ -3,46 +3,43 @@
 }
 
 <div class="d-sm-flex justify-content-between mb-3 mt-3">
-    <h3 class="dashboard" style="color: #0066a7;">
+    <h3 class="dashboard">
         Dashboard
     </h3>    
 </div>
 
-<div class="active-users-section shadow-sm  bg-white rounded">
+<div class="active-users-section shadow-sm bg-white rounded">
     <h2 class="active-users-heading">
-        <i class="bi bi-people me-3" style="color: #70c0ef;"></i>
-        <div style="color: #70c0ef;">Active Users</div>
+        <i class="bi bi-people me-3"></i>
+        <div>Active Users</div>
     </h2>
-    <p class="active-user-count" style="color: #70c0ef;" id="activeUserCountDisplay">
+    <p class="active-user-count" id="activeUserCountDisplay">
         
     </p>
 </div>
 
-<div class="chart-section shadow-sm  bg-white rounded">
+<div class="chart-section shadow-sm bg-white rounded">
     <div class="chart-heading-container">
         <h2 class="chart-heading">
-            <i class="bi bi-clock-history me-3" style="color: #70c0ef;"></i>
-            <div style="color: #70c0ef;">Free Resources History</div>
+            <i class="bi bi-clock-history me-3"></i>
+            <div>Free Resources History</div>
         </h2>
         <select id="daysFilter" class="days-filter-select">
             <option value="10" selected>Last 10 Days</option>
-            <option value="30" >Last 30 Days</option>
+            <option value="30">Last 30 Days</option>
             <option value="60">Last 60 Days</option>
         </select>
     </div>
-     <div id="noDataMessage" class="text-center text-muted mt-5" style="display: none;">
-        <i class="bi bi-emoji-frown" style="font-size: 2rem;"></i>
-        <p  style="color: #70c0ef;">No data available for the selected range.</p>
+    <div id="noDataMessage" class="text-center text-muted mt-5" style="display: none;">
+        <i class="bi bi-emoji-frown"></i>
+        <p>No data available for the selected range.</p>
     </div>
     <div class="chart-container">
         <canvas id="resourceUsageChart"></canvas>
     </div>
-   
-
 </div>
 
 @section Scripts {
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         let resourceUsageChart;
@@ -88,7 +85,7 @@
                     resourceUsageChart.destroy();
                     resourceUsageChart = null;
                 }
-                 $('.chart-container').hide();
+                $('.chart-container').hide();
                 $('#noDataMessage').show(); 
                 return;
             }
@@ -149,30 +146,40 @@
                     datasets: [{
                         label: 'Total Quantity Used', 
                         data: chartQuantities, 
-                        backgroundColor: '#70c0ef',
-                        borderColor: '#70c0ef',
-                        borderWidth: 1,
-                        borderRadius: 4,
-                        hoverBackgroundColor: '#b1dbf3',
-                        hoverBorderColor: '#b1dbf3',
+                        backgroundColor: '#6366f1', // var(--accent-indigo)
+                        borderColor: '#3b82f6', // var(--accent-blue)
+                        borderWidth: 2,
+                        borderRadius: 8,
+                        hoverBackgroundColor: '#8b5cf6', // var(--accent-purple)
+                        hoverBorderColor: '#4facfe', // gradient accent color
+                        borderSkipped: false,
                     }]
                 },
                 options: {
+                    animation: false,
                     responsive: true, 
                     maintainAspectRatio: false,
                     plugins: {
                         legend: {
                             display: true, 
                             labels: {
-                                color: '#70c0ef' 
+                                color: '#1e293b', // var(--primary-slate)
+                                font: {
+                                    size: 14,
+                                    weight: '600'
+                                },
+                                padding: 20
                             }
                         },
                         tooltip: {
-                            backgroundColor: 'rgba(0,0,0,0.7)',
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)', // var(--primary-navy) with opacity
                             titleColor: '#fff',
                             bodyColor: '#fff',
-                            cornerRadius: 6,
-                            displayColors: false, 
+                            cornerRadius: 12,
+                            displayColors: true,
+                            borderColor: '#6366f1', // var(--accent-indigo)
+                            borderWidth: 1,
+                            padding: 12,
                             callbacks: {
                                 label: function(context) {
                                     return `Quantity: ${context.raw}`;
@@ -189,38 +196,58 @@
                                 autoSkip: true, 
                                 maxRotation: 45, 
                                 minRotation: 0,
-                                color: 'black'
+                                color: '#1e293b', // var(--primary-slate)
+                                font: {
+                                    size: 12,
+                                    weight: '500'
+                                }
                             },
                             title: {
                                 display: true, 
                                 text: 'Date',
-                                color: 'black'
-                               
+                                color: '#0f172a', // var(--primary-navy)
+                                font: {
+                                    size: 14,
+                                    weight: '600'
+                                },
+                                padding: 10
                             }
                         },
                         y: {
                             beginAtZero: true, 
                             grid: {
-                                color: 'rgba(229, 231, 235, 0.5)', 
+                                color: 'rgba(30, 41, 59, 0.1)', // var(--primary-slate) with opacity
+                                borderDash: [5, 5]
                             },
                             title: {
                                 display: true, 
                                 text: 'Total Quantity Used',
-                                color: 'black'
-                                
+                                color: '#0f172a', // var(--primary-navy)
+                                font: {
+                                    size: 14,
+                                    weight: '600'
+                                },
+                                padding: 10
                             },
                             ticks: {
-                                precision: 0 ,  
-                                color: 'black'
+                                precision: 0,
+                                color: '#1e293b', // var(--primary-slate)
+                                font: {
+                                    size: 12,
+                                    weight: '500'
+                                }
                             }
                         }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
                     }
                 }
             });
         }
 
         $(document).ready(function() {
-
             const connection = new signalR.HubConnectionBuilder()
                 .withUrl("http://localhost:5086/resourceHub")
                 .build();
@@ -233,6 +260,9 @@
             
             getActiveUserCount();      
             fetchAllResourceHistory(); 
+            setTimeout(function() {
+                hideLoader();
+            }, 500); 
 
             $('#daysFilter').on('change', function() {
                 const selectedDays = parseInt($(this).val(), 10); 
@@ -241,4 +271,3 @@
         });
     </script>
 }
-

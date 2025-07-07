@@ -27,7 +27,7 @@
 
     <div class="seachbar d-flex justify-content-end">
 
-        <div class="d-flex" style="position: relative; margin-right: 10px; height: 50px;">
+        <div class="d-flex mt-1" style="position: relative; margin-right: 10px; height: 50px;">
             <input id="ResourceListSearch" type="text" class="form-control search-input d-flex" placeholder="Search">
             <img width="18" height="20" src="~/images/search-icon.svg" alt="..."
                 class="search-icon d-flex" style="position: absolute; top: 15px; right: 17px;">
@@ -35,17 +35,11 @@
 
         @if (User.IsInRole("Admin"))
         {
-        <p>
+        <p class="mt-1">
             <button data-bs-toggle="modal" data-bs-target="#addResourceModal" class="btn btn-primary btn-sm" style="height: 50px;" onclick="populateAddResourceModal(this)">+ Create Resource</button>
         </p>
         }
     </div>
-</div>
-
-<!-- Loader -->
-<div id="loader" class="loader-overlay" style="">
-  <div class="spinner-border text-primary" style="width: 4rem; height: 4rem;">
-  </div>
 </div>
 
 @* partial view to Resourcelist *@
@@ -58,7 +52,7 @@
     var sortDirection = 'asc';
     
     $(document).ready(function () {
-        $("#resourcelist-container").hide();
+        
         showLoader();
 
         setTimeout(function() {
@@ -73,11 +67,6 @@
                     hideLoader();
                     console.error(xhr.responseText);
                     toastr.error("Error Resourcelist patialview");
-                },
-                complete: function() {
-                    setTimeout(function() {
-                        $("#resourcelist-container").show();
-                    }, 500); 
                 }
             });
         }, 500); 
@@ -260,7 +249,6 @@
         //get table list
         var pageSize = $("#ordersPerPage").val();
         var searchTerm = $("#ResourceListSearch").val().toLowerCase();
-        $("#resourcelist-container").hide();
 
         showLoader();
 
@@ -277,11 +265,6 @@
                 error: function () {
                     hideLoader();
                     toastr.error('Error loading orderlist table.');
-                },
-                complete: function() {
-                    setTimeout(function() {
-                        $("#resourcelist-container").show();
-                    }, 500); 
                 }
             }); 
         }, 500);
