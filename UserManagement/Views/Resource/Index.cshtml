@@ -35,9 +35,12 @@
 
         @if (User.IsInRole("Admin"))
         {
-        <p class="mt-1">
-            <button data-bs-toggle="modal" data-bs-target="#addResourceModal" class="btn btn-primary btn-sm" style="height: 50px;" onclick="populateAddResourceModal(this)">+ Create Resource</button>
-        </p>
+        
+        <div class="d-flex">
+            <p>
+                <button data-bs-toggle="modal" data-bs-target="#addResourceModal" class="btn btn-primary btn-sm mt-1" style="height: 50px;" onclick="populateAddResourceModal(this)">+ Create Resource</button>
+            </p>
+        </div>
         }
     </div>
 </div>

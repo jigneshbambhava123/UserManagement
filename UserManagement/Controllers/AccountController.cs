@@ -51,14 +51,16 @@ public class AccountController: Controller
     }
 
     // GET : Login Page
-    public IActionResult Login()
+    [HttpGet]
+    public IActionResult Login(string returnUrl = null)
     {
+        ViewData["ReturnUrl"] = returnUrl;
         return View();
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login(LoginViewModel loginModel)
+    public async Task<IActionResult> Login(LoginViewModel loginModel, string returnUrl = null)
     {
         if (!ModelState.IsValid)
             return View(loginModel);
@@ -103,7 +105,12 @@ public class AccountController: Controller
         await HttpContext.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme, 
             new ClaimsPrincipal(claimsIdentity),             
-            authProperties);                                
+            authProperties);        
+
+        if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+        {
+            return Redirect(returnUrl);
+        }                        
 
         var roleClaim = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 
@@ -188,10 +195,21 @@ public class AccountController: Controller
         return RedirectToAction("Login");
     }
 
-    public async Task<IActionResult> Logout(){ 
+    public async Task<IActionResult> Logout(string returnUrl = null){ 
+
         await HttpContext.SignOutAsync();
-        // Response.Cookies.Delete(".AspNetCore.Cookies");
-        return RedirectToAction("Login","Account");
+
+        if (string.IsNullOrEmpty(returnUrl))
+        {
+            returnUrl = Request.Headers["Referer"].ToString();
+        }
+
+        if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+        {
+            return Redirect(returnUrl);
+        }
+
+        return RedirectToAction("Login", "Account");
     }
 
     [AllowAnonymous] 

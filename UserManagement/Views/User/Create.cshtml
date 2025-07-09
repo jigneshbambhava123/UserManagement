@@ -5,10 +5,79 @@
         Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
+<style>
+.btn-primary1 {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: 2px solid #9bc1d8;
+    color: #ffffff;
+    transition: all 0.3s ease;
+    width: 100px;
+    margin: 0 10px;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    position: relative;
+    overflow: hidden;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    z-index: 1;
+}
+
+.btn-primary1::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s ease;
+    z-index: 0;
+}
+
+.btn-primary1:hover::before {
+    left: 100%;
+}
+
+.btn-primary1:hover {
+    background: #ffffff;
+    border: 1px solid #6366f1;
+    color: #6366f1;
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: none;
+}
+
+/* Outline Style */
+.btn-outline-primary1 {
+    background: transparent;
+    border: 1px solid #6366f1;
+    color: #6366f1;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    font-weight: 600;
+    width: 100px;
+    padding: 0.5rem 1rem;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-outline-primary1:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: 1px solid #eef1f3;
+    color: #ffffff;
+}
+
+</style>
 
 <div class="d-flex justify-content-between mb-3 mt-3">
     <div class="dashboard" style="color: #0066a7;">Add New User</div>
-    <a asp-action="Index" class="btn btn-primary" style="display: flex; justify-content: center;align-items: center;">Back</a>
+    <a asp-action="Index" class="btn btn-primary" style="display: flex; justify-content: center;align-items: center;"><i class="bi bi-caret-left"></i>Back</a>
 </div>
 
 <form asp-action="Create" id="createUserForm" method="post">
@@ -91,8 +160,10 @@
 
             <input asp-for="IsActive" type="checkbox" value="true"  hidden/>
 
-            <button id="submitUserBtn" type="button" class="btn btn-secondary btn-sm">Create</button>
-            <a asp-action="Index" class="btn btn-sm">Cancel</a>
+            <div class="d-flex">
+                <button id="submitUserBtn" type="button" class="btn btn-primary1">Create</button>
+                <a asp-action="Index" class="btn btn-outline-primary1">Cancel</a>
+            </div>
         </div>
     </div>
 </form>

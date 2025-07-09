@@ -25,6 +25,7 @@
                 <!-- form -->
                 <form asp-action="Login" asp-controller="Account" method="post" class="needs-validation is-validate">
                     @Html.AntiForgeryToken()
+                    <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
                     <div class="annalysisform p-2 shadow-lg p-3 bg-white rounded-right">
                         <div class="onecolomnmain" style="margin: 10px;">
                             <div class="header mb-3 d-flex">
